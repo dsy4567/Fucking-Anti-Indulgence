@@ -4,7 +4,7 @@
 // @description  [❤️哪都能用] 已支持17yy,qq空间部分游戏,07073,7k7k,4399 [⚡️更加快速] 减点料最快0.99秒 [😱别怕大人] 大人来了就按"大人键" [✔️高可用率] 持续更新更靠谱 [⭕健康提醒] 每隔一段时间提醒用户休息, 防止用户沉迷游戏无法自拔 [🌵全屏游戏] 支持全屏游戏, 去除花里胡哨的玩意, 维护游戏体验 [🕶 手动减料] 防沉迷减料不成功? 对着防沉迷弹窗按快捷键 [💪重要更新] 7k7k又能玩了 👍👍👍 热烈庆祝总安装量破千 👏👏👏
 
 // @namespace    https://fcmsb250.github.io/
-// @version      4.5.7.1
+// @version      4.5.7.2
 // @icon         https://gitee.com/dsy4567/sofast/raw/master/game.png
 // @author       dsy
 // @run-at       document-start
