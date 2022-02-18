@@ -1,12 +1,12 @@
 ﻿// ==UserScript==
 // @name         🎇🎇🎇防沉迷减点料🎇🎇🎇
 
-// @description  [❤️哪都能用] 已支持17yy,qq空间部分游戏,07073,7k7k,4399 [⚡️更加快速] 减点料最快0.99秒 [😱别怕大人] 大人来了就按"大人键" [✔️高可用率] 持续更新更靠谱 [⭕健康提醒] 每隔一段时间提醒用户休息, 防止用户沉迷游戏无法自拔 [🌵全屏游戏] 支持全屏游戏, 去除花里胡哨的玩意, 维护游戏体验 [🕶 手动减料] 防沉迷减料不成功? 对着防沉迷弹窗按快捷键 [💪重要更新] 7k7k又能玩了 👍👍👍 热烈庆祝总安装量破千 👏👏👏
+// @description  [❤️哪都能用] 已支持17yy,qq空间部分游戏,07073,7k7k,4399 [⚡️更加快速] 减点料最快0.99秒 [😱别怕大人] 大人来了就按"大人键" [✔️高可用率] 持续更新更靠谱 [⭕健康提醒] 每隔一段时间提醒用户休息, 防止用户沉迷游戏无法自拔 [🌵全屏游戏] 支持全屏游戏, 去除花里胡哨的玩意, 维护游戏体验 [🕶 手动减料] 防沉迷减料不成功? 对着防沉迷弹窗按快捷键 [💪重要更新] 7k7k又能玩了 👍👍👍 热烈庆祝 GreasyFork 总安装量破千 👏👏👏
 
 // @namespace    https://fcmsb250.github.io/
-// @version      4.5.7.3
+// @version      4.5.8
 // @icon         https://gitee.com/dsy4567/sofast/raw/master/game.png
-// @author       dsy
+// @author       mininb666 https://greasyfork.org/zh-CN/users/822325-mininb666 / dsy4567 https://github.com/dsy4567
 // @run-at       document-start
 
 // @include      *://*.07073.*/*
@@ -119,7 +119,7 @@ GM_setValue("版本", GM_info.script.version);
 初始化值("安装日期", String(Math.floor(D.getTime() / 1000 / 60 / 60 / 24)));
 初始化值("已提建议", "0");
 初始化值("停用快捷键", "0");
-初始化值("禁用全屏游戏", "0");
+初始化值("禁用全屏游戏", "1");
 
 var 最后一个菜单id = 11;
 var 玩了几分钟 = 0;
@@ -184,18 +184,7 @@ var 一堆伞兵玩意 = [
 ];
 
 function 更新菜单() {
-    // for (let 巴拉巴拉 = -3; 巴拉巴拉 < 4; 巴拉巴拉++) {
-    //     GM_unregisterMenuCommand(
-    //         "♥游戏时间: " + 玩了几分钟 + 巴拉巴拉 + "分钟,请合理安排游戏时间"
-    //     );
-    // }
-
     const 一堆菜单 = [
-        [
-            "🧨🧨🧨新年快乐, 祝您越玩越开心, 越玩越废🎇🎇🎇",
-            undefined,
-            undefined,
-        ],
         ["♥您已尽情欢乐" + 用了多少天 + "天", undefined, undefined],
         [
             "♥游戏时间: " + 玩了几分钟 + "分钟,请合理安排游戏时间",
@@ -587,7 +576,7 @@ if (self == top) {
             玩了几分钟 += 1;
             更新菜单();
         }, 60 * 1000);
-    } else {
+    } else { 
         玩了几分钟 = "未在游戏";
     }
     更新菜单();
@@ -630,17 +619,6 @@ addEventListener("load", () => {
             "<pre>" +
             脚本信息 +
             "</pre>\n\n---以上是脚本信息,有助于脚本作者解决问题, 给好评提建议等可以删除---\n";
-    }
-
-    if (网址.indexOf("s2/9618279/815b") >= 0) {
-        var interval3 = setInterval(() => {
-            try {
-                document.querySelector(
-                    "#question_q-26-Zd7K > div.question-body > textarea"
-                ).value = 脚本信息;
-                clearInterval(interval3);
-            } catch (err) {}
-        }, 1000);
     }
     减点料();
 
