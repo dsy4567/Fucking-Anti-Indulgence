@@ -4,7 +4,7 @@
 // @description  [❤️哪都能用] 已支持17yy,qq空间部分游戏,07073,7k7k,4399 [⚡️更加快速] 减点料最快0.99秒 [😱别怕大人] 大人来了就按"大人键" [✔️高可用率] 持续更新更靠谱 [⭕健康提醒] 每隔一段时间提醒用户休息, 防止用户沉迷游戏无法自拔 [🌵全屏游戏] 支持全屏游戏, 去除花里胡哨的玩意, 维护游戏体验 [🕶 手动减料] 防沉迷减料不成功? 对着防沉迷弹窗按快捷键 [💪重要更新] 7k7k又能玩了 👍👍👍 热烈庆祝 GreasyFork 总安装量破千 👏👏👏
 
 // @namespace    https://fcmsb250.github.io/
-// @version      4.5.8
+// @version      4.5.8.1
 // @icon         https://gitee.com/dsy4567/sofast/raw/master/game.png
 // @author       mininb666 https://greasyfork.org/zh-CN/users/822325-mininb666 / dsy4567 https://github.com/dsy4567
 // @run-at       document-start
@@ -68,24 +68,23 @@
 
 var D = new Date();
 
-if (self == top) {
-    if (
-        GM_getValue("版本") != GM_info.script.version &&
-        GM_info.script.version == "4.5.5.1fgfgfg"
-    ) {
-        GM_notification(
-            "快看看有什么新功能吧",
-            "🔥🔥🔥防沉迷减点料🔥🔥🔥 更新完毕",
-            "",
-            () => {
-                open(
-                    "https://greasyfork.org/zh-CN/scripts/437233-%E9%98%B2%E6%B2%89%E8%BF%B7%E5%8A%A0%E7%82%B9%E6%96%99",
-                    "_blank"
-                );
-            }
-        );
-    }
-}
+// if (self == top) {
+//     if (
+//         GM_getValue("版本") != GM_info.script.version &&
+//         GM_info.script.version == "4.5.5.1fgfgfg"
+//     ) {
+//         GM_notification(
+//             "快看看有什么新功能吧",
+//             "🔥🔥🔥防沉迷减点料🔥🔥🔥 更新完毕",
+//             "",
+//             () => {
+//                 GM_openInTab(
+//                     "https://greasyfork.org/zh-CN/scripts/437233-%E9%98%B2%E6%B2%89%E8%BF%B7%E5%8A%A0%E7%82%B9%E6%96%99"
+//                 );
+//             }
+//         );
+//     }
+// }
 
 function 改变值(值, 默认值, 回调) {
     if (GM_getValue(值, 默认值) == "1") {
@@ -235,7 +234,7 @@ function 更新菜单() {
         [
             "给个好评/反馈问题",
             () => {
-                open("https://greasyfork.org/zh-CN/scripts/437233/feedback");
+                GM_openInTab("https://greasyfork.org/zh-CN/scripts/437233/feedback");
             },
             undefined,
         ],
@@ -287,16 +286,14 @@ function 更新菜单() {
 
 function 大人来了() {
     console.log("[防沉迷减点料] 大人来了");
-    try {
-        clearInterval(interval1);
-    } catch (e) {}
     GM_addStyle(
         '*{margin:0;padding:0}ul{list-style:none;}.fl{float:left;}.fr{float:right;}.mysdkDialog{position:absolute;left:50%;top:50vh;margin:-210px 0 0 -309px;width:618px;z-index:20020}.mysdkDialog .myfcmdialog{color:black;position:absolute;left:0;top:0;width:620px;padding-bottom:30px;font-family:"microsoft yahei";font-size:14px;background:#fff;border-radius:8px;}.mysdkDialog .myfcmdialog .close-btn{position:absolute;right:0;top:0;width:40px;height:40px;background-color:red;line-height:40px;cursor:pointer;display:none}.mysdkDialog .myfcmdialog .title{line-height:30px;text-align:center;font-size:22px;font-weight:700;padding:25px 0 0;margin:0 40px;color:#454545;border:0;height:auto;float:none;width:auto;text-indent:0;}.mysdkDialog .myfcmdialog .stitle{text-align:left;line-height:1.6;margin:15px 40px 0;font-size:16px;}.mysdkDialog .myfcmdialog .stitle span{color:#ffa92d;}.mysdkDialog .myfcmdialog .mod-tip{margin:20px 40px 0;background:#F0F0F0;padding:12px 15px;border-radius:4px;color:#333;text-align:left}.mysdkDialog .myfcmdialog .tip-title{font-size:16px;font-weight:400;}.mysdkDialog .myfcmdialog .tip-info{margin-top:5px;line-height:26px;font-size:14px;}.mysdkDialog .myfcmdialog .tip-info li{font-size:16px;line-height:26px}.mysdkDialog .myfcmdialog .tip-info a{color:#FAA61B;text-decoration:underline;margin:0 4px;cursor:pointer;}.mysdkDialog .myfcmdialog .mod-btn{text-align:center;font-size:0;line-height:0;margin:25px 40px 0;}.mysdkDialog .myfcmdialog .mod-btn .btn-fcmprimary{display:inline-block;width:140px;height:38px;line-height:38px;border:1px solid #69bb01;color:#69bb01;font-size:14px;margin:0 15px;border-radius:5px;cursor:pointer;}.mysdkDialog .myfcmdialog .mod-btn .fr,.mysdkDialog .myfcmdialog .mod-btn .fl{width:250px;margin:0;}.mysdkDialog .myfcmdialog .mod-btn .btn-fcmprimary:hover{-webkit-filter:brightness(1);filter:brightness(1)}.mysdkDialog .myfcmdialog .mod-btn .btn-identity{background-color:#69bb01;color:#f8ffef}.fcmIframe{position:absolute;left:50%;top:270px;margin:0 0 0 -309px;width:618px;height:354px;z-index:2019;border:0 none;background-color:#000}.countDown{background:#eee;border-radius:3px;padding:10px;text-align:center;margin:20px 40px 0;font-size:16px;color:#666}.countDown .txt1{font-size:16px;height:28px;line-height:28px;color:#717171;}.countDown .txt2{height:40px;line-height:40px;font-size:26px;font-weight:bold;color:#54ba3d;}.mycmMask{display:none;width:100%;position:absolute;left:0;top:0;background:url(/images/Antiindulgence/ptlogin_mask.png) repeat;background:rgb(0,0,0);_background:url(about:blank);_filter:progid:DXImageTransform.Microsoft.AlphaImageLoader(enabled=true,sizingMethod=scale,src="/images/Antiindulgence/ptlogin_mask.png");}'
-    );
+    ); // 不知道从哪抄来的
     let 一个弹窗 = document.createElement("div");
     一个弹窗.className = "mysdkDialog";
     一个弹窗.innerHTML +=
         '<div class="myfcmdialog"><span onclick="Anti_close();return false;" class="close-btn">关闭</span><h2 class="title">未成年限制登录提醒</h2><div class="stitle">您使用的是未成年账号，仅周五、周六、周日及法定节假日晚上8:00-9:00可以游戏！当前已被限制！</div><div class="countDown" style=""><p class="txt1">下次可玩游戏时段</p><p class="txt2">本周五晚上8:00-9:00</p></div><div class="countDown" style="display:none">当前已限制游戏</div><div class="mod-tip" style=""><h3 class="tip-title">温馨提示：</h3><ul class="tip-info">1.如果身份信息有误，请点击<a href="https://u.4399.com/profile/realname-bizId-1199006632.html" target="_blank">》》申请修改《《</a><br>2.如果您身份信息已经变动，可点击<a onclick="Anti_refresh_idcard();return false;" target="_self" href="">》》刷新身份《《</a></ul></div><div class="mod-btn" style=""><span class="btn-fcmprimary" onclick="Anti_switch_account();return false;">更换账号</span><span class="btn-fcmprimary" onclick="Anti_go_to_main();return false;">确定</span></div></div>';
+    // 不知道从哪抄来的
     document.body.appendChild(一个弹窗);
     let 遮罩 = document.createElement("div");
     遮罩.className = "mycmMask";
@@ -358,7 +355,8 @@ function 减料() {
     if (
         unsafeWindow.webServer &&
         unsafeWindow._strGamePath &&
-        GM_getValue("禁用全屏游戏") == "0"
+        GM_getValue("禁用全屏游戏") == "0" &&
+        document.title.indexOf("合成") == -1 // 全屏游戏不支持合成大西瓜和小芝麻
     ) {
         // 4399获取游戏直链
         console.log("[防沉迷减点料] 尝试4399获取游戏直链");
@@ -370,7 +368,8 @@ function 减料() {
     } else if (
         $flash22 &&
         网址.indexOf("4399.com") >= 0 &&
-        GM_getValue("禁用全屏游戏") == "0"
+        GM_getValue("禁用全屏游戏") == "0" &&
+        document.title.indexOf("合成") == -1
     ) {
         if ($flash22.src != 网址 && $flash22.src) {
             // 4399获取游戏直链2
@@ -417,7 +416,7 @@ function 减料() {
                 GM_getValue("禁用全屏游戏") == "0"
             ) {
                 if ($gameobj.src != 网址 && $gameobj.src) {
-                    // 7k7k获取游戏直链2 (不支持合成大西瓜和小芝麻)
+                    // 7k7k获取游戏直链2
                     console.log("[防沉迷减点料] 尝试7k7k获取游戏直链1");
                     if (开发者配置.启用调试) {
                         debugger;
@@ -464,17 +463,7 @@ function 普通减料() {
             const element = 一堆伞兵玩意[索引];
             if (document.querySelectorAll(element)[0]) {
                 document.querySelectorAll(element).forEach((el) => {
-                    el.style.cssText = `
-                            display: none !important;
-                            min-width: 0 !important;
-                            width: 0 !important;
-                            max-width: 0 !important;
-                            min-height: 0 !important;
-                            height: 0 !important;
-                            max-height: 0 !important;
-                            z-index: -999 !important;
-                            font-size: 0 !important;
-                        `;
+                    el.remove();
                     console.log("[防沉迷减点料] -减料成功- " + element);
                 });
             }
@@ -483,12 +472,8 @@ function 普通减料() {
         [".mycmMask", ".myfcmdialog", ".mysdkDialog"].forEach((element) => {
             if (document.querySelectorAll(element)[0]) {
                 document.querySelectorAll(element).forEach((el) => {
-                    if (el.style.display != "none") {
-                        el.style.display = "none";
-                        console.log(
-                            "[防沉迷减点料] -解除大人来了成功- " + element
-                        );
-                    }
+                    el.remove();
+                    console.log("[防沉迷减点料] -解除大人来了成功- " + element);
                 });
             }
         });
@@ -498,22 +483,6 @@ function 普通减料() {
 }
 
 function 减点料() {
-    // 不健康游戏忠告
-    if (document.querySelector("#skinbody > div.copy > div.copy_t")) {
-        document.querySelector("#skinbody > div.copy > div.copy_t").innerHTML =
-            '作品版权归作者所有，如果侵犯了您的版权，请<a href="//my.4399.com/joinus/contact.html">联系我们</a>，本站将在3个工作日内删除。<br><span>不温馨提示:</span>不要抵制不良游戏，不要拒绝盗版游戏，不要注意自我保护，不要谨防受骗上当，沉迷游戏益脑，适度游戏伤身，不要合理安排时间，享受快乐游戏生活';
-    }
-    if (
-        document.querySelector(
-            "#theme-blue > div.footer > div > div.f_con_fl2 > p.f_p5"
-        )
-    ) {
-        document.querySelector(
-            "#theme-blue > div.footer > div > div.f_con_fl2 > p.f_p5"
-        ).innerHTML =
-            "7k7k小游戏不温馨提示:不要适度游戏娱乐，沉迷游戏益脑，不要合理安排时间，享受快乐游戏生活……";
-    }
-
     // 多来几次以防万一
     if (!开发者配置.禁用自动防沉迷减料) {
         减料();
@@ -554,9 +523,8 @@ if (self == top) {
             "🔥🔥🔥防沉迷减点料🔥🔥🔥 用的怎样?",
             "",
             () => {
-                open(
+                GM_openInTab(
                     "https://greasyfork.org/zh-CN/scripts/437233/feedback",
-                    "_blank"
                 );
             }
         );
@@ -576,7 +544,7 @@ if (self == top) {
             玩了几分钟 += 1;
             更新菜单();
         }, 60 * 1000);
-    } else { 
+    } else {
         玩了几分钟 = "未在游戏";
     }
     更新菜单();
