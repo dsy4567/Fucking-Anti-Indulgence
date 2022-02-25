@@ -4,8 +4,8 @@
 // @description  [❤️哪都能用] 已支持17yy,qq空间部分游戏,07073,7k7k,4399 [⚡️更加快速] 减点料最快0.99秒 [😱别怕大人] 大人来了就按"大人键" [✔️高可用率] 持续更新更靠谱 [⭕健康提醒] 每隔一段时间提醒用户休息, 防止用户沉迷游戏无法自拔 [🌵全屏游戏] 支持全屏游戏, 去除花里胡哨的玩意, 维护游戏体验 [🕶 手动减料] 防沉迷减料不成功? 对着防沉迷弹窗按快捷键 [💪重要更新] 7k7k又能玩了 👍👍👍 热烈庆祝 GreasyFork 总安装量破千 👏👏👏
 
 // @namespace    https://fcmsb250.github.io/
-// @version      4.5.8.1
-// @icon         https://gitee.com/dsy4567/sofast/raw/master/game.png
+// @version      4.5.9
+// @icon         https://gitee.com/dsy4567/sofast/raw/master/logo.png
 // @author       mininb666 https://greasyfork.org/zh-CN/users/822325-mininb666 / dsy4567 https://github.com/dsy4567
 // @run-at       document-start
 
@@ -113,12 +113,18 @@ function 检测状态(值) {
         return "❌";
     }
 }
+function qs(选择器) {
+    return document.querySelector(选择器);
+}
+function qsa(选择器) {
+    return document.querySelectorAll(选择器);
+}
 
 GM_setValue("版本", GM_info.script.version);
 初始化值("安装日期", String(Math.floor(D.getTime() / 1000 / 60 / 60 / 24)));
 初始化值("已提建议", "0");
 初始化值("停用快捷键", "0");
-初始化值("禁用全屏游戏", "1");
+// 初始化值("禁用全屏游戏", "1");
 
 var 最后一个菜单id = 11;
 var 玩了几分钟 = 0;
@@ -234,7 +240,9 @@ function 更新菜单() {
         [
             "给个好评/反馈问题",
             () => {
-                GM_openInTab("https://greasyfork.org/zh-CN/scripts/437233/feedback");
+                GM_openInTab(
+                    "https://greasyfork.org/zh-CN/scripts/437233/feedback"
+                );
             },
             undefined,
         ],
@@ -307,8 +315,8 @@ function 大人来了() {
 
 function 检测网址是否包含指定字符串(数组) {
     let 网址包含指定字符串 = false;
-    数组.forEach((element) => {
-        if (网址.indexOf(element) >= 0) {
+    数组.forEach((字符串) => {
+        if (网址.includes(字符串)) {
             网址包含指定字符串 = true;
         }
     });
@@ -347,106 +355,83 @@ function 减料() {
     }
 
     let 开始 = new Date().getTime();
-    let $flash22 = document.querySelector("#flash22");
-    let $iframe_game = document.querySelector("iframe#game");
-    let $gameobj = document.querySelector("#gameobj");
-    let $ifm = document.querySelector("#ifm");
 
-    if (
-        unsafeWindow.webServer &&
-        unsafeWindow._strGamePath &&
-        GM_getValue("禁用全屏游戏") == "0" &&
-        document.title.indexOf("合成") == -1 // 全屏游戏不支持合成大西瓜和小芝麻
-    ) {
-        // 4399获取游戏直链
-        console.log("[防沉迷减点料] 尝试4399获取游戏直链");
-        if (开发者配置.启用调试) {
-            debugger;
-        }
-        减料成功 = 1;
-        location.href = unsafeWindow.webServer + unsafeWindow._strGamePath;
-    } else if (
-        $flash22 &&
-        网址.indexOf("4399.com") >= 0 &&
-        GM_getValue("禁用全屏游戏") == "0" &&
-        document.title.indexOf("合成") == -1
-    ) {
-        if ($flash22.src != 网址 && $flash22.src) {
-            // 4399获取游戏直链2
-            try {
-                console.log("[防沉迷减点料] 尝试4399获取游戏直链2");
-                if (开发者配置.启用调试) {
-                    debugger;
-                }
-                减料成功 = 1;
-                location.href = String($flash22.src);
-            } catch (err) {
-                console.error(err);
-            }
-        }
-    } else if ($iframe_game && GM_getValue("禁用全屏游戏") == "0") {
-        if ($iframe_game.src != 网址 && $iframe_game.src) {
-            // 4399获取游戏直链3
-            try {
-                console.log("[防沉迷减点料] 尝试4399获取游戏直链3");
-                if (开发者配置.启用调试) {
-                    debugger;
-                }
-                减料成功 = 1;
-                location.href = String($iframe_game.src);
-            } catch (err) {
-                console.error(err);
-            }
-        }
-    } else if (unsafeWindow.play22 && 网址.indexOf("7k7k.com") >= 0) {
-        // 7k7k获取游戏直链1, 顺便说一句, 7k7k跟4399一样狗 (防沉迷又更新了)
+    let $full_screen_frame = qs("#full_screen_frame");
+    let $app_canvas_frame = qs("#app_canvas_frame");
+    let $ifm = qs("#ifm");
+
+    if (unsafeWindow.Anti_close) {
         try {
-            console.log("[防沉迷减点料] 尝试7k7k9获取游戏直链1");
             if (开发者配置.启用调试) {
                 debugger;
             }
+            console.log("[防沉迷减点料] 尝试4399防沉迷减料");
+            unsafeWindow.Anti_close();
             减料成功 = 1;
+        } catch (err) {
+            console.error(err);
+        }
+    } else if (unsafeWindow.play22 && 网址.includes("7k7k.com")) {
+        // 7k7k获取游戏直链1
+        try {
+            console.log("[防沉迷减点料] 尝试7k7k防沉迷减料");
+            if (开发者配置.启用调试) {
+                debugger;
+            }
             // unsafeWindow.Play24.prototype.playLoading();
             unsafeWindow.play22.playLoading();
             unsafeWindow.play22.playLoading = () => {}; // 防止重复调用
+            减料成功 = 1;
             // unsafeWindow.Play24.prototype.playLoading = ()=> {};
-            if (
-                $gameobj &&
-                document.title.indexOf("合成") == -1 &&
-                GM_getValue("禁用全屏游戏") == "0"
-            ) {
-                if ($gameobj.src != 网址 && $gameobj.src) {
-                    // 7k7k获取游戏直链2
-                    console.log("[防沉迷减点料] 尝试7k7k获取游戏直链1");
-                    if (开发者配置.启用调试) {
-                        debugger;
-                    }
-                    减料成功 = 1;
-                    location.href = $gameobj.src;
-                }
-            }
         } catch (err) {
             console.error(err);
         }
     } else if (
         $ifm &&
         GM_getValue("禁用全屏游戏") == "0" &&
-        网址.indexOf("m.7k7k.com/player") >= 0
+        网址.includes("m.7k7k.com/player")
     ) {
         if ($ifm.src != 网址 && $ifm.src) {
             // 7k7k获取游戏直链2
             try {
-                console.log("[防沉迷减点料] 尝试4399获取游戏直链2");
+                console.log("[防沉迷减点料] 尝试7k7k手机端防沉迷减料");
                 if (开发者配置.启用调试) {
                     debugger;
                 }
                 减料成功 = 1;
-                location.href = String($ifm.src);
+                location.href = $ifm.src;
             } catch (err) {
                 console.error(err);
             }
         }
+    } else if ($app_canvas_frame) {
+        try {
+            if ($app_canvas_frame.src && $app_canvas_frame.src != 网址) {
+                console.log("[防沉迷减点料] 尝试阻止QQ空间自动跳转1");
+                if (开发者配置.启用调试) {
+                    debugger;
+                }
+                减料成功 = 1;
+                location.href = $app_canvas_frame.src;
+            }
+        } catch (err) {
+            console.error(err);
+        }
+    } else if ($full_screen_frame) {
+        try {
+            if ($full_screen_frame.src && $full_screen_frame.src != 网址) {
+                console.log("[防沉迷减点料] 尝试阻止QQ空间自动跳转2");
+                if (开发者配置.启用调试) {
+                    debugger;
+                }
+                减料成功 = 1;
+                location.href = $full_screen_frame.src;
+            }
+        } catch (err) {
+            console.error(err);
+        }
     }
+
     if (开发者配置.输出减料时间) {
         console.log(
             "[防沉迷减点料] 减料结束, 用时" +
@@ -461,8 +446,8 @@ function 普通减料() {
         // 简单暴力的减料方式
         for (let 索引 = 0; 索引 < 一堆伞兵玩意.length; 索引++) {
             const element = 一堆伞兵玩意[索引];
-            if (document.querySelectorAll(element)[0]) {
-                document.querySelectorAll(element).forEach((el) => {
+            if (qsa(element)[0]) {
+                qsa(element).forEach((el) => {
                     el.remove();
                     console.log("[防沉迷减点料] -减料成功- " + element);
                 });
@@ -470,8 +455,8 @@ function 普通减料() {
         }
 
         [".mycmMask", ".myfcmdialog", ".mysdkDialog"].forEach((element) => {
-            if (document.querySelectorAll(element)[0]) {
-                document.querySelectorAll(element).forEach((el) => {
+            if (qsa(element)[0]) {
+                qsa(element).forEach((el) => {
                     el.remove();
                     console.log("[防沉迷减点料] -解除大人来了成功- " + element);
                 });
@@ -509,6 +494,7 @@ if (!开发者配置.禁用自动防沉迷减料) {
                 max-height: 0 !important;
                 z-index: -999 !important;
                 font-size: 0 !important;
+                overflow: hidden !important;
             }`;
     GM_addStyle(css);
     console.log("[防沉迷减点料] 加样式表成功");
@@ -524,7 +510,7 @@ if (self == top) {
             "",
             () => {
                 GM_openInTab(
-                    "https://greasyfork.org/zh-CN/scripts/437233/feedback",
+                    "https://greasyfork.org/zh-CN/scripts/437233/feedback"
                 );
             }
         );
@@ -582,8 +568,8 @@ document.addEventListener(
 );
 
 addEventListener("load", () => {
-    if (网址.indexOf("437233") >= 0 && 网址.indexOf("feedback") >= 0) {
-        document.querySelector("#discussion_comments_attributes_0_text").value =
+    if (网址.includes("437233") && 网址.includes("feedback")) {
+        qs("#discussion_comments_attributes_0_text").value =
             "<pre>" +
             脚本信息 +
             "</pre>\n\n---以上是脚本信息,有助于脚本作者解决问题, 给好评提建议等可以删除---\n";
@@ -592,7 +578,7 @@ addEventListener("load", () => {
 
     setTimeout(() => {
         // 以防万一
-        document.querySelectorAll("canvas").forEach((element) => {
+        qsa("canvas").forEach((element) => {
             element.addEventListener(
                 "mousedown",
                 function (e) {
