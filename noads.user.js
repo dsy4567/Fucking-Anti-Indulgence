@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         4399增强 + 防沉迷减料辅助
 // @namespace    https://fcmsb250.github.io/
-// @version      0.3.6
+// @version      0.3.7
 // @description  [✨荒岛求生日记 高情商聊天] 无限钻石资源精力金币嗨翻天 [✌防沉迷减料辅助]推荐配合 🔥🔥🔥防沉迷减点料🔥🔥🔥 一起使用, 页游九点以后继续玩  [🔥免广告领奖励] 不用看广告,奖励领到吐 [🚫不用下载4399在线玩] 直接拿专属礼包 [✔️修改提交分数] 0.99 秒冲榜不是梦 (慎用) [★开发者福利] 拒绝4399疯狂调试
 // @author       dsy
 // @icon         http://4399.com/favicon.ico
@@ -69,13 +69,19 @@ function 去他的广告和防沉迷() {
 
                 if (回调) {
                     回调({
-                        code: 10001,
-                        message: "播放结束",
+                        code: 10000,
+                        message: "开始播放",
                     });
+                    setTimeout(() => {
+                        回调({
+                            code: 10001,
+                            message: "播放结束",
+                        });
 
-                    console.log("[4399增强] 已阻止广告并发放奖励");
-                    console.log("回调:", 回调);
-                    免广告次数++;
+                        console.log("[4399增强] 已阻止广告并发放奖励");
+                        console.log("回调:", 回调);
+                        免广告次数++;
+                    }, 100);
                 } else {
                     console.log("[4399增强] 无效回调");
                 }
@@ -138,14 +144,22 @@ function 去他的广告和防沉迷() {
                         "是个人都要恰饭, 游戏作者也是, 要不先暂时禁用这个脚本, 然后主动看几条广告?"
                     );
                 }
+
                 if (回调) {
                     回调({
-                        code: 10001,
-                        message: "播放结束",
+                        code: 10000,
+                        message: "开始播放",
                     });
-                    console.log("[4399增强] 已阻止广告并发放奖励");
-                    console.log("回调:", 回调);
-                    免广告次数++;
+                    setTimeout(() => {
+                        回调({
+                            code: 10001,
+                            message: "播放结束",
+                        });
+
+                        console.log("[4399增强] 已阻止广告并发放奖励");
+                        console.log("回调:", 回调);
+                        免广告次数++;
+                    }, 100);
                 } else {
                     console.log("[4399增强] 无效回调");
                 }
@@ -169,7 +183,7 @@ function 去他的广告和防沉迷() {
             window.h5api.showGuide = function (回调) {
                 回调();
                 alert("领取成功");
-                    console.log("[4399增强] 专属礼包领取成功");
+                console.log("[4399增强] 专属礼包领取成功");
             };
 
             // 排行榜API
