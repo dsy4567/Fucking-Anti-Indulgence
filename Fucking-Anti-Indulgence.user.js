@@ -9,7 +9,7 @@
 // @author       mininb666 https://greasyfork.org/zh-CN/users/822325-mininb666 / dsy4567 https://github.com/dsy4567
 // @run-at       document-start
 
-// @include      *://*.07073.*/*
+// @include      *://h5.07073.*/*
 
 // @include      *://*.4399.*/*
 // @include      *://*.*4399.*/*
@@ -19,17 +19,10 @@
 // @include      *://*.zxwyouxi.*/*
 
 // @include      *://*.7k7k.*/*
-// @include      *://*.*7k7k.*/*
-// @include      *://*.7k7k*.*/*
 
 // @include      *://gameapp.qq.com/*
 
 // @include      *://*.17yy.*/*
-// @include      *://*.*17yy.*/*
-// @include      *://*.17yy*.*/*
-
-// @include      *://wj.qq.com/*
-// @include      *://greasyfork.org/*/scripts/437233-*/feedback
 
 // @grant        GM_addStyle
 // @grant        GM_getValue
@@ -42,6 +35,7 @@
 // @grant        GM_unregisterMenuCommand
 // @grant        unsafeWindow
 
+// @homepageURL  https://fcmb250.github.io/
 // @supportURL   https://github.com/dsy4567/Fucking-Anti-Indulgence/
 // @updateURL    https://github.com/dsy4567/Fucking-Anti-Indulgence/raw/main/Fucking-Anti-Indulgence.user.js
 // @installURL   https://github.com/dsy4567/Fucking-Anti-Indulgence/raw/main/Fucking-Anti-Indulgence.user.js
@@ -125,9 +119,9 @@ GM_setValue("版本", GM_info.script.version);
 初始化值("已提建议", "0");
 初始化值("停用快捷键", "0");
 初始化值("停用提醒", "0");
-// 初始化值("禁用全屏游戏", "1");
+初始化值("净化脚本", "0");
 
-if (GM_getValue("停用提醒") == "1") {
+if (GM_getValue("净化脚本") == "1") {
     GM_notification = () => {};
 }
 
@@ -196,11 +190,12 @@ var 一堆伞兵玩意 = [
 
 function 更新菜单() {
     const 一堆菜单 = [
-        ["❤️您已尽情欢乐" + 用了多少天 + "天", undefined, undefined],
+        ["❤️您已尽情欢乐" + 用了多少天 + "天", undefined, undefined, 1],
         [
             "❤️游戏时间: " + 玩了几分钟 + "分钟,请合理安排游戏时间",
             undefined,
             undefined,
+            1,
         ],
 
         [
@@ -235,10 +230,10 @@ function 更新菜单() {
             undefined,
         ],
         [
-            检测状态("停用提醒") + " 停用健康游戏提醒",
+            检测状态("净化脚本") + " 净化脚本",
             () => {
-                改变值("停用提醒", "0", () => {
-                    更新菜单();
+                改变值("净化脚本", "0", () => {
+                    location.reload();
                 });
             },
             undefined,
@@ -287,7 +282,11 @@ function 更新菜单() {
         const 菜单名 = 菜单[0];
         const 函数 = 菜单[1];
         const 快捷键 = 菜单[2];
+        const 需要净化 = 菜单[3];
 
+        if (GM_getValue("净化脚本") == "1" && 需要净化) {
+            return;
+        }
         最后一个菜单id = GM_registerMenuCommand(菜单名, 函数, 快捷键);
     });
 }
@@ -298,6 +297,7 @@ function 大人来了() {
         一个弹窗的样式.remove();
         console.log("[防沉迷减点料] 已去除样式");
     } catch (err) {}
+
     一个弹窗的样式 = GM_addStyle(
         '*{margin:0;padding:0}ul{list-style:none;}.fl{float:left;}.fr{float:right;}.mysdkDialog{position:absolute;left:50%;top:50vh;margin:-210px 0 0 -309px;width:618px;z-index:20020}.mysdkDialog .myfcmdialog{color:black;position:absolute;left:0;top:0;width:620px;padding-bottom:30px;font-family:"microsoft yahei";font-size:14px;background:#fff;border-radius:8px;}.mysdkDialog .myfcmdialog .close-btn{position:absolute;right:0;top:0;width:40px;height:40px;background-color:red;line-height:40px;cursor:pointer;display:none}.mysdkDialog .myfcmdialog .title{line-height:30px;text-align:center;font-size:22px;font-weight:700;padding:25px 0 0;margin:0 40px;color:#454545;border:0;height:auto;float:none;width:auto;text-indent:0;}.mysdkDialog .myfcmdialog .stitle{text-align:left;line-height:1.6;margin:15px 40px 0;font-size:16px;}.mysdkDialog .myfcmdialog .stitle span{color:#ffa92d;}.mysdkDialog .myfcmdialog .mod-tip{margin:20px 40px 0;background:#F0F0F0;padding:12px 15px;border-radius:4px;color:#333;text-align:left}.mysdkDialog .myfcmdialog .tip-title{font-size:16px;font-weight:400;}.mysdkDialog .myfcmdialog .tip-info{margin-top:5px;line-height:26px;font-size:14px;}.mysdkDialog .myfcmdialog .tip-info li{font-size:16px;line-height:26px}.mysdkDialog .myfcmdialog .tip-info a{color:#FAA61B;text-decoration:underline;margin:0 4px;cursor:pointer;}.mysdkDialog .myfcmdialog .mod-btn{text-align:center;font-size:0;line-height:0;margin:25px 40px 0;}.mysdkDialog .myfcmdialog .mod-btn .btn-fcmprimary{display:inline-block;width:140px;height:38px;line-height:38px;border:1px solid #69bb01;color:#69bb01;font-size:14px;margin:0 15px;border-radius:5px;cursor:pointer;}.mysdkDialog .myfcmdialog .mod-btn .fr,.mysdkDialog .myfcmdialog .mod-btn .fl{width:250px;margin:0;}.mysdkDialog .myfcmdialog .mod-btn .btn-fcmprimary:hover{-webkit-filter:brightness(1);filter:brightness(1)}.mysdkDialog .myfcmdialog .mod-btn .btn-identity{background-color:#69bb01;color:#f8ffef}.fcmIframe{position:absolute;left:50%;top:270px;margin:0 0 0 -309px;width:618px;height:354px;z-index:2019;border:0 none;background-color:#000}.countDown{background:#eee;border-radius:3px;padding:10px;text-align:center;margin:20px 40px 0;font-size:16px;color:#666}.countDown .txt1{font-size:16px;height:28px;line-height:28px;color:#717171;}.countDown .txt2{height:40px;line-height:40px;font-size:26px;font-weight:bold;color:#54ba3d;}.mycmMask{display:none;width:100%;position:absolute;left:0;top:0;background:rgb(0,0,0);}'
     ); // 不知道从哪抄来的
@@ -331,6 +331,10 @@ function 游戏中() {
     if (开发者配置.始终处于游戏状态) {
         return 开发者配置.始终处于游戏状态;
     }
+    if (GM_getValue("净化脚本") == "1") {
+        return false;
+    }
+
     let 有没有玩游戏 = false;
     if (
         检测网址是否包含指定字符串([
@@ -506,36 +510,39 @@ if (!开发者配置.禁用自动防沉迷减料) {
 
 //判断是否在iframe中
 if (self == top) {
-    if (用了多少天 >= 3 && GM_getValue("已提建议") == "0") {
-        GM_setValue("已提建议", "1");
-        GM_notification(
-            "请给我提点建议,帮助这个脚本变得更好",
-            "🔥🔥🔥防沉迷减点料🔥🔥🔥 用的怎样?",
-            "",
-            () => {
-                GM_openInTab(
-                    "https://greasyfork.org/zh-CN/scripts/437233/feedback"
-                );
-            }
-        );
-    }
-    if (游戏中()) {
-        for (let i = 0.5; i < 5; i = i + 0.5) {
-            setTimeout(() => {
-                GM_notification(
-                    "你已经玩了" +
-                        i +
-                        "个小时,防沉迷那个啥虽好,但也要适度游戏,休息一下吧",
-                    "健康游戏提示"
-                );
-            }, i * 60 * 60 * 1000);
+    if (GM_getValue("净化脚本") != "1") {
+        if (用了多少天 >= 3 && GM_getValue("已提建议") == "0") {
+            GM_setValue("已提建议", "1");
+            GM_notification(
+                "请给我提点建议,帮助这个脚本变得更好",
+                "🔥🔥🔥防沉迷减点料🔥🔥🔥 用的怎样?",
+                "",
+                () => {
+                    GM_openInTab(
+                        "https://greasyfork.org/zh-CN/scripts/437233/feedback"
+                    );
+                }
+            );
         }
-        setInterval(() => {
-            玩了几分钟 += 1;
-            更新菜单();
-        }, 60 * 1000);
-    } else {
-        玩了几分钟 = "未在游戏";
+
+        if (游戏中()) {
+            for (let i = 0.5; i < 5; i = i + 0.5) {
+                setTimeout(() => {
+                    GM_notification(
+                        "你已经玩了" +
+                            i +
+                            "个小时,防沉迷那个啥虽好,但也要适度游戏,休息一下吧",
+                        "健康游戏提示"
+                    );
+                }, i * 60 * 60 * 1000);
+            }
+            setInterval(() => {
+                玩了几分钟 += 1;
+                更新菜单();
+            }, 60 * 1000);
+        } else {
+            玩了几分钟 = "未在游戏";
+        }
     }
     更新菜单();
 }
@@ -572,12 +579,6 @@ document.addEventListener(
 );
 
 addEventListener("load", () => {
-    if (网址.includes("437233") && 网址.includes("feedback")) {
-        qs("#discussion_comments_attributes_0_text").value =
-            "<pre>" +
-            脚本信息 +
-            "</pre>\n\n---以上是脚本信息,有助于脚本作者解决问题, 给好评提建议等可以删除---\n";
-    }
     减点料();
 
     setTimeout(() => {
@@ -600,6 +601,18 @@ addEventListener("load", () => {
             );
         });
     }, 5000);
+
+    if (location.href.includes("ptlogin.4399.com")) {
+        setTimeout(() => {
+            if (document.querySelector(".ptlogin_btn")) {
+                document
+                    .querySelector(".ptlogin_btn")
+                    .addEventListener("mouseup", () => {
+                        alert("请刷新网页或关闭登录界面以完成登录");
+                    });
+            }
+        }, 1000);
+    }
 });
 
 减点料();

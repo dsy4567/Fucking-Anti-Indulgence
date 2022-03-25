@@ -13,7 +13,7 @@
 ---
 
 <center>
-<img alt="对联" title="对联" src="https://gitee.com/dsy4567/Fucking-Anti-Indulgence/raw/master/img2.jpeg" />
+<img alt="对联" title="对联" src="https://fcmsb250.github.io/img1.jpeg" />
 </center>
 
 # ~~玩游戏要适度~~
@@ -62,11 +62,6 @@
 > -   如果没有减料请按下 `alt + 鼠标中键`
 > -   如果脚本无法使用，请安装旧版本或进行[反馈](https://greasyfork.org/zh-CN/scripts/437233-%E9%98%B2%E6%B2%89%E8%BF%B7%E5%87%8F%E7%82%B9%E6%96%99/feedback)
 > -   该脚本无法完全支持 QQ 空间游戏
-
-# 🔊 已知问题
-
-> -   "大人来了" 触发后小概率会出现奇怪的防沉迷弹窗  
->     ![奇怪的防沉迷弹窗](https://gitee.com/dsy4567/Fucking-Anti-Indulgence/raw/master/img1.png "奇怪的防沉迷弹窗")
 
 ---
 
