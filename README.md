@@ -1,4 +1,4 @@
-![对联](https://gitee.com/dsy4567/Fucking-Anti-Indulgence/raw/master/img2.jpeg)
+![对联](https://fcmsb250.github.io/img1.jpeg)
 
 # 拒绝该死的防沉迷, 享受快乐的游戏人生
 
