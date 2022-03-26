@@ -174,17 +174,6 @@ function 去他的广告和防沉迷() {
         }
     }
 
-    // 干掉疯狂调试
-    if (unsafeWindow.consoleOpenCallback) {
-        try {
-            unsafeWindow.consoleOpenCallback = () => {};
-            unsafeWindow.check = () => {};
-            unsafeWindow.clearInterval(unsafeWindow._windon_handler);
-        } catch (e) {
-            console.error(e);
-        }
-    }
-
     // (a)iwan4399.com 上引用的 ifs-web_sdk
     if (unsafeWindow.PageWebApiSdk) {
         try {
@@ -320,6 +309,30 @@ function 去他的广告和防沉迷2() {
 setInterval(去他的广告和防沉迷2, 5000);
 
 if (location.host.includes("4399")) {
+    // 干掉疯狂调试
+    unsafeWindow.fuck_debugger = () => {
+        check = () => {};
+        consoleOpenCallback = () => {};
+        clearInterval(_windon_handler);
+    };
+    try {
+        Object.defineProperty(unsafeWindow, "check", {
+            value: () => {},
+            writable: false,
+        });
+    } catch (e) {}
+    try {
+        Object.defineProperty(unsafeWindow, "consoleOpenCallback", {
+            value: () => {},
+            writable: false,
+        });
+    } catch (e) {}
+    try {
+        unsafeWindow.consoleOpenCallback = () => {};
+        unsafeWindow.check = () => {};
+        unsafeWindow.clearInterval(unsafeWindow._windon_handler);
+    } catch (e) {}
+
     去他的广告和防沉迷();
     setInterval(去他的广告和防沉迷, 5000);
 

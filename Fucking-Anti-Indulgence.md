@@ -8,11 +8,14 @@
 >
 > # 👉 请先安装脚本管理器(推荐 Tampermonkey)再安装此脚本，Tampermonkey 扩展可在当前浏览器扩展商店获取(见传送门)
 >
-> # 👉 该脚本不支持部分页游防沉迷减料
+> # 👉 该脚本不支持部分页游防沉迷减料(见温馨提示)
 
 ---
 
 <center>
+<h1>🎇🎇🎇防沉迷减点料🎇🎇🎇</h1>
+<em>~快乐没有年龄之分~</em>
+<br></br>
 <img alt="对联" title="对联" src="https://fcmsb250.github.io/img1.jpeg" />
 </center>
 
@@ -58,14 +61,36 @@
 >
 > > 去除健康游戏提醒等功能, 拒绝花里胡哨
 
-# 💊 注意事项
+## ✅ 已支持的游戏
 
-> -   脚本会自动触发 (不需要相当长的时间)
-> -   大人键在网页加载完成后的 10 秒才可以正常使用
+> _**如果游戏地址以它们开头, 那么该脚本完全支持该游戏**_  
+> _**提示 💡: 该脚本对 QQ 空间游戏支持不佳**_
+>
+> ### 4399:
+>
+> > -   4399.com/flash/
+> > -   www.zxwyouxi.com/g/
+> > -   h.4399.com/play/ 或 h.4399.com/zzy/ (移动端)
+>
+> ### 7k7k:
+>
+> > -   www.7k7k.com/flash/ 或 http://www.7k7k.com/swf/
+> > -   m.7k7k.com/player/ 或 m.7k7k.com/flash/ (移动端)
+>
+> ### 17yy:
+>
+> > -   www.17yy.com/f/play/ 或 http://www.17yy.com/f/
+>
+> ### 07373:
+>
+> > -   h5.07073.com/gameplay/
+
+# 💊 温馨提示
+
 > -   点击油猴脚本扩展图标可查看更多选项
-> -   如果没有减料请按下 `alt + 鼠标中键`
+> -   如果没有减料请尝试按下 `alt + 鼠标中键`
 > -   如果脚本无法使用，请安装旧版本或进行[反馈](https://greasyfork.org/zh-CN/scripts/437233-%E9%98%B2%E6%B2%89%E8%BF%B7%E5%87%8F%E7%82%B9%E6%96%99/feedback)
-> -   该脚本无法完全支持 QQ 空间游戏
+> -   该脚本无法完全支持 QQ 空间游戏和其他游戏平台的页游 (建议安装 [4399 增强 + 防沉迷减料辅助](https://greasyfork.org/zh-CN/scripts/436895-4399%E5%A2%9E%E5%BC%BA-%E9%98%B2%E6%B2%89%E8%BF%B7%E5%8A%A0%E6%96%99%E8%BE%85%E5%8A%A9) 来实现到点不被踢出)
 
 ---
 
@@ -85,22 +110,18 @@
 >
 > ❔ **如果脚本失效或无法使用怎么办**
 >
-> > ❗ _[点我反馈](https://greasyfork.org/zh-CN/scripts/437233-%E9%98%B2%E6%B2%89%E8%BF%B7%E5%87%8F%E7%82%B9%E6%96%99/feedback) 请发个截图并更详细地说明问题, 如果已解决, 麻烦改个好评 (不要给出毫无意义的差评, 这不利于我将脚本变得更好)_
->
-> ❔ **我觉得脚本很好用, 可以怎么做**
->
-> > ❗ _[点我给好评](https://greasyfork.org/zh-CN/scripts/437233-%E9%98%B2%E6%B2%89%E8%BF%B7%E5%87%8F%E7%82%B9%E6%96%99/feedback) 请给我一个好评, 或者给我提一些有用的建议, 也可以将这个脚本推荐给身边的未成年_
+> > ❗ _[点我反馈](https://greasyfork.org/zh-CN/scripts/437233-%E9%98%B2%E6%B2%89%E8%BF%B7%E5%87%8F%E7%82%B9%E6%96%99/feedback) 请发个截图并更详细地说明问题, 如果已解决, 麻烦改个好评 (不要光给差评不说问题, 这不利于我让脚本变得更好)_
 >
 > ❔ **页游防沉迷无法减料怎么办**
 >
-> > ❗ _该脚本还不支持给页游防沉迷减料 (4399 和 7k7k 是真的狗)_
+> > ❗ _该脚本还不支持给页游防沉迷减料 (4399 和 7k7k 是真的狗) , 不过你可以安装 [4399 增强 + 防沉迷减料辅助](https://greasyfork.org/zh-CN/scripts/436895-4399%E5%A2%9E%E5%BC%BA-%E9%98%B2%E6%B2%89%E8%BF%B7%E5%8A%A0%E6%96%99%E8%BE%85%E5%8A%A9) 来实现到点不被踢出_
 
 ---
 
 # 💪 更新日志
 
-
-> -   [4.6.3](#) **新增一键净化**
+> -   [4.7](#) **优化减料方式, 减料能力更上一层楼**
+> -   [4.6.3](#) 新增一键净化
 > -   [4.6](#) 修复一丢丢问题,还有别的
 > -   [4.5.7.1](#) 手机版 7k7k 支持
 > -   [4.5.6](#) VM 暴力猴优化
@@ -115,20 +136,15 @@
 
 # 🌎 传送门
 
-> -   [强烈建议同时安装 4399 增强 + 防沉迷加料辅助](https://greasyfork.org/zh-CN/scripts/436895-4399%E5%A2%9E%E5%BC%BA-%E9%98%B2%E6%B2%89%E8%BF%B7%E5%8A%A0%E6%96%99%E8%BE%85%E5%8A%A9)
+> -   [4399 增强 + 防沉迷减料辅助](https://greasyfork.org/zh-CN/scripts/436895-4399%E5%A2%9E%E5%BC%BA-%E9%98%B2%E6%B2%89%E8%BF%B7%E5%8A%A0%E6%96%99%E8%BE%85%E5%8A%A9)
 > -   [360 浏览器 Tampermonkey 扩展](https://ext.chrome.360.cn/webstore/detail/dhdgffkkebhmkfjojejmpbldmpobfkfo)
 > -   [edge 浏览器 Tampermonkey 扩展](https://microsoftedge.microsoft.com/addons/detail/tampermonkey/iikmkjmpaadaobahmlepeloendndfphd)
 > -   [其它浏览器 Tampermonkey 扩展(极简插件)](https://chrome.zzzmh.cn/info?token=dhdgffkkebhmkfjojejmpbldmpobfkfo)
 > -   [.crx 文件安装教程](https://chrome.zzzmh.cn/help?token=setup)
 > -   [参与调查](https://wj.qq.com/s2/9618279/815b/)
-> -   [精简版本](https://greasyfork.org/zh-CN/scripts/438957-%E9%98%B2%E6%B2%89%E8%BF%B7%E5%87%8F%E7%82%B9%E6%96%99-%E7%B2%BE%E7%AE%80%E7%89%88%E6%9C%AC)
 
 ---
 
 # 💦 引流大法
 
-> 防沉迷 煞笔 玩意 身份证 身混证 抗成瘾 防苍蝇 防成瘾 fangchenmi fangchengmi 4399fangchenmi 4399fangchengmi 油猴 成年人 实名 认证 人脸 识别 四三九九 石山 九九 九九四三 9943 肆叁玖玖 43 439 4399fcm u7u9 7k7k fcm cm c fcmi 4399 防沉迷 7k7k 防沉迷 17yy 防沉迷 qq 空间防沉迷 07379 防沉迷
-
-# 🎁 彩蛋
-
-> 4399,7k7k 拉到底
+> 防沉迷 煞笔 玩意 身份证 身混证 抗成瘾 防成瘾 fangcm fangchenmi fangchengmi 4399fangchenmi 4399fangchengmi 油猴 护苗 毁苗 成年人 实名 认证 人脸 识别 四三九九 石山 九九 九九四三 9943 肆叁玖玖 43 439 4399fcm u7u9 7k7k fcm cm c fcmi qq 空间防沉迷 07379

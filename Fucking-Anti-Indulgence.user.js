@@ -1,7 +1,7 @@
 ﻿// ==UserScript==
 // @name         🎇🎇🎇防沉迷减点料🎇🎇🎇
 
-// @description  [❤️哪都能用] 已支持17yy,qq空间部分游戏,07073,7k7k,4399 [⚡️更加快速] 减点料最快0.99秒 [😱别怕大人] 大人来了就按"大人键" [✔️高可用率] 持续更新更靠谱 [⭕健康提醒] 每隔一段时间提醒用户休息, 防止用户沉迷游戏无法自拔 [🕶 手动减料] 防沉迷减料不成功? 对着防沉迷弹窗按快捷键 [🥬一键净化] 去除花里胡哨的玩意 7k7k又能玩了 👍👍👍 热烈庆祝 GreasyFork 总安装量破千 👏👏👏
+// @description  [❤️哪都能用] 已支持17yy,qq空间部分游戏,07073,7k7k,4399 [⚡️更加快速] 减点料最快0.99秒 [😱别怕大人] 大人来了就按"大人键" [✔️高可用率] 持续更新更靠谱 [⭕健康提醒] 每隔一段时间提醒用户休息, 防止用户沉迷游戏无法自拔 [🕶 手动减料] 防沉迷减料不成功? 对着防沉迷弹窗按快捷键 [🥬一键净化] 去除花里胡哨的玩意 👍👍👍 热烈庆祝 GreasyFork 总安装量破千 👏👏👏
 
 // @namespace    https://fcmsb250.github.io/
 // @version      4.6.3
@@ -31,7 +31,6 @@
 // @grant        GM_openInTab
 // @grant        GM_registerMenuCommand
 // @grant        GM_setValue
-// @grant        GM_setClipboard
 // @grant        GM_unregisterMenuCommand
 // @grant        unsafeWindow
 
@@ -367,18 +366,45 @@ function 减料() {
     let $app_canvas_frame = qs("#app_canvas_frame");
     let $ifm = qs("#ifm");
 
-    if (unsafeWindow.Anti_close) {
-        try {
-            if (开发者配置.启用调试) {
-                debugger;
-            }
-            console.log("[防沉迷减点料] 尝试4399防沉迷减料");
-            unsafeWindow.Anti_close();
-            减料成功 = 1;
-        } catch (err) {
-            console.error(err);
+    if (网址.includes("4399.com/flash")) {
+        // 搞破坏
+        if (开发者配置.启用调试) {
+            debugger;
         }
-    } else if (unsafeWindow.play22 && 网址.includes("7k7k.com")) {
+
+        try {
+            Object.defineProperty(unsafeWindow, "isLoadingAntiindulgence", {
+                value: 0,
+                writable: false,
+            });
+        } catch (e) {}
+        try {
+            Object.defineProperty(unsafeWindow, "isIniframe", {
+                value: "", // 原来是Function, 这样做可以使防沉迷报错
+                writable: false,
+            });
+        } catch (e) {}
+        try {
+            Object.defineProperty(unsafeWindow, "getBizid", {
+                value: "", // 原来是Function, 这样做可以使防沉迷报错
+                writable: false,
+            });
+        } catch (e) {}
+    }
+
+    // if (unsafeWindow.Anti_close) {
+    //     try {
+    //         if (开发者配置.启用调试) {
+    //             debugger;
+    //         }
+    //         console.log("[防沉迷减点料] 尝试4399防沉迷减料");
+    //         unsafeWindow.Anti_close();
+    //         减料成功 = 1;
+    //     } catch (err) {
+    //         console.error(err);
+    //     }
+    // } else
+    if (unsafeWindow.play22 && 网址.includes("7k7k.com")) {
         // 7k7k获取游戏直链1
         try {
             console.log("[防沉迷减点料] 尝试7k7k防沉迷减料");
@@ -627,7 +653,6 @@ if (开发者配置.在控制台使用脚本变量函数和GM) {
         unsafeWindow._GM_openInTab = GM_openInTab;
         unsafeWindow._GM_registerMenuCommand = GM_registerMenuCommand;
         unsafeWindow._GM_setValue = GM_setValue;
-        unsafeWindow._GM_setClipboard = GM_setClipboard;
         unsafeWindow._GM_unregisterMenuCommand = GM_unregisterMenuCommand;
 
         // 普通变量
