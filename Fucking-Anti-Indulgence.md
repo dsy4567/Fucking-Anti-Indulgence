@@ -73,12 +73,12 @@
 >
 > ### 7k7k:
 >
-> > -   www.7k7k.com/flash/ 或 http://www.7k7k.com/swf/
+> > -   www.7k7k.com/flash/ 或 www.7k7k.com/swf/
 > > -   m.7k7k.com/player/ 或 m.7k7k.com/flash/ (移动端)
 >
 > ### 17yy:
 >
-> > -   www.17yy.com/f/play/ 或 http://www.17yy.com/f/
+> > -   www.17yy.com/f/play/ 或 www.17yy.com/f/
 >
 > ### 07373:
 >
