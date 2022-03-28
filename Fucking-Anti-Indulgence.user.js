@@ -134,8 +134,10 @@ function 初始化值(值, 默认值, 回调) {
 function 检测状态(值) {
     if (GM_getValue(值) == "1") {
         return "✅";
-    } else {
+    } else if (GM_getValue(值) == "0") {
         return "❌";
+    } else {
+        return "⚠️";
     }
 }
 function qs(选择器) {
