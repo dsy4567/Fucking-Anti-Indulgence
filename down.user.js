@@ -2,7 +2,7 @@
 // @name         4399, 7k7k flash 游戏下载 + flash 播放器
 // @namespace    https://fcmsb250.github.io/
 // @version      0.1
-// @description  try to take over the world!
+// @description  下载 4399, 7k7k flash 游戏, 并提供 flash 播放器
 // @author       You
 // @match        http://www.4399.com/flash/*
 // @match        http://www.7k7k.com/swf/*
