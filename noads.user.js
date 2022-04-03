@@ -200,7 +200,7 @@ function 去他的广告和防沉迷() {
             unsafeWindow.smevent = () => {};
             unsafeWindow.smevent.IEVersion = () => {};
             unsafeWindow.smevent.flashChecker = function () {
-                return { flash: false };
+                return { flash: true };
             };
             unsafeWindow.popup = () => {};
             unsafeWindow.poplist = () => {};
