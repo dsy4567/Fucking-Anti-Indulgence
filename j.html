@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="zh">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <title>Document</title>
+    </head>
+
+    <body>
+        <script>
+            var 游戏真实地址管理器 = document.createElement("div");
+            游戏真实地址管理器.id = "fuckAnti-urls";
+            游戏真实地址管理器.style.cssText =
+                "z-index:99999;width:100%;height:100vh;position:fixed;display:none;";
+
+            var 一堆游戏真实地址管理器元素 = [];
+
+            var l = [
+                    null,
+                    {
+                        游戏标题: "bbbbbbbbbbbbbbb",
+                        真实地址: "ccccc",
+                    },
+                    {
+                        游戏标题: "bbbb2bbbbbbbbbbb",
+                        真实地址: "ccc3cc",
+                    },
+                ],
+                游戏真实地址 = document.createElement("span"),
+                真实地址;
+
+            var 关闭 = document.createElement("span");
+            关闭.onclick = () => {
+                游戏真实地址管理器.style.cssText =
+                    "z-index:99999;width:100%;height:100vh;position:fixed;display:none;";
+            };
+            关闭.innerHTML = " 关闭 ";
+            一堆游戏真实地址管理器元素.push(关闭);
+
+            var 要删除的真实地址 = document.createElement("input");
+            要删除的真实地址.type = "text";
+            要删除的真实地址.placeholder = "在这里输入要删除的真实地址的id, 以英文逗号分隔";
+            要删除的真实地址.style.width = "512px";
+            一堆游戏真实地址管理器元素.push(要删除的真实地址);
+
+            var 确定 = document.createElement("button");
+            确定.onclick = () => {
+                try {
+                    let ids = JSON.parse("[" + 要删除的真实地址.value + "]");
+                    if (typeof ids[0] != "number") {
+                        return alert("格式不正确, 或id有误");
+                    }
+
+                    if (confirm("即将删除id为以下的游戏真实地址, 请确认: " + ids)) {
+                        ids.forEach((东西) => {
+                            if (东西 <= 0) {
+                                return;
+                            }
+
+                            l.splice(东西, 东西);
+                            展示游戏真实地址();
+                        });
+                    }
+                } catch (e) {
+                    alert("格式不正确, 或id有误");
+                }
+            };
+            确定.innerHTML = "->";
+            一堆游戏真实地址管理器元素.push(确定);
+
+            var 开关 = document.createElement("button");
+            开关.onclick = () => {
+                alert();
+            };
+            开关.innerHTML = "启用/禁用自动保存游戏真实地址";
+            一堆游戏真实地址管理器元素.push(开关);
+
+            var 状态 = document.createElement("span");
+            状态.innerHTML = " 状态: 已启用 <br />";
+            一堆游戏真实地址管理器元素.push(状态);
+
+            function 展示游戏真实地址() {
+                let id = 0;
+                真实地址 = "";
+
+                l.forEach((东西) => {
+                    if (东西 == null) {
+                        return id++;
+                    }
+
+                    真实地址 +=
+                        "<br />id: " +
+                        id +
+                        " | 游戏标题: " +
+                        东西.游戏标题 +
+                        " | 真实地址: " +
+                        东西.真实地址 +
+                        "<br />";
+                    id++;
+                });
+
+                游戏真实地址.innerHTML = 真实地址;
+            }
+            展示游戏真实地址();
+            一堆游戏真实地址管理器元素.push(游戏真实地址);
+
+            一堆游戏真实地址管理器元素.forEach((元素) => {
+                游戏真实地址管理器.appendChild(元素);
+            });
+            document.body.appendChild(游戏真实地址管理器);
+        </script>
+        <style></style>
+    </body>
+</html>
