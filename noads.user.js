@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         4399增强 + 防沉迷减料辅助
 // @namespace    https://fcmsb250.github.io/
-// @version      0.4
+// @version      0.4.1
 // @description  [✨荒岛求生日记 高情商聊天] 无限钻石资源精力金币嗨翻天 [✌防沉迷减料辅助]推荐配合 🔥🔥🔥防沉迷减点料🔥🔥🔥 一起使用, 页游九点以后继续玩  [🔥免广告领奖励] 不用看广告,奖励领到吐,还能自定义奖励倍数 [🚫不用下载4399在线玩] 直接拿专属礼包 [✔️修改提交分数] 0.99 秒冲榜不是梦 (慎用) [🌏修改浏览器UA] 让浏览器变成4399在线玩或4399游戏盒 [★开发者福利] 拒绝4399疯狂调试
 // @author       dsy
 // @icon         http://4399.com/favicon.ico
@@ -14,6 +14,13 @@
 // @grant        GM_registerMenuCommand
 // @grant        GM_setValue
 // @grant        unsafeWindow
+
+// @homepageURL  https://fcmsb250.github.io/
+// @supportURL   https://github.com/dsy4567/Fucking-Anti-Indulgence/
+// @updateURL    https://github.com/dsy4567/Fucking-Anti-Indulgence/raw/main/noads.user.js
+// @installURL   https://github.com/dsy4567/Fucking-Anti-Indulgence/raw/main/noads.user.js
+// @downloadURL  https://github.com/dsy4567/Fucking-Anti-Indulgence/raw/main/noads.user.js
+
 // ==/UserScript==
 
 // 感谢这个网站, 让我顺利制作出这个脚本 --> https://open.4399.cn/console/doc

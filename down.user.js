@@ -1,8 +1,8 @@
 // ==UserScript==
 // @name         4399, 7k7k flash 游戏下载 + flash 播放器
+// @description  ✨下载 4399, 7k7k flash 游戏, 并提供 flash 播放器✨
 // @namespace    https://fcmsb250.github.io/
-// @version      0.1
-// @description  下载 4399, 7k7k flash 游戏, 并提供 flash 播放器
+// @version      0.1.1
 // @author       mininb666 https://greasyfork.org/zh-CN/users/822325-mininb666 / dsy4567 https://github.com/dsy4567
 // @match        http://www.4399.com/flash/*
 // @match        http://www.7k7k.com/swf/*
@@ -11,6 +11,13 @@
 // @grant        unsafeWindow
 // @require      https://code.jquery.com/jquery-3.6.0.min.js
 // @require      https://greasyfork.org/scripts/381311-download-js/code/downloadjs.js?version=685821
+
+// @homepageURL  https://fcmsb250.github.io/
+// @supportURL   https://github.com/dsy4567/Fucking-Anti-Indulgence/
+// @updateURL    https://github.com/dsy4567/Fucking-Anti-Indulgence/raw/main/down.user.js
+// @installURL   https://github.com/dsy4567/Fucking-Anti-Indulgence/raw/main/down.user.js
+// @downloadURL  https://github.com/dsy4567/Fucking-Anti-Indulgence/raw/main/down.user.js
+
 // ==/UserScript==
 
 (function () {

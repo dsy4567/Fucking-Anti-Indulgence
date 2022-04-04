@@ -1,8 +1,8 @@
 ﻿// ==UserScript==
 // @name         防沉迷减点料 (超级精简)
-// @description  精简无比的版本
+// @description  精简无比的版本,仅支持常见游戏平台
 // @namespace    https://fcmsb250.github.io/
-// @version      0.1
+// @version      0.1.1
 // @icon         https://fcmsb250.github.io/favicon.ico
 // @author       mininb666 https://greasyfork.org/zh-CN/users/822325-mininb666 / dsy4567 https://github.com/dsy4567
 // @run-at       document-start
@@ -18,9 +18,11 @@
 
 // @include      *://*.17yy.*/*
 
+// @include      *://*.u7u9.*/*
+
 // @grant        GM_addStyle
 // @grant        unsafeWindow
-// @homepageURL  https://fcmb250.github.io/
+// @homepageURL  https://fcmsb250.github.io/
 // @supportURL   https://github.com/dsy4567/Fucking-Anti-Indulgence/
 // @updateURL    https://github.com/dsy4567/Fucking-Anti-Indulgence/raw/main/Fucking-Anti-Indulgence-2.user.js
 // @installURL   https://github.com/dsy4567/Fucking-Anti-Indulgence/raw/main/Fucking-Anti-Indulgence-2.user.js
@@ -62,6 +64,8 @@ var 一堆伞兵玩意 = [
     ".toolDialog",
     ".ui-forbidden",
     ".webtipss",
+
+    "body > div.show_box.popup_bg",
 ];
 var css = "";
 for (let 索引 = 0; 索引 < 一堆伞兵玩意.length; 索引++) {

@@ -1,13 +1,14 @@
 ﻿// ==UserScript==
 // @name         🎇🎇🎇防沉迷减点料🎇🎇🎇
 
-// @description  [❤️哪都能用] 已支持7724,游戏狗,17yy,qq空间部分游戏,07073,7k7k,4399 [⚡️更加快速] 减点料最快0.99秒 [😱别怕大人] 大人来了就按"大人键" [✔️高可用率] 持续更新更靠谱 [⭕健康提醒] 每隔一段时间提醒用户休息, 防止用户沉迷游戏无法自拔 [🕶 手动减料] 防沉迷减料不成功? 对着防沉迷弹窗按快捷键 [🥬一键净化] 去除花里胡哨的玩意 👍👍👍 热烈庆祝 GreasyFork 总安装量破千 👏👏👏
+// @description  [❤️哪都能用] 已支持4366,37,9377,游戏狗,u7u9,7724,17yy,qq空间部分游戏,07073,7k7k,4399 [⚡️更加快速] 0.99秒急速减料 [😱别怕大人] 大人来了就按"大人键" [✔️高可用率] 持续更新更靠谱 [⭕健康提醒] 每隔一段时间提醒用户休息, 防止用户沉迷游戏无法自拔 [🕶 手动减料] 防沉迷减料不成功? 对着防沉迷弹窗按快捷键 [🥬一键净化] 去除花里胡哨的玩意 👍👍👍 热烈庆祝 GreasyFork 总安装量破千 👏👏👏
 
 // @namespace    https://fcmsb250.github.io/
-// @version      4.7.1
+// @version      4.7.2
 // @icon         https://fcmsb250.github.io/favicon.ico
 // @author       mininb666 https://greasyfork.org/zh-CN/users/822325-mininb666 / dsy4567 https://github.com/dsy4567
 // @run-at       document-start
+// @require      https://code.jquery.com/jquery-3.6.0.min.js
 
 // @include      *://h5.07073.*/*
 
@@ -30,6 +31,12 @@
 
 // @include      *://*.gamedog.*/*
 
+// @include      *://*.9377.*/*
+
+// @include      *://*.37.*/*
+
+// @include      *://*.4366.*/*
+
 // @grant        GM_addStyle
 // @grant        GM_getValue
 // @grant        GM_info
@@ -40,7 +47,7 @@
 // @grant        GM_unregisterMenuCommand
 // @grant        unsafeWindow
 
-// @homepageURL  https://fcmb250.github.io/
+// @homepageURL  https://fcmsb250.github.io/
 // @supportURL   https://github.com/dsy4567/Fucking-Anti-Indulgence/
 // @updateURL    https://github.com/dsy4567/Fucking-Anti-Indulgence/raw/main/Fucking-Anti-Indulgence.user.js
 // @installURL   https://github.com/dsy4567/Fucking-Anti-Indulgence/raw/main/Fucking-Anti-Indulgence.user.js
@@ -441,7 +448,7 @@ function 减料() {
     //         console.error(err);
     //     }
     // } else
-    if (unsafeWindow.play22 && 网址.includes("7k7k.com")) {
+    else if (unsafeWindow.play22 && 网址.includes("7k7k.com")) {
         // 7k7k获取游戏直链1
         try {
             console.log("[防沉迷减点料] 尝试7k7k防沉迷减料");
@@ -502,8 +509,45 @@ function 减料() {
             location.href = 网址.substring(
                 网址.indexOf("danjilogin?url=") + "danjilogin?url=".length
             );
+            减料成功 = 1;
+        } catch (err) {}
+    } else if (网址.includes("wvw.9377.com/game_login.php")) {
+        try {
+            console.log("[防沉迷减点料] 尝试9377防沉迷减料");
+            $.get(网址, (html) => {
+                location.href = html.substring(
+                    html.indexOf('id="iframe" src="') + 'id="iframe" src="'.length,
+                    html.indexOf('" name="mainFrame" scrolling="auto"')
+                );
+            });
+            减料成功 = 1;
+        } catch (err) {}
+    } else if (网址.includes("game.37.com/play.php")) {
+        try {
+            console.log("[防沉迷减点料] 尝试37防沉迷减料");
+            $.get(网址, (html) => {
+                location.href = html.substring(
+                    html.indexOf('src="//gameapp.37.com/controller/enter_game.php') +
+                        'src="'.length,
+                    html.indexOf('" id="mainFrame"')
+                );
+            });
+            减料成功 = 1;
+        } catch (err) {}
+    } else if (网址.includes("wvw.4366.com/game_login.php")) {
+        try {
+            console.log("[防沉迷减点料] 尝试4366防沉迷减料");
+            $.get(网址, (html) => {
+                location.href = html.substring(
+                    html.indexOf('align="left" id="iframe" src="') +
+                        'align="left" id="iframe" src="'.length,
+                    html.indexOf('" name="mainFrame" scrolling="auto"')
+                );
+            });
+            减料成功 = 1;
         } catch (err) {}
     }
+
     if (开发者配置.输出减料时间) {
         console.log("[防沉迷减点料] 减料结束, 用时" + (new Date().getTime() - 开始) + "ms");
     }
