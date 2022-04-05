@@ -2,7 +2,7 @@
 // @name         4399, 7k7k flash 游戏下载 + flash 播放器
 // @description  ✨下载 4399, 7k7k flash 游戏, 并提供 flash 播放器✨
 // @namespace    https://fcmsb250.github.io/
-// @version      0.1.1
+// @version      0.1.2
 // @author       mininb666 https://greasyfork.org/zh-CN/users/822325-mininb666 / dsy4567 https://github.com/dsy4567
 // @match        *://www.4399.com/flash/*
 // @match        *://www.7k7k.com/swf/*
