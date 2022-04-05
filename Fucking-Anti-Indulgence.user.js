@@ -4,7 +4,7 @@
 // @description  [❤️哪都能用] 已支持4366,37,9377,游戏狗,u7u9,7724,17yy,qq空间部分游戏,07073,7k7k,4399 [⚡️更加快速] 0.99秒急速减料 [😱别怕大人] 大人来了就按"大人键" [✔️高可用率] 持续更新更靠谱 [⭕健康提醒] 每隔一段时间提醒用户休息, 防止用户沉迷游戏无法自拔 [🕶 手动减料] 防沉迷减料不成功? 对着防沉迷弹窗按快捷键 [🥬一键净化] 去除花里胡哨的玩意 👍👍👍 热烈庆祝 GreasyFork 总安装量破千 👏👏👏
 
 // @namespace    https://fcmsb250.github.io/
-// @version      4.7.2
+// @version      4.7.3
 // @icon         https://fcmsb250.github.io/favicon.ico
 // @author       mininb666 https://greasyfork.org/zh-CN/users/822325-mininb666 / dsy4567 https://github.com/dsy4567
 // @run-at       document-start
@@ -242,7 +242,14 @@ function 更新菜单() {
     const 一堆菜单 = [
         ["❤️您已尽情欢乐" + 用了多少天 + "天", undefined, undefined, 1],
         ["❤️游戏时间: " + 玩了几分钟 + "分钟,请合理安排游戏时间", undefined, undefined, 1],
-
+        [
+            "✨没有防沉迷的游戏平台(作者没有收钱)",
+            () => {
+                GM_openInTab("https://fcmsb250.github.io/no-anti.html");
+            },
+            undefined,
+            1,
+        ],
         [
             "👉再次减料按 alt +  鼠标中键",
             () => {
@@ -284,13 +291,13 @@ function 更新菜单() {
             undefined,
         ],
         // ["🌐管理已保存的游戏真实地址", 管理游戏真实地址, undefined],
-        // [
-        //     "👍给个好评/📝反馈问题",
-        //     () => {
-        //         GM_openInTab("https://greasyfork.org/zh-CN/scripts/437233/feedback");
-        //     },
-        //     undefined,
-        // ],
+        [
+            "👍给个好评/📝反馈问题",
+            () => {
+                GM_openInTab("https://greasyfork.org/zh-CN/scripts/437233/feedback");
+            },
+            undefined,
+        ],
         [
             "⛔解决访问错误",
             () => {
@@ -314,10 +321,12 @@ function 更新菜单() {
     一堆菜单.forEach((菜单) => {
         GM_unregisterMenuCommand(菜单[0]);
     });
-    GM_unregisterMenuCommand("✅ 停用快捷键");
-    GM_unregisterMenuCommand("❌ 停用快捷键");
-    GM_unregisterMenuCommand("✅ 停用健康游戏提醒");
-    GM_unregisterMenuCommand("❌ 停用健康游戏提醒");
+    GM_unregisterMenuCommand("✅已启用 停用快捷键");
+    GM_unregisterMenuCommand("❌已停用 停用快捷键");
+    GM_unregisterMenuCommand("⚠️配置错误 停用快捷键");
+    GM_unregisterMenuCommand("✅已启用 停用健康游戏提醒");
+    GM_unregisterMenuCommand("❌已停用 停用健康游戏提醒");
+    GM_unregisterMenuCommand("⚠️配置错误 停用健康游戏提醒");
     GM_unregisterMenuCommand("❤️游戏时间: " + (玩了几分钟 - 1) + "分钟,请合理安排游戏时间");
 
     一堆菜单.forEach((菜单) => {
