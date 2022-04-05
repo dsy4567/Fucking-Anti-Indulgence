@@ -4,8 +4,8 @@
 // @namespace    https://fcmsb250.github.io/
 // @version      0.1.1
 // @author       mininb666 https://greasyfork.org/zh-CN/users/822325-mininb666 / dsy4567 https://github.com/dsy4567
-// @match        http://www.4399.com/flash/*
-// @match        http://www.7k7k.com/swf/*
+// @match        *://www.4399.com/flash/*
+// @match        *://www.7k7k.com/swf/*
 // @grant        GM_registerMenuCommand
 // @grant        GM_openInTab
 // @grant        unsafeWindow
