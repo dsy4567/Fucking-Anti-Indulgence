@@ -4,38 +4,26 @@
 // @description  [❤️哪都能用] 已支持4366,37,9377,游戏狗,u7u9,7724,17yy,qq空间部分游戏,07073,7k7k,4399 [⚡️更加快速] 0.99秒急速减料 [😱别怕大人] 大人来了就按"大人键" [✔️高可用率] 持续更新更靠谱 [⭕健康提醒] 每隔一段时间提醒用户休息, 防止用户沉迷游戏无法自拔 [🕶 手动减料] 防沉迷减料不成功? 对着防沉迷弹窗按快捷键 [🥬一键净化] 去除花里胡哨的玩意 👍👍👍 热烈庆祝 GreasyFork 总安装量破千 👏👏👏
 
 // @namespace    https://fcmsb250.github.io/
-// @version      4.7.3
+// @version      4.7.3.1
 // @icon         https://fcmsb250.github.io/favicon.ico
 // @author       mininb666 https://greasyfork.org/zh-CN/users/822325-mininb666 / dsy4567 https://github.com/dsy4567
 // @run-at       document-start
 // @require      https://code.jquery.com/jquery-3.6.0.min.js
+// @license      GPL-3.0
 
-// @include      *://h5.07073.*/*
-
-// @include      *://*.4399.*/*
-// @include      *://*.*4399.*/*
-// @include      *://*.4399*.*/*
-// @include      *://*.iwan4399.*/*
-// @include      *://*.aiwan4399.*/*
-// @include      *://*.zxwyouxi.*/*
-
-// @include      *://*.7k7k.*/*
-
-// @include      *://gameapp.qq.com/*
-
-// @include      *://*.17yy.*/*
-
-// @include      *://*.7724.*/*
-
-// @include      *://*.u7u9.*/*
-
-// @include      *://*.gamedog.*/*
-
-// @include      *://*.9377.*/*
-
-// @include      *://*.37.*/*
-
-// @include      *://*.4366.*/*
+// @match        *://*.17yy.com/*
+// @match        *://*.4399.com/*
+// @match        *://*.7k7k.com/*
+// @match        *://*.aiwan4399.com/*
+// @match        *://*.iwan4399.com/*
+// @match        *://*.5054399.net/*
+// @match        *://h5.07073.com/*
+// @match        *://*.7724.com/*
+// @match        *://*.u7u9.com/*
+// @match        *://*.gamedog.com/*
+// @match        *://*.9377.com/*
+// @match        *://*.37.com/*
+// @match        *://*.4366.com/*
 
 // @grant        GM_addStyle
 // @grant        GM_getValue
@@ -154,8 +142,6 @@ GM_setValue("版本", GM_info.script.version);
 初始化值("停用快捷键", "0");
 初始化值("停用提醒", "0");
 初始化值("净化脚本", "0");
-// 初始化值("自动保存游戏真实地址", "1");
-// 初始化值("一堆游戏真实地址", [null]);
 
 if (GM_getValue("净化脚本") == "1") {
     GM_notification = () => {};
@@ -166,20 +152,6 @@ var 用了多少天 = Math.ceil(D.getTime() / 1000 / 60 / 60 / 24) - Number(GM_g
 var 减料成功 = 0;
 var 一个弹窗的样式 = { remove: () => {} };
 var 最后一个菜单id = 0;
-
-// 即将推出的游戏真实地址管理器
-// var 游戏真实地址管理器已准备好 = 0;
-// var 游戏真实地址管理器;
-// var 一堆游戏真实地址管理器元素;
-// var 一堆游戏真实地址 = GM_getValue("一堆游戏真实地址", [null]);
-// var 游戏真实地址; // 在游戏真实地址管理器中显示
-// var 真实地址; // 指定在游戏真实地址管理器中显示的内容
-// var 关闭;
-// var 要删除的真实地址;
-// var 确定;
-// var 开关;
-// var 状态;
-// var 说明;
 
 const 网址 = location.href;
 const 脚本信息 = JSON.stringify({
@@ -290,7 +262,6 @@ function 更新菜单() {
             },
             undefined,
         ],
-        // ["🌐管理已保存的游戏真实地址", 管理游戏真实地址, undefined],
         [
             "👍给个好评/📝反馈问题",
             () => {
@@ -443,22 +414,12 @@ function 减料() {
             });
             减料成功 = 1;
         } catch (e) {}
-    }
-
-    // if (unsafeWindow.Anti_close) {
-    //     try {
-    //         if (开发者配置.启用调试) {
-    //             debugger;
-    //         }
-    //         console.log("[防沉迷减点料] 尝试4399防沉迷减料");
-    //         unsafeWindow.Anti_close();
-    //         减料成功 = 1;
-    //     } catch (err) {
-    //         console.error(err);
-    //     }
-    // } else
-    else if (unsafeWindow.play22 && 网址.includes("7k7k.com")) {
+    } else if (unsafeWindow.play22 && 网址.includes("7k7k.com")) {
         // 7k7k获取游戏直链1
+        if (开发者配置.启用调试) {
+            debugger;
+        }
+
         try {
             console.log("[防沉迷减点料] 尝试7k7k防沉迷减料");
             if (开发者配置.启用调试) {
@@ -473,6 +434,10 @@ function 减料() {
             console.error(err);
         }
     } else if ($ifm && 网址.includes("m.7k7k.com/player")) {
+        if (开发者配置.启用调试) {
+            debugger;
+        }
+
         if ($ifm.src != location.href && $ifm.src) {
             // 7k7k获取游戏直链2
             try {
@@ -487,6 +452,10 @@ function 减料() {
             }
         }
     } else if ($app_canvas_frame) {
+        if (开发者配置.启用调试) {
+            debugger;
+        }
+
         try {
             if ($app_canvas_frame.src && $app_canvas_frame.src != 网址) {
                 console.log("[防沉迷减点料] 尝试阻止QQ空间自动跳转1");
@@ -500,6 +469,10 @@ function 减料() {
             console.error(err);
         }
     } else if ($full_screen_frame) {
+        if (开发者配置.启用调试) {
+            debugger;
+        }
+
         try {
             if ($full_screen_frame.src && $full_screen_frame.src != 网址) {
                 console.log("[防沉迷减点料] 尝试阻止QQ空间自动跳转2");
@@ -513,6 +486,10 @@ function 减料() {
             console.error(err);
         }
     } else if (网址.includes("//i.7724.com/user/danjilogin?url=")) {
+        if (开发者配置.启用调试) {
+            debugger;
+        }
+
         try {
             console.log("[防沉迷减点料] 尝试7724防沉迷减料");
             location.href = 网址.substring(
@@ -521,6 +498,10 @@ function 减料() {
             减料成功 = 1;
         } catch (err) {}
     } else if (网址.includes("wvw.9377.com/game_login.php")) {
+        if (开发者配置.启用调试) {
+            debugger;
+        }
+
         try {
             console.log("[防沉迷减点料] 尝试9377防沉迷减料");
             $.get(网址, (html) => {
@@ -532,6 +513,10 @@ function 减料() {
             减料成功 = 1;
         } catch (err) {}
     } else if (网址.includes("game.37.com/play.php")) {
+        if (开发者配置.启用调试) {
+            debugger;
+        }
+
         try {
             console.log("[防沉迷减点料] 尝试37防沉迷减料");
             $.get(网址, (html) => {
@@ -544,6 +529,10 @@ function 减料() {
             减料成功 = 1;
         } catch (err) {}
     } else if (网址.includes("wvw.4366.com/game_login.php")) {
+        if (开发者配置.启用调试) {
+            debugger;
+        }
+
         try {
             console.log("[防沉迷减点料] 尝试4366防沉迷减料");
             $.get(网址, (html) => {
@@ -602,140 +591,6 @@ function 减点料() {
         }
     }
 }
-
-// 即将推出的游戏真实地址管理器
-// function 准备游戏真实地址管理器() {
-//     一堆游戏真实地址管理器元素 = [];
-
-//     游戏真实地址管理器 = document.createElement("div");
-//     游戏真实地址管理器.id = "fuckAnti-urls";
-//     游戏真实地址管理器.style.cssText =
-//         "z-index:99999;background-color:white;color:black;width:100%;height:100vh;position:fixed;top:0;left:0;display:none;";
-
-//     关闭 = document.createElement("span");
-//     关闭.onclick = () => {
-//         游戏真实地址管理器.style.cssText =
-//             "z-index:99999;background-color:white;color:black;width:100%;height:100vh;position:fixed;top:0;left:0;display:none;";
-//     };
-//     关闭.innerHTML = " 关闭 ";
-//     一堆游戏真实地址管理器元素.push(关闭);
-
-//     要删除的真实地址 = document.createElement("input");
-//     要删除的真实地址.type = "text";
-//     要删除的真实地址.placeholder = "在这里输入要删除的真实地址的id, 以英文逗号分隔";
-//     要删除的真实地址.style.width = "512px";
-//     一堆游戏真实地址管理器元素.push(要删除的真实地址);
-
-//     确定 = document.createElement("button");
-//     确定.onclick = () => {
-//         try {
-//             let ids = JSON.parse("[" + 要删除的真实地址.value + "]");
-//             if (typeof ids[0] != "number") {
-//                 return alert("格式不正确, 或id有误");
-//             }
-
-//             if (confirm("即将删除id为以下的游戏真实地址, 请确认: " + ids)) {
-//                 ids.forEach((东西) => {
-//                     if (东西 <= 0) {
-//                         return;
-//                     }
-
-//                     一堆游戏真实地址.splice(东西, 东西);
-//                     GM_setValue("一堆游戏真实地址", 一堆游戏真实地址);
-//                     展示游戏真实地址();
-//                 });
-//             }
-//         } catch (e) {
-//             alert("格式不正确, 或id有误");
-//         }
-//     };
-//     确定.innerHTML = "->";
-//     一堆游戏真实地址管理器元素.push(确定);
-
-//     开关 = document.createElement("button");
-//     开关.onclick = () => {
-//         改变值("自动保存游戏真实地址", "1");
-//         状态.innerHTML = 检测状态("自动保存游戏真实地址") + "<br />";
-//     };
-//     开关.innerHTML = "启用/禁用自动保存游戏真实地址";
-//     一堆游戏真实地址管理器元素.push(开关);
-
-//     状态 = document.createElement("span");
-//     状态.innerHTML = 检测状态("自动保存游戏真实地址") + "<br />";
-//     一堆游戏真实地址管理器元素.push(状态);
-
-//     说明 = document.createElement("span");
-//     说明.innerHTML =
-//         "这是一个有助于为那些在防沉迷规定时间外开始游戏时没有加载游戏(无法直接获取游戏真实地址, 且直接去除防沉迷弹窗无效)的游戏平台的防沉迷减料的工具, 使用该功能需要在游戏平台登录账号并完成实名认证(防沉迷规定必须实名后才能游戏, 不用管你是不是未成年), 之后当您在防沉迷规定的时间内开始游戏后, 脚本将自动保存游戏真实地址以供日后随时开玩<br />该功能不会记录带参数( ? 和 & )的真实链接(比如页游)<br />该功能仅支持 h5 游戏<br />该功能目前仅支持7724小游戏, 将来会添加更多游戏平台<br />游戏专业户请定期清理数据或慎用此功能, 因为数据过多会带来性能问题<br />以下是已保存的数据<br />";
-//     一堆游戏真实地址管理器元素.push(说明);
-
-//     游戏真实地址 = document.createElement("span");
-//     一堆游戏真实地址管理器元素.push(游戏真实地址);
-
-//     一堆游戏真实地址管理器元素.forEach((元素) => {
-//         游戏真实地址管理器.appendChild(元素);
-//     });
-//     document.body.appendChild(游戏真实地址管理器);
-//     游戏真实地址管理器已准备好 = 1;
-// }
-
-// function 展示游戏真实地址() {
-//     console.log("[防沉迷减点料] 一堆游戏真实地址: ", 一堆游戏真实地址);
-//     let id = 0;
-//     真实地址 = "";
-
-//     一堆游戏真实地址.forEach((东西) => {
-//         if (东西 == null) {
-//             return id++;
-//         }
-
-//         真实地址 +=
-//             "<br />id: " +
-//             id +
-//             " | 游戏标题: " +
-//             东西.游戏标题 +
-//             " | 原地址: " +
-//             东西.原地址 +
-//             " | 真实地址: " +
-//             东西.真实地址 +
-//             "<br />";
-//         id++;
-//     });
-
-//     if (真实地址 == "") {
-//         真实地址 = "啥都没有";
-//     }
-//     游戏真实地址.innerHTML = 真实地址;
-// }
-
-// function 管理游戏真实地址() {
-//     if (!游戏真实地址管理器已准备好) {
-//         return alert("游戏真实地址管理器未准备好, 请稍后再试");
-//     }
-
-//     展示游戏真实地址();
-//     游戏真实地址管理器.style.cssText =
-//         "z-index:99999;background-color:white;color:black;width:100%;height:100vh;position:fixed;top:0;left:0;";
-// }
-
-// function 保存和打开游戏真实地址() {
-//     let 当前游戏已保存真实地址 = 0;
-
-//     let 规则 = [{ 名称: "7724小游戏", iframe选择器: "" }];
-//     规则.forEach((_规则) => {
-//         try {
-//             let url = document.querySelector("iframe" + _规则.iframe选择器).src;
-//             if (url || url != location.href) {
-//                 一堆游戏真实地址.push({
-//                     游戏标题: document.title,
-//                     原地址: location.origin + location.pathname,
-//                     真实地址: url,
-//                 });
-//                 GM_setValue("一堆游戏真实地址", 一堆游戏真实地址);
-//             }
-//         } catch (e) {}
-//     });
-// }
 
 // 加样式表
 if (!开发者配置.禁用自动防沉迷减料) {
@@ -796,6 +651,12 @@ if (self == top) {
             }
         }
         更新菜单();
+
+        // 精美图片
+        console.log(
+            "%c    ",
+            "font-size:512px;background-size:100% 100%;background-repeat:no-repeat;background-image:url(https://fcmsb250.github.io/fuck-anti.webp);"
+        );
     }, 1);
 }
 
