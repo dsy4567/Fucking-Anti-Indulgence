@@ -16,11 +16,13 @@
 // @match        *://*.7k7k.com/*
 // @match        *://*.aiwan4399.com/*
 // @match        *://*.iwan4399.com/*
+// @match        *://*.zxwyouxi.com/*
 // @match        *://*.5054399.net/*
+// @match        *://*.5054399.com/*
 // @match        *://h5.07073.com/*
 // @match        *://*.7724.com/*
 // @match        *://*.u7u9.com/*
-// @match        *://*.gamedog.com/*
+// @match        *://*.gamedog.cn/*
 // @match        *://*.9377.com/*
 // @match        *://*.37.com/*
 // @match        *://*.4366.com/*
