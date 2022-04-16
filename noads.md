@@ -39,3 +39,5 @@
 # ⚖️ 许可证
 
 > 使用 [GPL-3.0](LICENSE.txt) 许可
+>
+> > 若要披露来源, 请见 https://github.com/dsy4567/Fucking-Anti-Indulgence
