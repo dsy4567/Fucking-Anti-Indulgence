@@ -4,7 +4,7 @@
 // @description  [❤️哪都能用] 已支持4366,37,9377,游戏狗,u7u9,7724,17yy,qq空间部分游戏,07073,7k7k,4399 [⚡️更加快速] 0.99秒急速减料 [😱别怕大人] 大人来了就按"大人键" [✔️高可用率] 持续更新更靠谱 [⭕健康提醒] 每隔一段时间提醒用户休息, 防止用户沉迷游戏无法自拔 [🕶 手动减料] 防沉迷减料不成功? 对着防沉迷弹窗按快捷键 [🥬一键净化] 去除花里胡哨的玩意 [😵‍💫智障减料] 误杀率高, 没卵用的实验性功能 👍👍👍 热烈庆祝 GreasyFork 总安装量破千 👏👏👏
 
 // @namespace    https://fcmsb250.github.io/
-// @version      4.7.5
+// @version      4.7.6
 // @icon         https://fcmsb250.github.io/favicon.ico
 // @author       mininb666 https://greasyfork.org/zh-CN/users/822325-mininb666 / dsy4567 https://github.com/dsy4567
 // @run-at       document-start
@@ -599,6 +599,37 @@ function 减料() {
                 ) {
                     location.href = url;
                 }
+            });
+            减料成功 = 1;
+        } catch (err) {}
+    } else if (网址.includes("www.17yy.com/f/play")) {
+        if (开发者配置.启用调试) {
+            debugger;
+        }
+
+        try {
+            $.ajax({
+                url: "http://www.17yy.com/e/payapi/vip_ajax.php",
+                data: {
+                    action: "getStatus",
+                    id: 网址.substring(
+                        网址.indexOf("/f/play/") + "/f/play/".length,
+                        网址.indexOf(".html")
+                    ),
+                },
+                type: "POST",
+                dataType: "json",
+                success: function (resp) {
+                    location.href =
+                        "http://" +
+                        unsafeWindow.server +
+                        "/" +
+                        unsafeWindow.classes +
+                        "/" +
+                        unsafeWindow.date +
+                        "/" +
+                        resp.data.game_path;
+                },
             });
             减料成功 = 1;
         } catch (err) {}
