@@ -1,7 +1,7 @@
 // ==UserScript==
 // @name         4399增强 + 防沉迷减料辅助
 // @namespace    https://fcmsb250.github.io/
-// @version      0.4.1.1
+// @version      0.4.2
 // @description  [✨荒岛求生日记 高情商聊天] 无限钻石资源精力金币嗨翻天 [✌防沉迷减料辅助]推荐配合 🔥🔥🔥防沉迷减点料🔥🔥🔥 一起使用, 页游九点以后继续玩  [🔥免广告领奖励] 不用看广告,奖励领到吐,还能自定义奖励倍数 [🚫不用下载4399在线玩] 直接拿专属礼包 [✔️修改提交分数] 0.99 秒冲榜不是梦 (慎用) [🌏修改浏览器UA] 让浏览器变成4399在线玩或4399游戏盒 [★开发者福利] 拒绝4399疯狂调试
 // @author       dsy
 // @icon         http://4399.com/favicon.ico
@@ -13,6 +13,7 @@
 
 // @grant        GM_getValue
 // @grant        GM_registerMenuCommand
+// @grant        GM_unregisterMenuCommand
 // @grant        GM_setValue
 // @grant        unsafeWindow
 
@@ -65,14 +66,8 @@ function 激励广告奖励翻几倍() {
 if (location.host == ("szhong.4399.com" || "sxiao.4399.com")) {
     // 荒岛求生日记
     if (unsafeWindow.localStorage.getItem("Idle-Arks-Build-At-Sea-goldCount")) {
-        unsafeWindow.localStorage.setItem(
-            "Idle-Arks-Build-At-Sea-goldCount",
-            999999999999999
-        );
-        unsafeWindow.localStorage.setItem(
-            "Idle-Arks-Build-At-Sea-moodCount",
-            999999999999999
-        );
+        unsafeWindow.localStorage.setItem("Idle-Arks-Build-At-Sea-goldCount", 999999999999999);
+        unsafeWindow.localStorage.setItem("Idle-Arks-Build-At-Sea-moodCount", 999999999999999);
     }
 
     // 高情商聊天
@@ -83,6 +78,26 @@ if (location.host == ("szhong.4399.com" || "sxiao.4399.com")) {
 }
 
 var 免广告次数 = 0; // 阻止广告并发放奖励次数
+var 奖励倍数菜单名 = "当前奖励倍数: " + 激励广告奖励翻几倍();
+var 奖励倍数菜单id = -1;
+
+var ua菜单名 = "当前UA: " + GM_getValue("UA", navigator.userAgent);
+var ua菜单id = -1;
+
+function 更新奖励倍数菜单名() {
+    GM_unregisterMenuCommand(奖励倍数菜单id);
+    GM_unregisterMenuCommand(奖励倍数菜单名);
+    奖励倍数菜单名 = "当前奖励倍数: " + 激励广告奖励翻几倍();
+    奖励倍数菜单id = GM_registerMenuCommand(奖励倍数菜单名);
+}
+
+function 更新ua菜单名() {
+    GM_unregisterMenuCommand(ua菜单id);
+    GM_unregisterMenuCommand(ua菜单名);
+    ua菜单名 = "当前UA: " + GM_getValue("UA", navigator.userAgent);
+    ua菜单id = GM_registerMenuCommand(ua菜单名);
+}
+
 function 去他的广告和防沉迷() {
     // h5小游戏
     if (unsafeWindow.h5api) {
@@ -146,13 +161,8 @@ function 去他的广告和防沉迷() {
             };
 
             // 排行榜API
-            unsafeWindow.h5api.mySubmitRankScore =
-                unsafeWindow.h5api.submitRankScore;
-            unsafeWindow.h5api.submitRankScore = function (
-                排行榜id,
-                分数,
-                回调
-            ) {
+            unsafeWindow.h5api.mySubmitRankScore = unsafeWindow.h5api.submitRankScore;
+            unsafeWindow.h5api.submitRankScore = function (排行榜id, 分数, 回调) {
                 var 用户想要的分数 = prompt(
                     "您正在提交分数, 请在下方输入您想要的分数 (悠着点,小心封号)\n排行榜id: " +
                         排行榜id,
@@ -161,23 +171,19 @@ function 去他的广告和防沉迷() {
                 if (用户想要的分数 == null || 用户想要的分数 == "") {
                     用户想要的分数 = 分数;
                 }
-                unsafeWindow.h5api.mySubmitRankScore(
-                    排行榜id,
-                    用户想要的分数,
-                    function (输出参数) {
-                        alert(
-                            "分数提交完毕\n状态码: " +
-                                输出参数.code +
-                                "\n消息: " +
-                                输出参数.msg +
-                                "\n历史最高分数: " +
-                                输出参数.data.score +
-                                "\n历史最高排名: " +
-                                输出参数.data.rank
-                        );
-                        回调(输出参数);
-                    }
-                );
+                unsafeWindow.h5api.mySubmitRankScore(排行榜id, 用户想要的分数, function (输出参数) {
+                    alert(
+                        "分数提交完毕\n状态码: " +
+                            输出参数.code +
+                            "\n消息: " +
+                            输出参数.msg +
+                            "\n历史最高分数: " +
+                            输出参数.data.score +
+                            "\n历史最高排名: " +
+                            输出参数.data.rank
+                    );
+                    回调(输出参数);
+                });
             };
         }
     }
@@ -280,9 +286,7 @@ function 去他的广告和防沉迷2() {
             };
 
             // 防沉迷API
-            unsafeWindow.H5API.openVerify = H5API.verifyState = function (
-                回调
-            ) {
+            unsafeWindow.H5API.openVerify = H5API.verifyState = function (回调) {
                 if (typeof 回调 === "function") {
                     console.log("[4399增强] 正在告诉游戏玩家不是未成年");
                     回调({
@@ -358,36 +362,39 @@ if (location.host.includes("4399")) {
     if (self == top) {
         GM_registerMenuCommand("修改UA为4399在线玩", () => {
             GM_setValue("UA", "4399wan");
+            更新ua菜单名();
         });
         GM_registerMenuCommand("修改UA为4399游戏盒广场小游戏", () => {
             GM_setValue("UA", "4399GameCenter minigame");
+            更新ua菜单名();
         });
         GM_registerMenuCommand("修改UA为默认", () => {
             GM_setValue("UA", "default");
+            更新ua菜单名();
         });
 
         GM_registerMenuCommand("1倍激励广告奖励", () => {
             GM_setValue("AD", "1");
+            更新奖励倍数菜单名();
         });
         GM_registerMenuCommand("1000倍激励广告奖励()", () => {
             GM_setValue("AD", "1000");
+            更新奖励倍数菜单名();
         });
         GM_registerMenuCommand("自定义激励广告奖励倍数", () => {
-            let inp = prompt(
-                "请输入数字, 数字过大将导致游戏卡顿",
-                激励广告奖励翻几倍()
-            );
+            let inp = prompt("请输入数字, 数字过大将导致游戏卡顿", 激励广告奖励翻几倍());
             if (isNaN(Number(inp)) || Number(inp) == 0) {
                 return alert("无效数字");
             }
             GM_setValue("AD", String(inp));
+            更新奖励倍数菜单名();
         });
+        奖励倍数菜单id = GM_registerMenuCommand(奖励倍数菜单名);
+        ua菜单id = GM_registerMenuCommand(ua菜单名);
     }
 }
 
 console.log(
-    "[4399增强] 脚本执行完毕, 用时" +
-        (new Date().getTime() - D.getTime()) +
-        "ms ",
+    "[4399增强] 脚本执行完毕, 用时" + (new Date().getTime() - D.getTime()) + "ms ",
     location.href
 );
