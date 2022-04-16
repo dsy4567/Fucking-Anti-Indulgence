@@ -4,7 +4,7 @@
 // @description  [❤️哪都能用] 已支持4366,37,9377,游戏狗,u7u9,7724,17yy,qq空间部分游戏,07073,7k7k,4399 [⚡️更加快速] 0.99秒急速减料 [😱别怕大人] 大人来了就按"大人键" [✔️高可用率] 持续更新更靠谱 [⭕健康提醒] 每隔一段时间提醒用户休息, 防止用户沉迷游戏无法自拔 [🕶 手动减料] 防沉迷减料不成功? 对着防沉迷弹窗按快捷键 [🥬一键净化] 去除花里胡哨的玩意 👍👍👍 热烈庆祝 GreasyFork 总安装量破千 👏👏👏
 
 // @namespace    https://fcmsb250.github.io/
-// @version      4.7.4
+// @version      4.7.5
 // @icon         https://fcmsb250.github.io/favicon.ico
 // @author       mininb666 https://greasyfork.org/zh-CN/users/822325-mininb666 / dsy4567 https://github.com/dsy4567
 // @run-at       document-start
@@ -28,6 +28,7 @@
 // @match        *://*.4366.com/*
 
 // @grant        GM_addStyle
+// @grant        GM_addValueChangeListener
 // @grant        GM_getValue
 // @grant        GM_info
 // @grant        GM_notification
@@ -175,6 +176,7 @@ var 一堆伞兵玩意 = [
     "#anti-indulge-prompt",
     "#Anti_mask",
     "#Anti_open",
+    "#app > div > div.cover.splash",
     "#chCoverDiv",
     "#codepop6",
     "#cover",
@@ -208,6 +210,31 @@ var 一堆伞兵玩意 = [
     "body > div.show_box.popup_bg",
 ];
 
+function 智障减料() {
+    document.querySelectorAll("iframe").forEach((ele) => {
+        let bcr = ele.getBoundingClientRect();
+        let w = bcr.width;
+        let h = bcr.height;
+        let x = bcr.x;
+        let y = bcr.y;
+        let el = document.elementFromPoint(x + w / 2, y + h / 2);
+
+        if (el) {
+            if (
+                el == document.documentElement ||
+                el == document.body ||
+                el.tagName == "IFRAME" ||
+                el.tagName == "CANVAS" ||
+                (getComputedStyle(el) || getComputedStyle(ele)).display == "none"
+            )
+                return;
+            console.log(el);
+            el.remove();
+        }
+        GM_addValueChangeListener(name, function (name, old_value, new_value, remote) {});
+    });
+}
+
 function 更新菜单() {
     const 一堆菜单 = [
         ["❤️您已尽情欢乐" + 用了多少天 + "天", undefined, undefined, 1],
@@ -239,6 +266,13 @@ function 更新菜单() {
             "👉手动减料对着防沉迷按 shift + alt + 鼠标右键",
             () => {
                 alert("手动减料对着防沉迷按 shift + alt + 鼠标右键");
+            },
+            undefined,
+        ],
+        [
+            "👉智障减料(实验性功能, 不保证实用性, 可能需要多来几次)",
+            () => {
+                GM_setValue("开始智障减料", Math.random());
             },
             undefined,
         ],
@@ -640,9 +674,14 @@ if (!开发者配置.禁用自动防沉迷减料) {
 }
 
 //判断是否在iframe中
-if (self == top) {
-    // 一些无关紧要的代码
-    setTimeout(() => {
+
+// 一些无关紧要的代码
+setTimeout(() => {
+    GM_addValueChangeListener("开始智障减料", (name, old_value, new_value, remote) => {
+        智障减料();
+    });
+
+    if (self == top) {
         // 烦人的提醒
         if (GM_getValue("净化脚本") != "1") {
             if (用了多少天 >= 3 && GM_getValue("已提建议") == "0") {
@@ -681,8 +720,8 @@ if (self == top) {
             "%c    ",
             "font-size:512px;background-size:100% 100%;background-repeat:no-repeat;background-image:url(https://fcmsb250.github.io/fuck-anti.webp);"
         );
-    }, 1);
-}
+    }
+}, 1);
 
 // 快捷键
 document.addEventListener(
