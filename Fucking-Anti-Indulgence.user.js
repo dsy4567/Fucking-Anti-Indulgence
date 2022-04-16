@@ -4,7 +4,7 @@
 // @description  [❤️哪都能用] 已支持4366,37,9377,游戏狗,u7u9,7724,17yy,qq空间部分游戏,07073,7k7k,4399 [⚡️更加快速] 0.99秒急速减料 [😱别怕大人] 大人来了就按"大人键" [✔️高可用率] 持续更新更靠谱 [⭕健康提醒] 每隔一段时间提醒用户休息, 防止用户沉迷游戏无法自拔 [🕶 手动减料] 防沉迷减料不成功? 对着防沉迷弹窗按快捷键 [🥬一键净化] 去除花里胡哨的玩意 👍👍👍 热烈庆祝 GreasyFork 总安装量破千 👏👏👏
 
 // @namespace    https://fcmsb250.github.io/
-// @version      4.7.3.2
+// @version      4.7.4
 // @icon         https://fcmsb250.github.io/favicon.ico
 // @author       mininb666 https://greasyfork.org/zh-CN/users/822325-mininb666 / dsy4567 https://github.com/dsy4567
 // @run-at       document-start
@@ -494,9 +494,14 @@ function 减料() {
 
         try {
             console.log("[防沉迷减点料] 尝试7724防沉迷减料");
-            location.href = 网址.substring(
-                网址.indexOf("danjilogin?url=") + "danjilogin?url=".length
-            );
+            var url = 网址.substring(网址.indexOf("danjilogin?url=") + "danjilogin?url=".length);
+            if (
+                url.substring(0, 2) == "//" ||
+                url.substring(0, 7) == "http://" ||
+                url.substring(0, 8) == "https://"
+            ) {
+                location.href = url;
+            }
             减料成功 = 1;
         } catch (err) {}
     } else if (网址.includes("wvw.9377.com/game_login.php")) {
@@ -507,10 +512,17 @@ function 减料() {
         try {
             console.log("[防沉迷减点料] 尝试9377防沉迷减料");
             $.get(网址, (html) => {
-                location.href = html.substring(
+                var url = html.substring(
                     html.indexOf('id="iframe" src="') + 'id="iframe" src="'.length,
                     html.indexOf('" name="mainFrame" scrolling="auto"')
                 );
+                if (
+                    url.substring(0, 2) == "//" ||
+                    url.substring(0, 7) == "http://" ||
+                    url.substring(0, 8) == "https://"
+                ) {
+                    location.href = url;
+                }
             });
             减料成功 = 1;
         } catch (err) {}
@@ -522,11 +534,18 @@ function 减料() {
         try {
             console.log("[防沉迷减点料] 尝试37防沉迷减料");
             $.get(网址, (html) => {
-                location.href = html.substring(
+                var url = html.substring(
                     html.indexOf('src="//gameapp.37.com/controller/enter_game.php') +
                         'src="'.length,
                     html.indexOf('" id="mainFrame"')
                 );
+                if (
+                    url.substring(0, 2) == "//" ||
+                    url.substring(0, 7) == "http://" ||
+                    url.substring(0, 8) == "https://"
+                ) {
+                    location.href = url;
+                }
             });
             减料成功 = 1;
         } catch (err) {}
@@ -538,11 +557,18 @@ function 减料() {
         try {
             console.log("[防沉迷减点料] 尝试4366防沉迷减料");
             $.get(网址, (html) => {
-                location.href = html.substring(
+                var url = html.substring(
                     html.indexOf('align="left" id="iframe" src="') +
                         'align="left" id="iframe" src="'.length,
                     html.indexOf('" name="mainFrame" scrolling="auto"')
                 );
+                if (
+                    url.substring(0, 2) == "//" ||
+                    url.substring(0, 7) == "http://" ||
+                    url.substring(0, 8) == "https://"
+                ) {
+                    location.href = url;
+                }
             });
             减料成功 = 1;
         } catch (err) {}
