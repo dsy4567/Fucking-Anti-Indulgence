@@ -1,11 +1,11 @@
 ﻿// ==UserScript==
 // @name         🎇🎇🎇防沉迷减点料🎇🎇🎇
 
-// @description  [❤️哪都能用] 已支持4366,37,9377,游戏狗,u7u9,7724,17yy,qq空间部分游戏,07073,7k7k,4399 [⚡️更加快速] 0.99秒急速减料 [😱别怕大人] 大人来了就按"大人键" [✔️高可用率] 持续更新更靠谱 [⭕健康提醒] 每隔一段时间提醒用户休息, 防止用户沉迷游戏无法自拔 [🕶 手动减料] 防沉迷减料不成功? 对着防沉迷弹窗按快捷键 [🥬一键净化] 去除花里胡哨的玩意 [😵‍💫智障减料] 误杀率高, 没卵用的实验性功能 👍👍👍 热烈庆祝 GreasyFork 总安装量破千 👏👏👏
+// @description  [❤️哪都能用] 已支持4366,37,9377,游戏狗,u7u9,7724,17yy,qq空间部分游戏,07073,7k7k,4399 [⚡️更加快速] 0.99秒急速减料 [😱别怕大人] 大人来了就按"大人键" [✔️高可用率] 持续更新更靠谱 [🕶 手动减料] 防沉迷减料不成功? 对着防沉迷弹窗按快捷键 [😵‍💫智障减料] 误杀率高, 没卵用的实验性功能 👍👍👍 热烈庆祝 GreasyFork 总安装量破千 👏👏👏
 
 // @namespace    https://fcmsb250.github.io/
-// @version      4.7.6.1
-// @icon         https://fcmsb250.github.io/favicon.ico
+// @version      4.7.7
+// @icon         https://dsy4567.github.io/Anti-addiction-terminator/extension/icon/logo.svg
 // @author       mininb666 https://greasyfork.org/zh-CN/users/822325-mininb666 / dsy4567 https://github.com/dsy4567
 // @run-at       document-start
 // @require      https://code.jquery.com/jquery-3.6.0.min.js
@@ -81,23 +81,15 @@
 "use strict";
 var D = new Date();
 
-// if (self == top) {
-//     if (
-//         GM_getValue("版本") != GM_info.script.version &&
-//         GM_info.script.version == "4.5.5.1fgfgfg"
-//     ) {
-//         GM_notification(
-//             "快看看有什么新功能吧",
-//             "🎇🎇🎇防沉迷减点料🎇🎇🎇 更新完毕",
-//             "",
-//             () => {
-//                 GM_openInTab(
-//                     "https://greasyfork.org/zh-CN/scripts/437233-%E9%98%B2%E6%B2%89%E8%BF%B7%E5%8A%A0%E7%82%B9%E6%96%99"
-//                 );
-//             }
-//         );
-//     }
-// }
+if (self == top) {
+    if (GM_getValue("版本") != GM_info.script.version && GM_info.script.version == "4.7.7") {
+        GM_notification("快看看有什么新功能吧", "🎇🎇🎇防沉迷减点料🎇🎇🎇 更新完毕", "", () => {
+            GM_openInTab(
+                "https://greasyfork.org/zh-CN/scripts/437233-%E9%98%B2%E6%B2%89%E8%BF%B7%E5%8A%A0%E7%82%B9%E6%96%99"
+            );
+        });
+    }
+}
 
 function 改变值(值, 默认值, 回调) {
     if (GM_getValue(值, 默认值) == "1") {
@@ -139,14 +131,8 @@ GM_setValue("版本", GM_info.script.version);
 初始化值("安装日期", String(Math.floor(D.getTime() / 1000 / 60 / 60 / 24)));
 初始化值("已提建议", "0");
 初始化值("停用快捷键", "0");
-初始化值("停用提醒", "0");
-初始化值("净化脚本", "0");
+初始化值("开发环境", "0");
 
-if (GM_getValue("净化脚本") == "1") {
-    GM_notification = () => {};
-}
-
-var 玩了几分钟 = 0;
 var 用了多少天 = Math.ceil(D.getTime() / 1000 / 60 / 60 / 24) - Number(GM_getValue("安装日期"));
 var 减料成功 = 0;
 var 一个弹窗的样式 = { remove: () => {} };
@@ -165,11 +151,21 @@ const 脚本信息 = JSON.stringify({
 });
 const 开发者配置 = {
     启用调试: 0,
-    始终处于游戏状态: 0,
     输出减料时间: 0,
     禁用自动防沉迷减料: 0,
     在控制台使用脚本变量函数和GM: 0,
 };
+if (GM_getValue("开发环境") == "1") {
+    // 开发者配置.启用调试 = 1;
+    // 开发者配置.输出减料时间 = 1;
+    开发者配置.禁用自动防沉迷减料 = 1;
+    // 开发者配置.在控制台使用脚本变量函数和GM = 1;
+} else {
+    开发者配置.启用调试 = 0;
+    开发者配置.输出减料时间 = 0;
+    开发者配置.禁用自动防沉迷减料 = 0;
+    开发者配置.在控制台使用脚本变量函数和GM = 0;
+}
 
 var 一堆伞兵玩意 = [
     "#addiv",
@@ -212,34 +208,39 @@ var 一堆伞兵玩意 = [
 ];
 
 function 智障减料() {
-    document.querySelectorAll("iframe").forEach((ele) => {
-        let bcr = ele.getBoundingClientRect();
-        let w = bcr.width;
-        let h = bcr.height;
-        let x = bcr.x;
-        let y = bcr.y;
-        let el = document.elementFromPoint(x + w / 2, y + h / 2);
-
-        if (el) {
-            if (
-                el == document.documentElement ||
-                el == document.body ||
-                el.tagName == "IFRAME" ||
-                el.tagName == "CANVAS" ||
-                (getComputedStyle(el) || getComputedStyle(ele)).display == "none"
-            )
-                return;
-            console.log(el);
-            el.remove();
-        }
-        GM_addValueChangeListener(name, function (name, old_value, new_value, remote) {});
+    qsa("iframe").forEach((ele) => {
+        ele.style.zIndex = "999999";
+        ele.style.position = "absolute";
+        ele.style.top = "0";
+        ele.style.left = "0";
+        ele.style.display = "block";
+        ele.addEventListener("mousedown", () => {
+            let z = Number(ele.style.zIndex);
+            ele.style.zIndex = z + 1;
+        });
     });
+    let 防沉迷弹窗 = qsa(`
+        [id*='ANTI'],
+        [id*='Anti'],
+        [id*='anti'],
+        [id*='FCM'],
+        [id*='Fcm'],
+        [id*='fcm'],
+        [class*='ANTI'],
+        [class*='Anti'],
+        [class*='anti'],
+        [class*='FCM'],
+        [class*='Fcm'],
+        [class*='fcm']
+    `);
+    console.log(防沉迷弹窗);
+    防沉迷弹窗.forEach((e) => e.remove());
 }
 
 function 更新菜单() {
     const 一堆菜单 = [
+        ["⚠️沉迷于游戏不利于身心健康,请合理安排游戏时间,适度游戏⚠️"],
         ["❤️您已尽情欢乐" + 用了多少天 + "天", undefined, undefined, 1],
-        ["❤️游戏时间: " + 玩了几分钟 + "分钟,请合理安排游戏时间", undefined, undefined, 1],
         [
             "✨没有防沉迷的游戏平台(作者没有收钱)",
             () => {
@@ -287,15 +288,6 @@ function 更新菜单() {
             undefined,
         ],
         [
-            检测状态("净化脚本") + " 净化脚本",
-            () => {
-                改变值("净化脚本", "0", () => {
-                    location.reload();
-                });
-            },
-            undefined,
-        ],
-        [
             "👍给个好评/📝反馈问题",
             () => {
                 GM_openInTab("https://greasyfork.org/zh-CN/scripts/437233/feedback");
@@ -328,20 +320,12 @@ function 更新菜单() {
     GM_unregisterMenuCommand("✅已启用 停用快捷键");
     GM_unregisterMenuCommand("❌已停用 停用快捷键");
     GM_unregisterMenuCommand("⚠️配置错误 停用快捷键");
-    GM_unregisterMenuCommand("✅已启用 停用健康游戏提醒");
-    GM_unregisterMenuCommand("❌已停用 停用健康游戏提醒");
-    GM_unregisterMenuCommand("⚠️配置错误 停用健康游戏提醒");
-    GM_unregisterMenuCommand("❤️游戏时间: " + (玩了几分钟 - 1) + "分钟,请合理安排游戏时间");
 
     一堆菜单.forEach((菜单) => {
         const 菜单名 = 菜单[0];
         const 函数 = 菜单[1];
         const 快捷键 = 菜单[2];
-        const 需要净化 = 菜单[3];
 
-        if (GM_getValue("净化脚本") == "1" && 需要净化) {
-            return;
-        }
         最后一个菜单id = GM_registerMenuCommand(菜单名, 函数, 快捷键);
     });
 }
@@ -368,45 +352,6 @@ function 大人来了() {
         "height: " + document.body.offsetHeight + "px; z-index: 9999; display: block";
     遮罩.innerHTML = "";
     document.body.appendChild(遮罩);
-}
-
-function 检测网址是否包含指定字符串(数组) {
-    let 网址包含指定字符串 = false;
-    数组.forEach((字符串) => {
-        if (网址.includes(字符串)) {
-            网址包含指定字符串 = true;
-        }
-    });
-    return 网址包含指定字符串;
-}
-
-function 游戏中() {
-    if (开发者配置.始终处于游戏状态) {
-        return 开发者配置.始终处于游戏状态;
-    }
-    if (GM_getValue("净化脚本") == "1") {
-        return false;
-    }
-
-    let 有没有玩游戏 = false;
-    if (
-        检测网址是否包含指定字符串([
-            "szhong.4399.com",
-            "iwan4399",
-            "sda.4399.com",
-            "sxiao.4399.com",
-            "zxwyouxi.com",
-            "flash.7k7k.com",
-            "7k7k.com/swf/",
-            "h5.07073.com/gameplay",
-            "17yy.com/f/play",
-            "4399.com/flash/",
-            "web.4399.com/stat/togame.php",
-        ])
-    ) {
-        return true;
-    }
-    return false;
 }
 
 function 减料() {
@@ -724,8 +669,6 @@ if (!开发者配置.禁用自动防沉迷减料) {
     console.log("[防沉迷减点料] 加样式表成功");
 }
 
-//判断是否在iframe中
-
 // 一些无关紧要的代码
 setTimeout(() => {
     GM_addValueChangeListener("开始智障减料", (name, old_value, new_value, remote) => {
@@ -733,45 +676,27 @@ setTimeout(() => {
     });
 
     if (self == top) {
+        //判断是否在iframe中
         // 烦人的提醒
-        if (GM_getValue("净化脚本") != "1") {
-            if (用了多少天 >= 3 && GM_getValue("已提建议") == "0") {
-                GM_setValue("已提建议", "1");
-                GM_notification(
-                    "请给我提点建议,帮助这个脚本变得更好",
-                    "🎇🎇🎇防沉迷减点料🎇🎇🎇 用的怎样?",
-                    "",
-                    () => {
-                        GM_openInTab("https://greasyfork.org/zh-CN/scripts/437233/feedback");
-                    }
-                );
-            }
-
-            if (游戏中()) {
-                for (let i = 0.5; i < 5; i = i + 0.5) {
-                    setTimeout(() => {
-                        GM_notification(
-                            "你已经玩了" + i + "个小时,防沉迷那个啥虽好,但也要适度游戏,休息一下吧",
-                            "健康游戏提示"
-                        );
-                    }, i * 60 * 60 * 1000);
+        if (用了多少天 >= 3 && GM_getValue("已提建议") == "0") {
+            GM_setValue("已提建议", "1");
+            GM_notification(
+                "请给我提点建议,帮助这个脚本变得更好",
+                "🎇🎇🎇防沉迷减点料🎇🎇🎇 用的怎样?",
+                "",
+                () => {
+                    GM_openInTab("https://greasyfork.org/zh-CN/scripts/437233/feedback");
                 }
-                setInterval(() => {
-                    玩了几分钟 += 1;
-                    更新菜单(); // 更新游戏时间
-                }, 60 * 1000);
-            } else {
-                玩了几分钟 = "未在游戏";
-            }
+            );
         }
         更新菜单();
-
-        // 精美图片
-        console.log(
-            "%c    ",
-            "font-size:512px;background-size:100% 100%;background-repeat:no-repeat;background-image:url(https://fcmsb250.github.io/fuck-anti.webp);"
-        );
     }
+
+    // 精美图片
+    console.log(
+        "%c    ",
+        "font-size:512px;background-size:100% 100%;background-repeat:no-repeat;background-image:url(https://fcmsb250.github.io/fuck-anti.webp);"
+    );
 }, 1);
 
 // 快捷键
