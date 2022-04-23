@@ -4,7 +4,7 @@
 // @description  [❤️哪都能用] 已支持4366,37,9377,游戏狗,u7u9,7724,17yy,qq空间部分游戏,07073,7k7k,4399 [⚡️更加快速] 0.99秒急速减料 [😱别怕大人] 大人来了就按"大人键" [✔️高可用率] 持续更新更靠谱 [🕶 手动减料] 防沉迷减料不成功? 对着防沉迷弹窗按快捷键 [😵‍💫智障减料] 误杀率高, 没卵用的实验性功能 👍👍👍 热烈庆祝 GreasyFork 总安装量破千 👏👏👏
 
 // @namespace    https://fcmsb250.github.io/
-// @version      4.7.7
+// @version      4.7.8
 // @icon         https://dsy4567.github.io/Anti-addiction-terminator/extension/icon/logo.svg
 // @author       mininb666 https://greasyfork.org/zh-CN/users/822325-mininb666 / dsy4567 https://github.com/dsy4567
 // @run-at       document-start
@@ -208,7 +208,55 @@ var 一堆伞兵玩意 = [
 ];
 
 function 智障减料() {
-    qsa("iframe").forEach((ele) => {
+    qsa(`
+        iframe[id*='flash'],
+        iframe[id*='Flash'],
+        iframe[id*='FLASH'],
+
+        iframe[id*='game'],
+        iframe[id*='Game'],
+        iframe[id*='GAME'],
+
+        iframe[id*='play'],
+        iframe[id*='Play'],
+        iframe[id*='PLAY'],
+
+        iframe[id*='yx'],
+        iframe[id*='Yx'],
+        iframe[id*='YX'],
+
+        iframe[id*='youxi'],
+        iframe[id*='Youxi'],
+        iframe[id*='YOUXI'],
+
+        iframe[id*='swf'],
+        iframe[id*='Swf'],
+        iframe[id*='SWF'],
+        
+        iframe[class*='flash'],
+        iframe[class*='Flash'],
+        iframe[class*='FLASH'],
+
+        iframe[class*='game'],
+        iframe[class*='Game'],
+        iframe[class*='GAME'],
+
+        iframe[class*='play'],
+        iframe[class*='Play'],
+        iframe[class*='PLAY'],
+
+        iframe[class*='yx'],
+        iframe[class*='Yx'],
+        iframe[class*='YX'],
+
+        iframe[class*='youxi'],
+        iframe[class*='Youxi'],
+        iframe[class*='YOUXI'],
+
+        iframe[class*='swf'],
+        iframe[class*='Swf'],
+        iframe[class*='SWF']
+    `).forEach((ele) => {
         ele.style.zIndex = "999999";
         ele.style.position = "absolute";
         ele.style.top = "0";
@@ -223,12 +271,15 @@ function 智障减料() {
         [id*='ANTI'],
         [id*='Anti'],
         [id*='anti'],
+
         [id*='FCM'],
         [id*='Fcm'],
         [id*='fcm'],
+
         [class*='ANTI'],
         [class*='Anti'],
         [class*='anti'],
+
         [class*='FCM'],
         [class*='Fcm'],
         [class*='fcm']
@@ -236,6 +287,28 @@ function 智障减料() {
     console.log(防沉迷弹窗);
     防沉迷弹窗.forEach((e) => e.remove());
 }
+
+// function get(url, call) {
+//     let xhr = new XMLHttpRequest();
+//     let response = "";
+//     xhr.open("get", url);
+//     xhr.send(null);
+//     xhr.onload = () => {
+//         response = xhr.responseText;
+//         call(response);
+//     };
+// }
+
+// function ajax(o) {
+//     let xhr = new XMLHttpRequest();
+//     let response = "";
+//     xhr.open("post", o.url);
+//     xhr.send("action=getStatus&id=" + o.data.id);
+//     xhr.onload = () => {
+//         response = xhr.responseText;
+//         o.success(JSON.parse(response));
+//     };
+// }
 
 function 更新菜单() {
     const 一堆菜单 = [
@@ -365,29 +438,29 @@ function 减料() {
     let $app_canvas_frame = qs("#app_canvas_frame");
     let $ifm = qs("#ifm");
 
-    if (网址.includes("4399.com/flash")) {
+    if (网址.includes("4399")) {
         // 搞破坏
         if (开发者配置.启用调试) {
             debugger;
         }
 
         try {
-            Object.defineProperty(unsafeWindow, "isLoadingAntiindulgence", {
-                value: 0,
+            Object.defineProperty(unsafeWindow, "smevent", {
+                value: null, // 原来是Function, 这样做可以使防沉迷报错
                 writable: false,
             });
             减料成功 = 1;
         } catch (e) {}
         try {
-            Object.defineProperty(unsafeWindow, "isIniframe", {
-                value: "", // 原来是Function, 这样做可以使防沉迷报错
+            Object.defineProperty(unsafeWindow, "PageWebApiSdk", {
+                value: null,
                 writable: false,
             });
             减料成功 = 1;
         } catch (e) {}
         try {
             Object.defineProperty(unsafeWindow, "getBizid", {
-                value: "", // 原来是Function, 这样做可以使防沉迷报错
+                value: null,
                 writable: false,
             });
             减料成功 = 1;
@@ -690,13 +763,13 @@ setTimeout(() => {
             );
         }
         更新菜单();
-    }
 
-    // 精美图片
-    console.log(
-        "%c    ",
-        "font-size:512px;background-size:100% 100%;background-repeat:no-repeat;background-image:url(https://fcmsb250.github.io/fuck-anti.webp);"
-    );
+        // 精美图片
+        console.log(
+            "%c    ",
+            "font-size:512px;background-size:100% 100%;background-repeat:no-repeat;background-image:url(https://fcmsb250.github.io/fuck-anti.webp);"
+        );
+    }
 }, 1);
 
 // 快捷键

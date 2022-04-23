@@ -25,10 +25,6 @@
 > > >
 > > > -   https://greasyfork.org/zh-CN/scripts/442214
 > >
-> > > #### noads.user.js
-> > >
-> > > -   https://greasyfork.org/zh-CN/scripts/436895
-> >
 > > ### 例子
 > >
 > > > _xxx 部分代码修改自 https://github.com/dsy4567/Fucking-Anti-Indulgence/blob/main/Fucking-Anti-Indulgence.user.js_  
