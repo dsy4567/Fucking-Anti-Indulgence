@@ -1,3 +1,5 @@
+> ✨ 试试这个 https://github.com/dsy4567/Anti-addiction-terminator
+
 ![对联](https://fcmsb250.github.io/img1.jpeg)
 
 # 防沉迷减点料
