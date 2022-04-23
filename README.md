@@ -12,35 +12,26 @@
 
 > 使用 [GPL-3.0](LICENSE.txt) 许可
 >
-> > ### 若要披露来源, 请同时列出以下地址
+> > https://github.com/dsy4567/Fucking-Anti-Indulgence/
+> >
+> > ### 若要披露来源, 请务必链接上面的地址, 并可以选择同时链接下面的地址
 > >
 > > > #### Fucking-Anti-Indulgence.user.js
 > > >
 > > > -   https://greasyfork.org/zh-CN/scripts/437233
-> > > -   https://github.com/dsy4567/Fucking-Anti-Indulgence/blob/main/Fucking-Anti-Indulgence.user.js
 > > > -   https://scriptcat.org/script-show-page/297
 > >
 > > > #### Fucking-Anti-Indulgence-2.user.js
 > > >
 > > > -   https://greasyfork.org/zh-CN/scripts/442214
-> > > -   https://github.com/dsy4567/Fucking-Anti-Indulgence/blob/main/Fucking-Anti-Indulgence-2.user.js
 > >
 > > > #### noads.user.js
 > > >
 > > > -   https://greasyfork.org/zh-CN/scripts/436895
-> > > -   https://github.com/dsy4567/Fucking-Anti-Indulgence/blob/main/noads.user.js
-> >
-> > > #### emm.js
-> > >
-> > > -   https://github.com/dsy4567/Fucking-Anti-Indulgence/blob/main/emm.js
-> >
-> > > #### other
-> > >
-> > > -   https://github.com/dsy4567/Fucking-Anti-Indulgence/
 > >
 > > ### 例子
 > >
-> > > _xxx部分代码修改自 https://github.com/dsy4567/Fucking-Anti-Indulgence/blob/main/Fucking-Anti-Indulgence.user.js_  
->>>_您还可以在 [GreasyFork](https://greasyfork.org/zh-CN/scripts/437233) 或 [ScriptCat](https://scriptcat.org/script-show-page/297) 上找到该源码_
+> > > _xxx 部分代码修改自 https://github.com/dsy4567/Fucking-Anti-Indulgence/blob/main/Fucking-Anti-Indulgence.user.js_  
+> > > _您还可以在 [GreasyFork](https://greasyfork.org/zh-CN/scripts/437233) 或 [ScriptCat](https://scriptcat.org/script-show-page/297) 上找到该源码_
 
 防沉迷 煞笔 玩意 身份证 身混证 抗成瘾 防苍蝇 防成瘾 fangchenmi fangchengmi 4399fangchenmi 4399fangchengmi 油猴 成年人 实名 认证 人脸 识别 四三九九 石山 九九 九九四三 9943 肆叁玖玖 43 439 4399fcm u7u9 7k7k fcm cm c fcmi 4399 防沉迷 7k7k 防沉迷 17yy 防沉迷 qq 空间防沉迷 07379 防沉迷
