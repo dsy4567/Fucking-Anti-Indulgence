@@ -1,14 +1,21 @@
 # ❗❗❗ 重要注意事项 ❗❗❗
 
-> # 👉 \*\*\*请某些人不要动不动就举报我, 不爱请别伤害, 我谢谢您\*\*\*
+> # 👉 **\*\*\*请某些人不要动不动就举报我, 不爱请别伤害, 我谢谢您\*\*\***
 >
-> # 👉 在使用前请务必阅读以下内容
+> # 👉 在使用前请务必阅读以下内容, 免得因为不会用给我差评
 >
 > # 👉 如果脚本失效或无法使用,请发个截图并更详细地说明问题,如果已解决,麻烦改个好评
 >
 > # 👉 请先安装脚本管理器(推荐 Tampermonkey)再安装此脚本，Tampermonkey 扩展可在当前浏览器扩展商店获取(见传送门)
 >
 > # 👉 该脚本不支持部分页游防沉迷减料(见温馨提示)
+
+# 👍 推荐脚本
+
+> -   [防沉迷减点料 (4399 专用, 精简无比)](https://greasyfork.org/zh-CN/scripts/444198)
+> -   [防沉迷减点料 (智障版本)](https://greasyfork.org/zh-CN/scripts/444199)
+> -   [防沉迷减点料 (超级精简)](https://greasyfork.org/zh-CN/scripts/442214)
+> -   [4399 增强](https://greasyfork.org/zh-CN/scripts/436895)
 
 ---
 
@@ -38,7 +45,7 @@
 >
 > ## ⚡️ 更加快速
 >
-> > 0.99秒急速减料
+> > 0.99 秒急速减料
 >
 > ## 😱 别怕大人
 >
@@ -160,12 +167,11 @@
 
 # 🌎 传送门
 
-> -   [4399 增强 + 防沉迷减料辅助](https://greasyfork.org/zh-CN/scripts/436895-4399%E5%A2%9E%E5%BC%BA-%E9%98%B2%E6%B2%89%E8%BF%B7%E5%8A%A0%E6%96%99%E8%BE%85%E5%8A%A9)
+> -   [✨ 没有收钱的广告 - 防沉迷终结者 (由脚本作者制作) ✨](https://microsoftedge.microsoft.com/addons/detail/chpenmljpdpkebnohfbbdpfelabcnlnp)
+> -   [GitHub 项目地址](https://github.com/dsy4567/Fucking-Anti-Indulgence)
 > -   [360 浏览器 Tampermonkey 扩展](https://ext.chrome.360.cn/webstore/detail/dhdgffkkebhmkfjojejmpbldmpobfkfo)
 > -   [edge 浏览器 Tampermonkey 扩展](https://microsoftedge.microsoft.com/addons/detail/tampermonkey/iikmkjmpaadaobahmlepeloendndfphd)
-> -   [其它浏览器 Tampermonkey 扩展(极简插件)](https://chrome.zzzmh.cn/info?token=dhdgffkkebhmkfjojejmpbldmpobfkfo)
-> -   [.crx 文件安装教程](https://chrome.zzzmh.cn/help?token=setup)
-> -   [参与调查](https://wj.qq.com/s2/9618279/815b/)
+> -   [从 Crx 搜搜 获取 Tampermonkey 扩展](https://www.crxsoso.com/webstore/detail/dhdgffkkebhmkfjojejmpbldmpobfkfo)
 
 # ⚖️ 许可证
 
