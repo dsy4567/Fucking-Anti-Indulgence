@@ -1,6 +1,6 @@
 ﻿// ==UserScript==
 // @name         防沉迷减点料 (超级精简)
-// @description  精简无比的版本,仅支持 4399, 7k7k 等常见游戏平台
+// @description  精简无比的版本
 // @namespace    https://fcmsb250.github.io/
 // @version      0.1.2
 // @icon         https://dsy4567.github.io/logo.svg
