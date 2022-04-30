@@ -27,6 +27,14 @@
 > > >
 > > > -   https://greasyfork.org/zh-CN/scripts/442214
 > >
+> > > #### Fucking-Anti-Indulgence-3.user.js
+> > >
+> > > -   https://greasyfork.org/zh-CN/scripts/444199
+> >
+> > > #### Fucking-Anti-Indulgence-4399.user.js
+> > >
+> > > -   https://greasyfork.org/zh-CN/scripts/444198
+> >
 > > ### 例子
 > >
 > > > _xxx 部分代码修改自 https://github.com/dsy4567 里的 [Fucking-Anti-Indulgence.user.js](https://github.com/dsy4567Fucking-Anti-Indulgence/blob/main/Fucking-Anti-Indulgence.user.js)_  
