@@ -16,7 +16,7 @@
 >
 > > https://github.com/dsy4567/Fucking-Anti-Indulgence/
 > >
-> > ### 若要披露来源, 请务必链接上面的地址, 并可以选择同时链接下面的地址
+> > ### 若要披露来源, 请务必链接上面的地址, 并可以同时链接下面的地址
 > >
 > > > #### Fucking-Anti-Indulgence.user.js
 > > >
