@@ -34,6 +34,13 @@
 // @downloadURL  https://github.com/dsy4567/Fucking-Anti-Indulgence/raw/main/Fucking-Anti-Indulgence-2.user.js
 // ==/UserScript==
 
+function qs(选择器) {
+    return document.querySelector(选择器);
+}
+function qsa(选择器) {
+    return document.querySelectorAll(选择器);
+}
+
 var 减料成功 = 0;
 var 游戏真实地址_17yy = "";
 
