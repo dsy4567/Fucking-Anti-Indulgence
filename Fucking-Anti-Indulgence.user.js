@@ -1,7 +1,7 @@
 ﻿// ==UserScript==
 // @name         🎇🎇🎇防沉迷减点料🎇🎇🎇
 
-// @description  [❤️支持全面] 已支持4366,37,9377,游戏狗,u7u9,7724,17yy,qq空间部分游戏,07073,7k7k,4399 4399网页游戏还能到点不踢 [⚡️更加快速] 0.99秒急速减料 [😱别怕大人] 大人来了就按"大人键" [✔️高可用率] 持续更新更靠谱 [🕶 手动减料] 防沉迷减料不成功? 对着防沉迷弹窗按快捷键 [😵‍💫智障减料] 误杀率高, 没卵用的实验性功能 👍👍👍 热烈庆祝 GreasyFork 总安装量破千 👏👏👏
+// @description  [❤️支持全面] 已支持4366,37,9377,游戏狗,u7u9,7724,17yy,qq空间部分游戏,07073,7k7k,4399 4399网页游戏还能到点不踢 [⚡️更加快速] 0.99秒急速减料 [😱别怕大人] 大人来了就按"大人键" [✔️高可用率] 持续更新更靠谱 [🕶 手动减料] 防沉迷减料不成功? 对着防沉迷弹窗按快捷键 [😵‍💫智障减料] 误杀率高, 没卵用的实验性功能 [⛔ 强制登录] 7k7k 未成年限制登录个锤子 👍👍👍 热烈庆祝 GreasyFork 总安装量破千 👏👏👏
 
 // @namespace    https://fcmsb250.github.io/
 // @version      4.8
@@ -138,6 +138,7 @@ var 减料成功 = 0;
 var 一个弹窗的样式 = { remove: () => {} };
 var 最后一个菜单id = 0;
 var 游戏真实地址_17yy = "";
+var _playLoading;
 
 const 网址 = location.href;
 const 脚本信息 = JSON.stringify({
@@ -213,12 +214,17 @@ var 一堆伞兵玩意 = [
  * @param {String} 结束
  * @param {String} 值
  * @param {String} 类型 "1": url, "2": 字母+数字, "3": 数字
+ * @param {String} 前面追加
  * @returns {String}
  */
-function 获取中间(开始, 结束, 值, 类型) {
-    debugger;
-    let _开始 = 值.substring(值.indexOf(开始) + 开始.length);
-    值 = decodeURI(_开始.substring(0, _开始.indexOf(结束)));
+function 获取中间(开始, 结束, 值, 类型, 前面追加) {
+    值 = 值.substring(值.indexOf(开始) + 开始.length);
+    if (结束) {
+        值 = decodeURI(值.substring(0, 值.indexOf(结束)));
+    }
+    if (前面追加) {
+        值 = 前面追加 + 值;
+    }
     switch (类型) {
         case "1":
             if (
@@ -228,17 +234,17 @@ function 获取中间(开始, 结束, 值, 类型) {
                     值.substring(0, 8) == "https://"
                 )
             ) {
-                值 = "";
+                throw new Error("不正确的字符串");
             }
             break;
         case "2":
             if (!/^[0-9a-zA-Z]*$/g.test(值)) {
-                值 = "";
+                throw new Error("不正确的字符串");
             }
             break;
         case "3":
             if (isNaN(Number(值))) {
-                值 = "";
+                throw new Error("不正确的字符串");
             }
             break;
 
@@ -360,6 +366,10 @@ function 更新菜单() {
         [
             "👉再次减料按 alt +  鼠标中键",
             () => {
+                减料成功 = 0;
+                if (_playLoading) {
+                    unsafeWindow.play22.playLoading = _playLoading;
+                }
                 减料();
                 普通减料();
             },
@@ -520,6 +530,9 @@ function 减料() {
             }
             // unsafeWindow.Play24.prototype.playLoading();
             unsafeWindow.play22.playLoading();
+            if (!_playLoading) {
+                _playLoading = unsafeWindow.play22.playLoading;
+            }
             unsafeWindow.play22.playLoading = () => {}; // 防止重复调用
             减料成功 = 1;
             // unsafeWindow.Play24.prototype.playLoading = ()=> {};
@@ -614,14 +627,15 @@ function 减料() {
 
         try {
             console.log("[防沉迷减点料] 尝试7724防沉迷减料");
-            var url = 网址.substring(网址.indexOf("danjilogin?url=") + "danjilogin?url=".length);
-            if (
-                url.substring(0, 2) == "//" ||
-                url.substring(0, 7) == "http://" ||
-                url.substring(0, 8) == "https://"
-            ) {
-                location.href = url;
-            }
+            // var url = 网址.substring(网址.indexOf("danjilogin?url=") + "danjilogin?url=".length);
+            // if (
+            //     url.substring(0, 2) == "//" ||
+            //     url.substring(0, 7) == "http://" ||
+            //     url.substring(0, 8) == "https://"
+            // ) {
+            // }
+            let url = 获取中间("danjilogin?url=", undefined, 网址, "1");
+            location.href = url;
             减料成功 = 1;
         } catch (err) {}
     } else if (网址.includes("wvw.9377.com/game_login.php")) {
@@ -632,17 +646,17 @@ function 减料() {
         try {
             console.log("[防沉迷减点料] 尝试9377防沉迷减料");
             $.get(网址, (html) => {
-                var url = html.substring(
-                    html.indexOf('id="iframe" src="') + 'id="iframe" src="'.length,
-                    html.indexOf('" name="mainFrame" scrolling="auto"')
+                // var url = html.substring(
+                //     html.indexOf('id="iframe" src="') + 'id="iframe" src="'.length,
+                //     html.indexOf('" name="mainFrame" scrolling="auto"')
+                // );
+                let url = 获取中间(
+                    'id="iframe" src="',
+                    '" name="mainFrame" scrolling="auto"',
+                    html,
+                    "1"
                 );
-                if (
-                    url.substring(0, 2) == "//" ||
-                    url.substring(0, 7) == "http://" ||
-                    url.substring(0, 8) == "https://"
-                ) {
-                    location.href = url;
-                }
+                location.href = url;
             });
             减料成功 = 1;
         } catch (err) {}
@@ -654,18 +668,19 @@ function 减料() {
         try {
             console.log("[防沉迷减点料] 尝试37防沉迷减料");
             $.get(网址, (html) => {
-                var url = html.substring(
-                    html.indexOf('src="//gameapp.37.com/controller/enter_game.php') +
-                        'src="'.length,
-                    html.indexOf('" id="mainFrame"')
+                // var url = html.substring(
+                //     html.indexOf('src="//gameapp.37.com/controller/enter_game.php') +
+                //         'src="'.length,
+                //     html.indexOf('" id="mainFrame"')
+                // );
+                let url = 获取中间(
+                    'src="//gameapp.37.com/controller/enter_game.php',
+                    '" id="mainFrame"',
+                    html,
+                    "1",
+                    "//gameapp.37.com/controller/enter_game.php"
                 );
-                if (
-                    url.substring(0, 2) == "//" ||
-                    url.substring(0, 7) == "http://" ||
-                    url.substring(0, 8) == "https://"
-                ) {
-                    location.href = url;
-                }
+                location.href = url;
             });
             减料成功 = 1;
         } catch (err) {}
@@ -677,18 +692,25 @@ function 减料() {
         try {
             console.log("[防沉迷减点料] 尝试4366防沉迷减料");
             $.get(网址, (html) => {
-                var url = html.substring(
-                    html.indexOf('align="left" id="iframe" src="') +
-                        'align="left" id="iframe" src="'.length,
-                    html.indexOf('" name="mainFrame" scrolling="auto"')
+                // var url = html.substring(
+                //     html.indexOf('align="left" id="iframe" src="') +
+                //         'align="left" id="iframe" src="'.length,
+                //     html.indexOf('" name="mainFrame" scrolling="auto"')
+                // // );
+                // if (
+                //     url.substring(0, 2) == "//" ||
+                //     url.substring(0, 7) == "http://" ||
+                //     url.substring(0, 8) == "https://"
+                // ) {
+                //     location.href = url;
+                // }
+                let url = 获取中间(
+                    'align="left" id="iframe" src="',
+                    '" name="mainFrame" scrolling="auto"',
+                    html,
+                    "1"
                 );
-                if (
-                    url.substring(0, 2) == "//" ||
-                    url.substring(0, 7) == "http://" ||
-                    url.substring(0, 8) == "https://"
-                ) {
-                    location.href = url;
-                }
+                location.href = url;
             });
             减料成功 = 1;
         } catch (err) {}
@@ -709,10 +731,7 @@ function 减料() {
                 url: "http://www.17yy.com/e/payapi/vip_ajax.php",
                 data: {
                     action: "getStatus",
-                    id: 网址.substring(
-                        网址.indexOf("/f/play/") + "/f/play/".length,
-                        网址.indexOf(".html")
-                    ),
+                    id: 获取中间("/f/play/", ".html", 网址, "3"),
                 },
                 type: "POST",
                 dataType: "json",
