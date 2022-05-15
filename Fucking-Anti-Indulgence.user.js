@@ -4,7 +4,7 @@
 // @description  [❤️支持全面] 已支持4366,37,9377,游戏狗,u7u9,7724,17yy,qq空间部分游戏,07073,7k7k,4399 4399网页游戏还能到点不踢 [⚡️更加快速] 0.99秒急速减料 [😱别怕大人] 大人来了就按"大人键" [✔️高可用率] 持续更新更靠谱 [🕶 手动减料] 防沉迷减料不成功? 对着防沉迷弹窗按快捷键 [😵‍💫智障减料] 误杀率高, 没卵用的实验性功能 [⛔ 强制登录] 7k7k 未成年限制登录个锤子 👍👍👍 热烈庆祝 GreasyFork 总安装量破千 👏👏👏
 
 // @namespace    https://fcmsb250.github.io/
-// @version      4.8
+// @version      4.8.1
 // @icon         https://dsy4567.github.io/logo.svg
 // @author       mininb666 https://greasyfork.org/zh-CN/users/822325-mininb666 / dsy4567 https://github.com/dsy4567
 // @run-at       document-start
@@ -82,7 +82,7 @@
 var D = new Date();
 
 if (self == top) {
-    if (GM_getValue("版本") != GM_info.script.version && GM_info.script.version == "4.7.9.1") {
+    if (GM_getValue("版本") != GM_info.script.version && GM_info.script.version == "4.8.1") {
         GM_notification("快看看有什么新功能吧", "🎇🎇🎇防沉迷减点料🎇🎇🎇 更新完毕", "", () => {
             GM_openInTab(
                 "https://greasyfork.org/zh-CN/scripts/437233-%E9%98%B2%E6%B2%89%E8%BF%B7%E5%8A%A0%E7%82%B9%E6%96%99"
