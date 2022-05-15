@@ -71,6 +71,7 @@
 >
 > > -   www.7k7k.com/flash/ 或 www.7k7k.com/swf/
 > > -   m.7k7k.com/player/ 或 m.7k7k.com/flash/ (移动端)
+> > -   h5.7k7k.com/web/H5GAMES.html
 >
 > ## 17yy:
 >
