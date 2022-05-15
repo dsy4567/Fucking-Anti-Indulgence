@@ -4,7 +4,7 @@
 // @description  [❤️支持全面] 已支持4366,37,9377,游戏狗,u7u9,7724,17yy,qq空间部分游戏,07073,7k7k,4399 4399网页游戏还能到点不踢 [⚡️更加快速] 0.99秒急速减料 [😱别怕大人] 大人来了就按"大人键" [✔️高可用率] 持续更新更靠谱 [🕶 手动减料] 防沉迷减料不成功? 对着防沉迷弹窗按快捷键 [😵‍💫智障减料] 误杀率高, 没卵用的实验性功能 👍👍👍 热烈庆祝 GreasyFork 总安装量破千 👏👏👏
 
 // @namespace    https://fcmsb250.github.io/
-// @version      4.7.9.1
+// @version      4.8
 // @icon         https://dsy4567.github.io/logo.svg
 // @author       mininb666 https://greasyfork.org/zh-CN/users/822325-mininb666 / dsy4567 https://github.com/dsy4567
 // @run-at       document-start
@@ -207,6 +207,47 @@ var 一堆伞兵玩意 = [
     "body > div.show_box.popup_bg",
 ];
 
+/**
+ *
+ * @param {String} 开始
+ * @param {String} 结束
+ * @param {String} 值
+ * @param {String} 类型 "1": url, "2": 字母+数字, "3": 数字
+ * @returns {String}
+ */
+function 获取中间(开始, 结束, 值, 类型) {
+    debugger;
+    let _开始 = 值.substring(值.indexOf(开始) + 开始.length);
+    值 = decodeURI(_开始.substring(0, _开始.indexOf(结束)));
+    switch (类型) {
+        case "1":
+            if (
+                !(
+                    值.substring(0, 2) == "//" ||
+                    值.substring(0, 7) == "http://" ||
+                    值.substring(0, 8) == "https://"
+                )
+            ) {
+                值 = "";
+            }
+            break;
+        case "2":
+            if (!/^[0-9a-zA-Z]*$/g.test(值)) {
+                值 = "";
+            }
+            break;
+        case "3":
+            if (isNaN(Number(值))) {
+                值 = "";
+            }
+            break;
+
+        default:
+            break;
+    }
+    return 值;
+}
+
 function 首字母大写(str) {
     str = str[0].toUpperCase() + str.substring(1, str.length);
     return str;
@@ -214,7 +255,17 @@ function 首字母大写(str) {
 
 function 智障减料() {
     let 游戏元素id或class = ["flash", "game", "play", "youxi", "swf", "flash"];
-    let 防沉迷元素id或class = ["anti", "fcm", "verify", "mask", "certify", "dialog","popup","login","cover"];
+    let 防沉迷元素id或class = [
+        "anti",
+        "fcm",
+        "verify",
+        "mask",
+        "certify",
+        "dialog",
+        "popup",
+        "login",
+        "cover",
+    ];
     let 临时数组 = [];
     let 样式表 = "";
 
@@ -358,6 +409,13 @@ function 更新菜单() {
             },
             undefined,
         ],
+        [
+            "⛔7k7k强制登录",
+            () => {
+                location.href = "http://www.7k7k.com/swf/204220.htm?fai-doLogin";
+            },
+            undefined,
+        ],
     ];
     最后一个菜单id = 一堆菜单.length;
 
@@ -485,6 +543,35 @@ function 减料() {
             } catch (err) {
                 console.error(err);
             }
+        }
+    } else if (网址.includes("h5.7k7k.com/web/H5GAMES.html")) {
+        if (开发者配置.启用调试) {
+            debugger;
+        }
+
+        // 7k7k获取游戏直链3
+        try {
+            console.log("[防沉迷减点料] 尝试7k7k h5页游防沉迷减料");
+            if (开发者配置.启用调试) {
+                debugger;
+            }
+
+            $.get(
+                "http://h5.7k7k.com/api_redirect/game/start/?client=0&account=" +
+                    获取中间("userid=", ";", document.cookie, "2") +
+                    "&appkey=" +
+                    获取中间("gid=", "&", 网址, "2") +
+                    "&uid=" +
+                    获取中间("userid=", ";", document.cookie, "2") +
+                    "&tid=" +
+                    获取中间("tid=", "&", 网址, "2"),
+                (json) => {
+                    location.href = JSON.parse(json).url;
+                }
+            );
+            减料成功 = 1;
+        } catch (err) {
+            console.error(err);
         }
     } else if ($app_canvas_frame) {
         if (开发者配置.启用调试) {
@@ -823,6 +910,19 @@ addEventListener("load", () => {
         }, 1000);
     }
 
+    if (location.host == "www.7k7k.com") {
+        try {
+            document.querySelector("div.login_no").title =
+                "✨防沉迷减点料支持7k7k强制登录, 请移步至脚本菜单";
+        } catch (e) {}
+
+        if (location.href.includes("fai-doLogin"))
+            document.querySelector("div.login_no > div.h_login.login_btn > span").click();
+    }
+
+    if (qs("script[src*='chpenmljpdpkebnohfbbdpfelabcnlnp']")) {
+        GM_registerMenuCommand("⚠️您已经安装了防沉迷终结者, 不推荐二者同时使用");
+    }
     // 准备游戏真实地址管理器();
 });
 
