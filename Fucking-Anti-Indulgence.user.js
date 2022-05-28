@@ -82,7 +82,7 @@
 var D = new Date();
 
 if (self == top) {
-    if (GM_getValue("版本") != GM_info.script.version && GM_info.script.version == "4.8.1") {
+    if (GM_getValue("版本") != GM_info.script.version && GM_info.script.version == "4.8.1.1") {
         GM_notification("快看看有什么新功能吧", "🎇🎇🎇防沉迷减点料🎇🎇🎇 更新完毕", "", () => {
             GM_openInTab(
                 "https://greasyfork.org/zh-CN/scripts/437233-%E9%98%B2%E6%B2%89%E8%BF%B7%E5%8A%A0%E7%82%B9%E6%96%99"
