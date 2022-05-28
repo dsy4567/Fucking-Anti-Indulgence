@@ -4,7 +4,7 @@
 // @description  [❤️支持全面] 已支持4366,37,9377,游戏狗,u7u9,7724,17yy,qq空间部分游戏,07073,7k7k,4399 4399网页游戏还能到点不踢 [⚡️更加快速] 0.99秒急速减料 [😱别怕大人] 大人来了就按"大人键" [✔️高可用率] 持续更新更靠谱 [🕶 手动减料] 防沉迷减料不成功? 对着防沉迷弹窗按快捷键 [😵‍💫智障减料] 误杀率高, 没卵用的实验性功能 [⛔ 强制登录] 7k7k 未成年限制登录个锤子 👍👍👍 热烈庆祝 GreasyFork 总安装量破千 👏👏👏
 
 // @namespace    https://fcmsb250.github.io/
-// @version      4.8.1
+// @version      4.8.1.1
 // @icon         https://dsy4567.github.io/logo.svg
 // @author       mininb666 https://greasyfork.org/zh-CN/users/822325-mininb666 / dsy4567 https://github.com/dsy4567
 // @run-at       document-start
@@ -739,22 +739,22 @@ function 减料() {
                     try {
                         qs("#flashgame").src = 游戏真实地址_17yy =
                             "http://" +
-                            server +
+                            unsafeWindow.server +
                             "/" +
-                            classes +
+                            unsafeWindow.classes +
                             "/" +
-                            date +
+                            unsafeWindow.date +
                             "/" +
                             resp.data.game_path;
                     } catch (e) {}
                     try {
                         qs("#flash_frame").src = 游戏真实地址_17yy =
                             "http://" +
-                            server +
+                            unsafeWindow.server +
                             "/" +
-                            classes +
+                            unsafeWindow.classes +
                             "/" +
-                            date +
+                            unsafeWindow.date +
                             "/" +
                             resp.data.game_path;
                     } catch (e) {}
