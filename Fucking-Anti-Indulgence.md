@@ -19,10 +19,9 @@
 
 ---
 
-<center>
-<h1>🎇🎇🎇防沉迷减点料🎇🎇🎇</h1>
-<em>~快乐没有年龄之分~</em><br />
-<img alt="对联" title="对联" src="https://fcmsb250.github.io/img1.jpeg" />
+<center style="text-align:center;">
+<img style="text-align:center;" alt="logo" title="logo" src="https://dsy4567.github.io/logo.svg" />
+<h1 style="text-align:center;">🎇🎇🎇防沉迷减点料🎇🎇🎇</h1>
 </center>
 
 # ✨ 脚本特色
