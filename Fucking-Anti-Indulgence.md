@@ -175,7 +175,7 @@
 
 > 使用 [GPL-3.0](https://github.com/dsy4567/Fucking-Anti-Indulgence/blob/main/LICENSE.txt) 许可
 >
-> > 若要披露来源, 请见 https://github.com/dsy4567/Fucking-Anti-Indulgence
+> > 使用此代码请注明出处: https://github.com/dsy4567/Fucking-Anti-Indulgence
 
 ---
 
