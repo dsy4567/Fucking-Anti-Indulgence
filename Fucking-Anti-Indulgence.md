@@ -19,9 +19,15 @@
 
 ---
 
-<center style="text-align:center;">
+<!-- <center style="text-align:center;">
 <img style="text-align:center;" alt="logo" title="logo" src="https://dsy4567.github.io/logo.svg" />
 <h1 style="text-align:center;">🎇🎇🎇防沉迷减点料🎇🎇🎇</h1>
+</center> -->
+<center>
+<p align="center" style="text-align:center;">
+<img style="text-align:center;" alt="logo" title="logo" src="https://dsy4567.github.io/logo.svg" />
+<h1  align="center" style="text-align:center;">🎇🎇🎇防沉迷减点料🎇🎇🎇</h1>
+</p>
 </center>
 
 # ✨ 脚本特色
