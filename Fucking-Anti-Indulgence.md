@@ -168,7 +168,6 @@
 > -   [GitHub 项目地址](https://github.com/dsy4567/Fucking-Anti-Indulgence)
 > -   [360 浏览器 Tampermonkey 扩展](https://ext.chrome.360.cn/webstore/detail/dhdgffkkebhmkfjojejmpbldmpobfkfo)
 > -   [edge 浏览器 Tampermonkey 扩展](https://microsoftedge.microsoft.com/addons/detail/tampermonkey/iikmkjmpaadaobahmlepeloendndfphd)
-> -   [从 Crx 搜搜 获取 Tampermonkey 扩展](https://www.crxsoso.com/webstore/detail/dhdgffkkebhmkfjojejmpbldmpobfkfo)
 
 # ⚖️ 许可证
 
