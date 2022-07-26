@@ -6,7 +6,7 @@
 // @namespace    https://fcmsb250.github.io/
 // @version      4.8.3
 // @icon         https://dsy4567.github.io/logo.svg
-// @author       dsy4567 https://greasyfork.org/zh-CN/users/822325-mininb666 | https://github.com/dsy4567
+// @author       dsy4567 https://greasyfork.org/zh-CN/users/822325 | https://github.com/dsy4567
 // @run-at       document-start
 // @require      https://code.jquery.com/jquery-3.6.0.min.js
 // @license      GPL-3.0
