@@ -4,9 +4,9 @@
 // @description  [❤️支持全面] 已支持4366,37,9377,游戏狗,u7u9,7724,17yy,qq空间部分游戏,07073,7k7k,4399 4399网页游戏还能到点不踢 [⚡️更加快速] 0.99秒急速减料 [😱别怕大人] 大人来了就按"大人键" [✔️高可用率] 持续更新更靠谱 [🕶 手动减料] 防沉迷减料不成功? 对着防沉迷弹窗按快捷键 [😵‍💫智障减料] 误杀率高, 没卵用的实验性功能 [⛔ 强制登录] 7k7k 未成年限制登录个锤子 👍👍👍 热烈庆祝 GreasyFork 总安装量破千 👏👏👏
 
 // @namespace    https://fcmsb250.github.io/
-// @version      4.8.1.2
+// @version      4.8.3
 // @icon         https://dsy4567.github.io/logo.svg
-// @author       mininb666 https://greasyfork.org/zh-CN/users/822325-mininb666 / dsy4567 https://github.com/dsy4567
+// @author       dsy4567 https://greasyfork.org/zh-CN/users/822325-mininb666 | https://github.com/dsy4567
 // @run-at       document-start
 // @require      https://code.jquery.com/jquery-3.6.0.min.js
 // @license      GPL-3.0
@@ -81,15 +81,23 @@
 "use strict";
 var D = new Date();
 
-if (self == top) {
-    if (GM_getValue("版本") != GM_info.script.version && GM_info.script.version == "4.8.1.1") {
-        GM_notification("快看看有什么新功能吧", "🎇🎇🎇防沉迷减点料🎇🎇🎇 更新完毕", "", () => {
-            GM_openInTab(
-                "https://greasyfork.org/zh-CN/scripts/437233-%E9%98%B2%E6%B2%89%E8%BF%B7%E5%8A%A0%E7%82%B9%E6%96%99"
-            );
-        });
-    }
-}
+// if (self == top) {
+//     if (
+//         GM_getValue("版本") != GM_info.script.version &&
+//         GM_info.script.version == "4.8.1.1"
+//     ) {
+//         GM_notification(
+//             "快看看有什么新功能吧",
+//             "🎇🎇🎇防沉迷减点料🎇🎇🎇 更新完毕",
+//             "",
+//             () => {
+//                 GM_openInTab(
+//                     "https://greasyfork.org/zh-CN/scripts/437233-%E9%98%B2%E6%B2%89%E8%BF%B7%E5%8A%A0%E7%82%B9%E6%96%99"
+//                 );
+//             }
+//         );
+//     }
+// }
 
 function 改变值(值, 默认值, 回调) {
     if (GM_getValue(值, 默认值) == "1") {
@@ -127,18 +135,24 @@ function qsa(选择器) {
     return document.querySelectorAll(选择器);
 }
 
-GM_setValue("版本", GM_info.script.version);
+// GM_setValue("版本", GM_info.script.version);
 初始化值("安装日期", String(Math.floor(D.getTime() / 1000 / 60 / 60 / 24)));
 初始化值("已提建议", "0");
 初始化值("停用快捷键", "0");
 初始化值("开发环境", "0");
 
-var 用了多少天 = Math.ceil(D.getTime() / 1000 / 60 / 60 / 24) - Number(GM_getValue("安装日期"));
+var 用了多少天 =
+    Math.ceil(D.getTime() / 1000 / 60 / 60 / 24) -
+    Number(GM_getValue("安装日期"));
 var 减料成功 = 0;
 var 一个弹窗的样式 = { remove: () => {} };
 var 最后一个菜单id = 0;
 var 游戏真实地址_17yy = "";
+/**
+ * @type {Function}
+ */
 var _playLoading;
+var 开发者配置 = {};
 
 const 网址 = location.href;
 const 脚本信息 = JSON.stringify({
@@ -150,20 +164,15 @@ const 脚本信息 = JSON.stringify({
     脚本管理器版本: GM_info.version,
     用多久: 用了多少天,
 });
-const 开发者配置 = {
-    启用调试: 0,
-    输出减料时间: 0,
-    禁用自动防沉迷减料: 0,
-    在控制台使用脚本变量函数和GM: 0,
-};
+
 if (GM_getValue("开发环境") == "1") {
+    开发者配置.启用控制台输出 = 1;
     // 开发者配置.启用调试 = 1;
-    // 开发者配置.输出减料时间 = 1;
     开发者配置.禁用自动防沉迷减料 = 1;
-    // 开发者配置.在控制台使用脚本变量函数和GM = 1;
+    开发者配置.在控制台使用脚本变量函数和GM = 1;
 } else {
+    开发者配置.启用控制台输出 = 0;
     开发者配置.启用调试 = 0;
-    开发者配置.输出减料时间 = 0;
     开发者配置.禁用自动防沉迷减料 = 0;
     开发者配置.在控制台使用脚本变量函数和GM = 0;
 }
@@ -209,11 +218,11 @@ var 一堆伞兵玩意 = [
 ];
 
 /**
- *
+ * 为某个字符串获取两个字符串中间的字符串(不包括那两个字符串)
  * @param {String} 开始
  * @param {String} 结束
  * @param {String} 值
- * @param {String} 类型 "1": url, "2": 字母+数字, "3": 数字
+ * @param {String} 类型 "1": 网址, "2": 字母 + 数字, "3": 数字
  * @param {String} 前面追加
  * @returns {String}
  */
@@ -257,6 +266,10 @@ function 获取中间(开始, 结束, 值, 类型, 前面追加) {
 function 首字母大写(str) {
     str = str[0].toUpperCase() + str.substring(1, str.length);
     return str;
+}
+
+function log(a, b, c, d, e, f, g) {
+    if (开发者配置.启用控制台输出) console.log(a, b, c, d, e, f, g);
 }
 
 function 智障减料() {
@@ -408,7 +421,9 @@ function 更新菜单() {
         [
             "👍给个好评/📝反馈问题",
             () => {
-                GM_openInTab("https://greasyfork.org/zh-CN/scripts/437233/feedback");
+                GM_openInTab(
+                    "https://greasyfork.org/zh-CN/scripts/437233/feedback"
+                );
             },
             undefined,
         ],
@@ -422,7 +437,8 @@ function 更新菜单() {
         [
             "⛔7k7k强制登录",
             () => {
-                location.href = "http://www.7k7k.com/swf/204220.htm?fai-doLogin";
+                location.href =
+                    "http://www.7k7k.com/swf/204220.htm?fai-doLogin";
             },
             undefined,
         ],
@@ -456,10 +472,10 @@ function 更新菜单() {
 }
 
 function 大人来了() {
-    console.log("[防沉迷减点料] 大人来了");
+    log("[防沉迷减点料] 大人来了");
     try {
         一个弹窗的样式.remove();
-        console.log("[防沉迷减点料] 已去除样式");
+        log("[防沉迷减点料] 已去除样式");
     } catch (err) {}
 
     一个弹窗的样式 = GM_addStyle(
@@ -474,14 +490,16 @@ function 大人来了() {
     let 遮罩 = document.createElement("div");
     遮罩.className = "mycmMask";
     遮罩.style.cssText =
-        "height: " + document.documentElement.offsetHeight + "px; z-index: 9999; display: block";
+        "height: " +
+        document.documentElement.offsetHeight +
+        "px; z-index: 9999; display: block";
     遮罩.innerHTML = "";
     document.body.appendChild(遮罩);
 }
 
 function 减料() {
     if (减料成功) {
-        return console.log("[防沉迷减点料] 减料被取消");
+        return log("[防沉迷减点料] 减料被取消");
     }
 
     let 开始 = new Date().getTime();
@@ -524,7 +542,7 @@ function 减料() {
         }
 
         try {
-            console.log("[防沉迷减点料] 尝试7k7k防沉迷减料");
+            log("[防沉迷减点料] 尝试7k7k防沉迷减料");
             if (开发者配置.启用调试) {
                 debugger;
             }
@@ -547,7 +565,7 @@ function 减料() {
         if ($ifm.src != location.href && $ifm.src) {
             // 7k7k获取游戏直链2
             try {
-                console.log("[防沉迷减点料] 尝试7k7k手机端防沉迷减料");
+                log("[防沉迷减点料] 尝试7k7k手机端防沉迷减料");
                 if (开发者配置.启用调试) {
                     debugger;
                 }
@@ -564,7 +582,7 @@ function 减料() {
 
         // 7k7k获取游戏直链3
         try {
-            console.log("[防沉迷减点料] 尝试7k7k h5页游防沉迷减料");
+            log("[防沉迷减点料] 尝试7k7k h5页游防沉迷减料");
             if (开发者配置.启用调试) {
                 debugger;
             }
@@ -586,6 +604,34 @@ function 减料() {
         } catch (err) {
             console.error(err);
         }
+    } else if (网址.includes("h5.7k7k.com/game/")) {
+        // 7k7k获取游戏直链3
+        try {
+            if (开发者配置.启用调试) {
+                debugger;
+            }
+
+            console.log("[防沉迷减点料] 尝试7k7k h5页游(手机端)防沉迷破解");
+            _$.get(
+                "http://h5.7k7k.com/api_redirect/game/start/?client=0&account=" +
+                    获取中间("userid=", ";", document.cookie, "2") +
+                    "&appkey=" +
+                    // eslint-disable-next-line no-undef
+                    unsafeWindow.gid[0] +
+                    "&uid=" +
+                    获取中间("userid=", ";", document.cookie, "2") +
+                    "&tid=" +
+                    // eslint-disable-next-line no-undef
+                    unsafeWindow.tid,
+                (json) => {
+                    let url = JSON.parse(json).url;
+                    if (url) location.href = url;
+                }
+            );
+            减料成功 = 1;
+        } catch (err) {
+            console.error(err);
+        }
     } else if ($app_canvas_frame) {
         if (开发者配置.启用调试) {
             debugger;
@@ -593,7 +639,7 @@ function 减料() {
 
         try {
             if ($app_canvas_frame.src && $app_canvas_frame.src != 网址) {
-                console.log("[防沉迷减点料] 尝试阻止QQ空间自动跳转1");
+                log("[防沉迷减点料] 尝试阻止QQ空间自动跳转1");
                 if (开发者配置.启用调试) {
                     debugger;
                 }
@@ -610,7 +656,7 @@ function 减料() {
 
         try {
             if ($full_screen_frame.src && $full_screen_frame.src != 网址) {
-                console.log("[防沉迷减点料] 尝试阻止QQ空间自动跳转2");
+                log("[防沉迷减点料] 尝试阻止QQ空间自动跳转2");
                 if (开发者配置.启用调试) {
                     debugger;
                 }
@@ -626,7 +672,7 @@ function 减料() {
         }
 
         try {
-            console.log("[防沉迷减点料] 尝试7724防沉迷减料");
+            log("[防沉迷减点料] 尝试7724防沉迷减料");
             // var url = 网址.substring(网址.indexOf("danjilogin?url=") + "danjilogin?url=".length);
             // if (
             //     url.substring(0, 2) == "//" ||
@@ -644,7 +690,7 @@ function 减料() {
         }
 
         try {
-            console.log("[防沉迷减点料] 尝试9377防沉迷减料");
+            log("[防沉迷减点料] 尝试9377防沉迷减料");
             $.get(网址, (html) => {
                 // var url = html.substring(
                 //     html.indexOf('id="iframe" src="') + 'id="iframe" src="'.length,
@@ -666,7 +712,7 @@ function 减料() {
         }
 
         try {
-            console.log("[防沉迷减点料] 尝试37防沉迷减料");
+            log("[防沉迷减点料] 尝试37防沉迷减料");
             $.get(网址, (html) => {
                 // var url = html.substring(
                 //     html.indexOf('src="//gameapp.37.com/controller/enter_game.php') +
@@ -690,7 +736,7 @@ function 减料() {
         }
 
         try {
-            console.log("[防沉迷减点料] 尝试4366防沉迷减料");
+            log("[防沉迷减点料] 尝试4366防沉迷减料");
             $.get(网址, (html) => {
                 // var url = html.substring(
                 //     html.indexOf('align="left" id="iframe" src="') +
@@ -765,7 +811,11 @@ function 减料() {
     }
 
     if (开发者配置.输出减料时间) {
-        console.log("[防沉迷减点料] 减料结束, 用时" + (new Date().getTime() - 开始) + "ms");
+        log(
+            "[防沉迷减点料] 减料结束, 用时" +
+                (new Date().getTime() - 开始) +
+                "ms"
+        );
     }
 }
 
@@ -777,7 +827,7 @@ function 普通减料() {
             if (qsa(element)[0]) {
                 qsa(element).forEach((el) => {
                     el.remove();
-                    console.log("[防沉迷减点料] -减料成功- " + element);
+                    log("[防沉迷减点料] -减料成功- " + element);
                 });
             }
         }
@@ -786,14 +836,14 @@ function 普通减料() {
             if (qsa(element)[0]) {
                 qsa(element).forEach((el) => {
                     el.remove();
-                    console.log("[防沉迷减点料] -解除大人来了成功- " + element);
+                    log("[防沉迷减点料] -解除大人来了成功- " + element);
                 });
             }
         });
 
         try {
             一个弹窗的样式.remove();
-            console.log("[防沉迷减点料] 已去除样式");
+            log("[防沉迷减点料] 已去除样式");
         } catch (err) {}
     } catch (err) {
         console.error(err);
@@ -831,14 +881,17 @@ if (!开发者配置.禁用自动防沉迷减料) {
                 overflow: hidden !important;
             }`;
     GM_addStyle(css);
-    console.log("[防沉迷减点料] 加样式表成功");
+    log("[防沉迷减点料] 加样式表成功");
 }
 
 // 一些无关紧要的代码
-setTimeout(() => {
-    GM_addValueChangeListener("开始智障减料", (name, old_value, new_value, remote) => {
-        智障减料();
-    });
+(async () => {
+    GM_addValueChangeListener(
+        "开始智障减料",
+        (name, old_value, new_value, remote) => {
+            智障减料();
+        }
+    );
 
     if (self == top) {
         //判断是否在iframe中
@@ -850,50 +903,135 @@ setTimeout(() => {
                 "🎇🎇🎇防沉迷减点料🎇🎇🎇 用的怎样?",
                 "",
                 () => {
-                    GM_openInTab("https://greasyfork.org/zh-CN/scripts/437233/feedback");
+                    GM_openInTab(
+                        "https://greasyfork.org/zh-CN/scripts/437233/feedback"
+                    );
                 }
             );
         }
         更新菜单();
 
         // 精美图片
-        console.log(
+        log(
             "%c    ",
             "font-size:512px;background-size:100% 100%;background-repeat:no-repeat;background-image:url(https://fcmsb250.github.io/fuck-anti.webp);"
         );
     }
-}, 1);
 
-// 快捷键
-document.addEventListener(
-    "mousedown",
-    function (e) {
-        if (GM_getValue("停用快捷键") == "0") {
-            if (e.button == 1 && e.shiftKey && !e.altKey) {
-                大人来了();
+    // 快捷键
+    document.addEventListener(
+        "mousedown",
+        function (e) {
+            if (GM_getValue("停用快捷键") == "0") {
+                if (e.button == 1 && e.shiftKey && !e.altKey) {
+                    大人来了();
+                }
+                if (e.button == 2 && e.shiftKey && e.altKey) {
+                    let el = document.elementFromPoint(e.x, e.y);
+                    log(
+                        "[防沉迷减点料] -手动减料成功- ." +
+                            el.className +
+                            " #" +
+                            el.id +
+                            " <" +
+                            el.tagName +
+                            ">"
+                    );
+                    el.style.display = "none";
+                }
+                if (e.button == 1 && e.altKey && !e.shiftKey) {
+                    减料成功 = 0;
+                    减料();
+                    普通减料();
+                }
             }
-            if (e.button == 2 && e.shiftKey && e.altKey) {
-                let el = document.elementFromPoint(e.x, e.y);
-                console.log(
-                    "[防沉迷减点料] -手动减料成功- ." +
-                        el.className +
-                        " #" +
-                        el.id +
-                        " <" +
-                        el.tagName +
-                        ">"
-                );
-                el.style.display = "none";
+        },
+        true
+    );
+
+    if (网址.includes("ptlogin.4399.com")) {
+        setTimeout(() => {
+            if (document.querySelector(".ptlogin_btn")) {
+                document
+                    .querySelector(".ptlogin_btn")
+                    .addEventListener("mouseup", () => {
+                        alert("请在稍后刷新网页");
+                    });
             }
-            if (e.button == 1 && e.altKey && !e.shiftKey) {
-                减料成功 = 0;
-                减料();
-                普通减料();
-            }
-        }
-    },
-    true
-);
+        }, 1000);
+    }
+
+    if (location.host == "www.7k7k.com") {
+        try {
+            document.querySelector("div.login_no").title =
+                "✨防沉迷减点料支持7k7k强制登录, 请移步至脚本菜单";
+        } catch (e) {}
+
+        if (location.href.includes("fai-doLogin"))
+            document
+                .querySelector("div.login_no > div.h_login.login_btn > span")
+                .click();
+    }
+
+    if (qs("script[src*='chpenmljpdpkebnohfbbdpfelabcnlnp']")) {
+        GM_registerMenuCommand(
+            "⚠️您已经安装了防沉迷终结者, 不推荐二者同时使用"
+        );
+    }
+
+    if (开发者配置.在控制台使用脚本变量函数和GM) {
+        unsafeWindow.更新在控制台使用的脚本变量函数和GM = () => {
+            // GM_*
+            unsafeWindow._GM_addStyle = GM_addStyle;
+            unsafeWindow._GM_getValue = GM_getValue;
+            unsafeWindow._GM_info = GM_info;
+            unsafeWindow._GM_notification = GM_notification;
+            unsafeWindow._GM_openInTab = GM_openInTab;
+            unsafeWindow._GM_registerMenuCommand = GM_registerMenuCommand;
+            unsafeWindow._GM_setValue = GM_setValue;
+            unsafeWindow._GM_unregisterMenuCommand = GM_unregisterMenuCommand;
+
+            // 普通变量
+            unsafeWindow._D = D;
+            unsafeWindow._最后一个菜单id = 最后一个菜单id;
+            // unsafeWindow._玩了几分钟 = 玩了几分钟;
+            unsafeWindow._用了多少天 = 用了多少天;
+            unsafeWindow._减料成功 = 减料成功;
+            unsafeWindow._脚本信息 = 脚本信息;
+            unsafeWindow._开发者配置 = 开发者配置;
+            unsafeWindow._一堆伞兵玩意 = 一堆伞兵玩意;
+
+            // 自定函数
+            unsafeWindow._改变值 = 改变值;
+            unsafeWindow._初始化值 = 初始化值;
+            unsafeWindow._检测状态 = 检测状态;
+            unsafeWindow._更新菜单 = 更新菜单;
+            unsafeWindow._大人来了 = 大人来了;
+            // unsafeWindow._检测网址是否包含指定字符串 =
+            //     检测网址是否包含指定字符串;
+            // unsafeWindow._游戏中 = 游戏中;
+            unsafeWindow._减料 = 减料;
+            unsafeWindow._普通减料 = 普通减料;
+            unsafeWindow._减点料 = 减点料;
+            unsafeWindow._一个弹窗的样式 = 一个弹窗的样式;
+        };
+        unsafeWindow.更新在控制台使用的脚本变量函数和GM();
+    }
+
+    log(
+        "[防沉迷减点料] " + 网址 + "\n\n脚本信息: ",
+        脚本信息,
+        "\n\n开发者配置: ",
+        开发者配置
+    );
+
+    log(
+        "[防沉迷减点料] 脚本执行完毕, 用时" +
+            (new Date().getTime() - D.getTime()) +
+            "ms ",
+        网址
+    );
+})();
 
 addEventListener("load", () => {
     减点料();
@@ -919,75 +1057,6 @@ addEventListener("load", () => {
         });
     }, 5000);
 
-    if (网址.includes("ptlogin.4399.com")) {
-        setTimeout(() => {
-            if (document.querySelector(".ptlogin_btn")) {
-                document.querySelector(".ptlogin_btn").addEventListener("mouseup", () => {
-                    alert("请在稍后刷新网页");
-                });
-            }
-        }, 1000);
-    }
-
-    if (location.host == "www.7k7k.com") {
-        try {
-            document.querySelector("div.login_no").title =
-                "✨防沉迷减点料支持7k7k强制登录, 请移步至脚本菜单";
-        } catch (e) {}
-
-        if (location.href.includes("fai-doLogin"))
-            document.querySelector("div.login_no > div.h_login.login_btn > span").click();
-    }
-
-    if (qs("script[src*='chpenmljpdpkebnohfbbdpfelabcnlnp']")) {
-        GM_registerMenuCommand("⚠️您已经安装了防沉迷终结者, 不推荐二者同时使用");
-    }
-    // 准备游戏真实地址管理器();
 });
 
 减点料();
-
-if (开发者配置.在控制台使用脚本变量函数和GM) {
-    unsafeWindow.更新在控制台使用的脚本变量函数和GM = () => {
-        // GM_*
-        unsafeWindow._GM_addStyle = GM_addStyle;
-        unsafeWindow._GM_getValue = GM_getValue;
-        unsafeWindow._GM_info = GM_info;
-        unsafeWindow._GM_notification = GM_notification;
-        unsafeWindow._GM_openInTab = GM_openInTab;
-        unsafeWindow._GM_registerMenuCommand = GM_registerMenuCommand;
-        unsafeWindow._GM_setValue = GM_setValue;
-        unsafeWindow._GM_unregisterMenuCommand = GM_unregisterMenuCommand;
-
-        // 普通变量
-        unsafeWindow._D = D;
-        unsafeWindow._最后一个菜单id = 最后一个菜单id;
-        unsafeWindow._玩了几分钟 = 玩了几分钟;
-        unsafeWindow._用了多少天 = 用了多少天;
-        unsafeWindow._减料成功 = 减料成功;
-        unsafeWindow._脚本信息 = 脚本信息;
-        unsafeWindow._开发者配置 = 开发者配置;
-        unsafeWindow._一堆伞兵玩意 = 一堆伞兵玩意;
-
-        // 自定函数
-        unsafeWindow._改变值 = 改变值;
-        unsafeWindow._初始化值 = 初始化值;
-        unsafeWindow._检测状态 = 检测状态;
-        unsafeWindow._更新菜单 = 更新菜单;
-        unsafeWindow._大人来了 = 大人来了;
-        unsafeWindow._检测网址是否包含指定字符串 = 检测网址是否包含指定字符串;
-        unsafeWindow._游戏中 = 游戏中;
-        unsafeWindow._减料 = 减料;
-        unsafeWindow._普通减料 = 普通减料;
-        unsafeWindow._减点料 = 减点料;
-        unsafeWindow._一个弹窗的样式 = 一个弹窗的样式;
-    };
-    unsafeWindow.更新在控制台使用的脚本变量函数和GM();
-}
-
-console.log("[防沉迷减点料] " + 网址 + "\n\n脚本信息: ", 脚本信息, "\n\n开发者配置: ", 开发者配置);
-
-console.log(
-    "[防沉迷减点料] 脚本执行完毕, 用时" + (new Date().getTime() - D.getTime()) + "ms ",
-    网址
-);
