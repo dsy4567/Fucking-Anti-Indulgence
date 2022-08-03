@@ -12,17 +12,11 @@
 
 # 👍 推荐脚本
 
-> -   [防沉迷减点料 (4399 专用, 精简无比)](https://greasyfork.org/zh-CN/scripts/444198)
 > -   [防沉迷减点料 (智障版本)](https://greasyfork.org/zh-CN/scripts/444199)
-> -   [防沉迷减点料 (超级精简)](https://greasyfork.org/zh-CN/scripts/442214)
 > -   [4399 增强](https://greasyfork.org/zh-CN/scripts/436895)
 
 ---
 
-<!-- <center style="text-align:center;">
-<img style="text-align:center;" alt="logo" title="logo" src="https://dsy4567.github.io/logo.svg" />
-<h1 style="text-align:center;">🎇🎇🎇防沉迷减点料🎇🎇🎇</h1>
-</center> -->
 <center>
 <p align="center" style="text-align:center;">
 <img style="text-align:center;" alt="logo" title="logo" src="https://dsy4567.github.io/logo.svg" />
@@ -125,23 +119,19 @@
 
 > ❔ **防沉迷减料失效怎么办**
 >
-> > ❗ _点击防沉迷弹窗, 然后按下 `alt + 鼠标中键` 即可, 也可以先按住 `shift + alt` , 再将鼠标挪到防沉迷弹窗上面,最后按下鼠标右键**(注意不是鼠标中键)**_
+> > ❗ _点击防沉迷弹窗, 然后按下 `alt + 鼠标中键` 即可, 也可以试试手动减料或智障减料. 登陆网站可以提高减料成功率(这不是必须的, 账号也不用实名) 如果还不行, 请 [点我反馈](https://greasyfork.org/zh-CN/scripts/437233-%E9%98%B2%E6%B2%89%E8%BF%B7%E5%87%8F%E7%82%B9%E6%96%99/feedback)_
 >
-> ❔ **爸妈或者老师来了怎么办**
+> ❔ **爸妈或者老师走了, 怎么关闭由于按下大人键弹出的防沉迷弹窗**
 >
-> > ❗ _按下 `shift + 鼠标中键` 即可(最好点一下页面空白处)_
->
-> ❔ **爸妈或者老师走了怎么解除**
->
-> > ❗ _点击防沉迷弹窗, 然后按下 `alt + 鼠标中键` 即可_
+> > ❗ _按下 `alt + 鼠标中键` 即可_
 >
 > ❔ **如果脚本失效或无法使用怎么办**
 >
-> > ❗ _[点我反馈](https://greasyfork.org/zh-CN/scripts/437233-%E9%98%B2%E6%B2%89%E8%BF%B7%E5%87%8F%E7%82%B9%E6%96%99/feedback) 请发个截图并更详细地说明问题, 如果已解决, 麻烦改个好评 (不要光给差评不说问题, 这不利于我让脚本变得更好)_
+> > ❗ _[点我反馈](https://greasyfork.org/zh-CN/scripts/437233-%E9%98%B2%E6%B2%89%E8%BF%B7%E5%87%8F%E7%82%B9%E6%96%99/feedback) 请发个截图并更详细地说明问题, 如果已解决, 麻烦改个好评_
 >
 > ❔ **页游防沉迷无法减料怎么办**
 >
-> > ❗ _该脚本还不支持给页游防沉迷减料 (4399 和 7k7k 是真的狗) , 不过你可以安装 [4399 增强 + 防沉迷减料辅助](https://greasyfork.org/zh-CN/scripts/436895-4399%E5%A2%9E%E5%BC%BA-%E9%98%B2%E6%B2%89%E8%BF%B7%E5%8A%A0%E6%96%99%E8%BE%85%E5%8A%A9) 来实现到点不被踢出_
+> > ❗ _该脚本还不支持给页游防沉迷减料, 不过该脚本可以实现到点不被踢出_
 
 ---
 
