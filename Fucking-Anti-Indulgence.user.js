@@ -4,12 +4,18 @@
 // @description  [❤️支持全面] 已支持4366,37,9377,游戏狗,u7u9,7724,17yy,qq空间部分游戏,07073,7k7k,4399 4399网页游戏还能到点不踢 [⚡️更加快速] 0.99秒急速减料 [😱别怕大人] 大人来了就按"大人键" [✔️高可用率] 持续更新更靠谱 [🕶 手动减料] 防沉迷减料不成功? 对着防沉迷弹窗按快捷键 [😵‍💫智障减料] 误杀率高, 没卵用的实验性功能 [⛔ 强制登录] 7k7k 未成年限制登录个锤子 👍👍👍 热烈庆祝 GreasyFork 总安装量破千 👏👏👏
 
 // @namespace    https://fcmsb250.github.io/
-// @version      4.8.3
+// @version      4.9
 // @icon         https://dsy4567.github.io/logo.svg
 // @author       dsy4567 https://greasyfork.org/zh-CN/users/822325 | https://github.com/dsy4567
 // @run-at       document-start
 // @require      https://code.jquery.com/jquery-3.6.0.min.js
 // @license      GPL-3.0
+
+// @compatible   firefox firefox + tampermonkey 测试通过
+// @compatible   chrome  chrome/360安全浏览器 + tampermonkey 测试通过
+// @compatible   edge    edge + tampermonkey 测试通过
+// @incompatible opera   未在 opera 下进行任何测试, 兼容性未知
+// @incompatible safari  未在 safari 下进行任何测试, 兼容性未知
 
 // @match        *://*.17yy.com/*
 // @match        *://*.4399.com/*
@@ -148,13 +154,14 @@ var 减料成功 = 0;
 var 一个弹窗的样式 = { remove: () => {} };
 var 最后一个菜单id = 0;
 var 游戏真实地址_17yy = "";
-/**
- * @type {Function}
- */
+/** @type {Function} */
 var _playLoading;
+var 页面加载完毕 = false;
 var 开发者配置 = {};
 
 const 网址 = location.href;
+const 域名 = location.host;
+const 路径 = location.pathname;
 const 脚本信息 = JSON.stringify({
     浏览器: navigator.userAgent,
     脚本能更新: GM_info.scriptWillUpdate,
@@ -168,7 +175,7 @@ const 脚本信息 = JSON.stringify({
 if (GM_getValue("开发环境") == "1") {
     开发者配置.启用控制台输出 = 1;
     // 开发者配置.启用调试 = 1;
-    开发者配置.禁用自动防沉迷减料 = 1;
+    // 开发者配置.禁用自动防沉迷减料 = 1;
     开发者配置.在控制台使用脚本变量函数和GM = 1;
 } else {
     开发者配置.启用控制台输出 = 0;
@@ -220,10 +227,10 @@ var 一堆伞兵玩意 = [
 /**
  * 为某个字符串获取两个字符串中间的字符串(不包括那两个字符串)
  * @param {String} 开始
- * @param {String} 结束
+ * @param {String} 结束 (可以是空字符串)
  * @param {String} 值
- * @param {String} 类型 "1": 网址, "2": 字母 + 数字, "3": 数字
- * @param {String} 前面追加
+ * @param {String} 类型 "1": 网址, "2": 字母 + 数字, "3": 数字 (可留空)
+ * @param {String} 前面追加 在匹配到字符串, 判断字符串类型之前, 给匹配到的字符串前面追加 (可留空)
  * @returns {String}
  */
 function 获取中间(开始, 结束, 值, 类型, 前面追加) {
@@ -234,6 +241,7 @@ function 获取中间(开始, 结束, 值, 类型, 前面追加) {
     if (前面追加) {
         值 = 前面追加 + 值;
     }
+    log(["获取中间匹配结果", 值]);
     switch (类型) {
         case "1":
             if (
@@ -243,17 +251,17 @@ function 获取中间(开始, 结束, 值, 类型, 前面追加) {
                     值.substring(0, 8) == "https://"
                 )
             ) {
-                throw new Error("不正确的字符串");
+                throw new Error("[防沉迷减点料] 不正确的字符串类型");
             }
             break;
         case "2":
             if (!/^[0-9a-zA-Z]*$/g.test(值)) {
-                throw new Error("不正确的字符串");
+                throw new Error("[防沉迷减点料] 不正确的字符串类型");
             }
             break;
         case "3":
             if (isNaN(Number(值))) {
-                throw new Error("不正确的字符串");
+                throw new Error("[防沉迷减点料] 不正确的字符串类型");
             }
             break;
 
@@ -263,13 +271,31 @@ function 获取中间(开始, 结束, 值, 类型, 前面追加) {
     return 值;
 }
 
+/**
+ * 通过参数名获取url中的参数值
+ * @param  {string} queryName 参数名
+ * @return {string}           参数值
+ */
+function 获取url参数值(queryName) {
+    var query = decodeURI(window.location.search.substring(1));
+    var vars = query.split("&");
+    for (var i = 0; i < vars.length; i++) {
+        var pair = vars[i].split("=");
+        if (pair[0] == queryName) {
+            return pair[1];
+        }
+    }
+    return null;
+}
+
 function 首字母大写(str) {
     str = str[0].toUpperCase() + str.substring(1, str.length);
     return str;
 }
 
-function log(a, b, c, d, e, f, g) {
-    if (开发者配置.启用控制台输出) console.log(a, b, c, d, e, f, g);
+/** @param {any[]} 数据 */
+function log(数据) {
+    if (开发者配置.启用控制台输出) console.log("[防沉迷减点料]", ...数据);
 }
 
 function 智障减料() {
@@ -430,7 +456,7 @@ function 更新菜单() {
         [
             "⛔解决访问错误",
             () => {
-                location.href = 网址;
+                location.href = location.href;
             },
             undefined,
         ],
@@ -472,10 +498,10 @@ function 更新菜单() {
 }
 
 function 大人来了() {
-    log("[防沉迷减点料] 大人来了");
+    log(["大人来了"]);
     try {
         一个弹窗的样式.remove();
-        log("[防沉迷减点料] 已去除样式");
+        log(["已去除样式"]);
     } catch (err) {}
 
     一个弹窗的样式 = GM_addStyle(
@@ -499,17 +525,92 @@ function 大人来了() {
 
 function 减料() {
     if (减料成功) {
-        return log("[防沉迷减点料] 减料被取消");
+        return log(["减料被取消"]);
     }
 
     let 开始 = new Date().getTime();
 
     let $full_screen_frame = qs("#full_screen_frame");
     let $app_canvas_frame = qs("#app_canvas_frame");
-    let $ifm = qs("#ifm");
 
-    if (网址.includes("4399")) {
-        // 搞破坏
+    if (
+        域名 === "www.zxwyouxi.com" &&
+        路径.includes("/g/") &&
+        document.cookie
+    ) {
+        $.ajax({
+            url: "https://h.api.4399.com/intermodal/user/grant2",
+            data: {
+                gameId: 获取中间("/g/", "", 网址, "3"),
+                authType: "token",
+                userId: 获取中间(
+                    "4399_HTML5_PREVIEW_USERID=",
+                    ";",
+                    document.cookie
+                ),
+                accessToken: 获取中间(
+                    "HTML5_ACCESS_TOKEN=",
+                    ";",
+                    document.cookie
+                ),
+                pcwap: "",
+                all: "",
+            },
+            type: "POST",
+            dataType: "json",
+            success: (resp) => {
+                log([resp]);
+                try {
+                    if (resp.data.game.gameUrl)
+                        location.href = resp.data.game.gameUrl;
+                    else throw "";
+                } catch (err) {
+                    console.error(err);
+                }
+            },
+        });
+        减料成功 = 1;
+    } else if (
+        域名 === "h.api.4399.com" &&
+        路径 === "/g.php" &&
+        document.cookie
+    ) {
+        if (开发者配置.启用调试) {
+            debugger;
+        }
+
+        try {
+            log(["尝试4399 h5页游防沉迷减料"]);
+            if (开发者配置.启用调试) {
+                debugger;
+            }
+
+            $.ajax({
+                url: "https://h.api.4399.com/intermodal/user/grant2",
+                data: {
+                    gameId: 获取url参数值("gameId"),
+                    authType: "cookie",
+                    cookieValue: 获取中间("Pauth=", ";", document.cookie),
+                },
+                type: "POST",
+                dataType: "json",
+                success: (resp) => {
+                    log([resp]);
+                    try {
+                        if (resp.data.game.gameUrl)
+                            location.href = resp.data.game.gameUrl;
+                        else throw "";
+                    } catch (err) {
+                        console.error(err);
+                    }
+                },
+            });
+            减料成功 = 1;
+        } catch (err) {
+            console.error(err);
+        } //http://h.api.4399.com/g.php?gameId=100060323
+    } else if (域名.includes("4399")) {
+        // 搞破坏 4399
         if (开发者配置.启用调试) {
             debugger;
         }
@@ -535,54 +636,55 @@ function 减料() {
             });
             减料成功 = 1;
         } catch (e) {}
-    } else if (unsafeWindow.play22 && 网址.includes("7k7k.com")) {
+    } else if (unsafeWindow.play22 && 域名.includes("7k7k.com")) {
         // 7k7k获取游戏直链1
         if (开发者配置.启用调试) {
             debugger;
         }
 
         try {
-            log("[防沉迷减点料] 尝试7k7k防沉迷减料");
+            log(["尝试7k7k防沉迷减料"]);
             if (开发者配置.启用调试) {
                 debugger;
             }
-            // unsafeWindow.Play24.prototype.playLoading();
             unsafeWindow.play22.playLoading();
             if (!_playLoading) {
                 _playLoading = unsafeWindow.play22.playLoading;
             }
             unsafeWindow.play22.playLoading = () => {}; // 防止重复调用
             减料成功 = 1;
-            // unsafeWindow.Play24.prototype.playLoading = ()=> {};
         } catch (err) {
             console.error(err);
         }
-    } else if ($ifm && 网址.includes("m.7k7k.com/player")) {
+    } else if (域名 === "m.7k7k.com" && 路径.includes("/player/")) {
         if (开发者配置.启用调试) {
             debugger;
         }
 
-        if ($ifm.src != location.href && $ifm.src) {
-            // 7k7k获取游戏直链2
-            try {
-                log("[防沉迷减点料] 尝试7k7k手机端防沉迷减料");
-                if (开发者配置.启用调试) {
-                    debugger;
-                }
-                减料成功 = 1;
-                location.href = $ifm.src;
-            } catch (err) {
-                console.error(err);
+        try {
+            log(["尝试7k7k手机端防沉迷减料"]);
+            if (开发者配置.启用调试) {
+                debugger;
             }
+
+            $.get(网址, (html) => {
+                location.href = 获取中间('gameUrl: "', '",', html, "1");
+            });
+            减料成功 = 1;
+        } catch (err) {
+            console.error(err);
         }
-    } else if (网址.includes("h5.7k7k.com/web/H5GAMES.html")) {
+    } else if (
+        域名.includes("m.7k7k.com") &&
+        路径.includes("/web/H5GAMES.html")
+    ) {
         if (开发者配置.启用调试) {
             debugger;
         }
 
         // 7k7k获取游戏直链3
         try {
-            log("[防沉迷减点料] 尝试7k7k h5页游防沉迷减料");
+            log(["尝试7k7k h5页游防沉迷减料"]);
             if (开发者配置.启用调试) {
                 debugger;
             }
@@ -604,15 +706,15 @@ function 减料() {
         } catch (err) {
             console.error(err);
         }
-    } else if (网址.includes("h5.7k7k.com/game/")) {
+    } else if (域名.includes("h5.7k7k.com") && 路径.includes("/game/")) {
         // 7k7k获取游戏直链3
         try {
             if (开发者配置.启用调试) {
                 debugger;
             }
 
-            console.log("[防沉迷减点料] 尝试7k7k h5页游(手机端)防沉迷破解");
-            _$.get(
+            console.log("尝试7k7k h5页游(手机端)防沉迷破解");
+            $.get(
                 "http://h5.7k7k.com/api_redirect/game/start/?client=0&account=" +
                     获取中间("userid=", ";", document.cookie, "2") +
                     "&appkey=" +
@@ -639,7 +741,7 @@ function 减料() {
 
         try {
             if ($app_canvas_frame.src && $app_canvas_frame.src != 网址) {
-                log("[防沉迷减点料] 尝试阻止QQ空间自动跳转1");
+                log(["尝试阻止QQ空间自动跳转1"]);
                 if (开发者配置.启用调试) {
                     debugger;
                 }
@@ -656,7 +758,7 @@ function 减料() {
 
         try {
             if ($full_screen_frame.src && $full_screen_frame.src != 网址) {
-                log("[防沉迷减点料] 尝试阻止QQ空间自动跳转2");
+                log(["尝试阻止QQ空间自动跳转2"]);
                 if (开发者配置.启用调试) {
                     debugger;
                 }
@@ -666,31 +768,30 @@ function 减料() {
         } catch (err) {
             console.error(err);
         }
-    } else if (网址.includes("//i.7724.com/user/danjilogin?url=")) {
+    } else if (
+        域名 === "i.7724.com" &&
+        网址.includes("/user/danjilogin?url=")
+    ) {
         if (开发者配置.启用调试) {
             debugger;
         }
 
         try {
-            log("[防沉迷减点料] 尝试7724防沉迷减料");
-            // var url = 网址.substring(网址.indexOf("danjilogin?url=") + "danjilogin?url=".length);
-            // if (
-            //     url.substring(0, 2) == "//" ||
-            //     url.substring(0, 7) == "http://" ||
-            //     url.substring(0, 8) == "https://"
-            // ) {
-            // }
+            log(["尝试7724防沉迷减料"]);
             let url = 获取中间("danjilogin?url=", undefined, 网址, "1");
             location.href = url;
             减料成功 = 1;
         } catch (err) {}
-    } else if (网址.includes("wvw.9377.com/game_login.php")) {
+    } else if (
+        域名.includes("wvw.9377.com") &&
+        路径.includes("/game_login.php")
+    ) {
         if (开发者配置.启用调试) {
             debugger;
         }
 
         try {
-            log("[防沉迷减点料] 尝试9377防沉迷减料");
+            log(["尝试9377防沉迷减料"]);
             $.get(网址, (html) => {
                 // var url = html.substring(
                 //     html.indexOf('id="iframe" src="') + 'id="iframe" src="'.length,
@@ -706,19 +807,14 @@ function 减料() {
             });
             减料成功 = 1;
         } catch (err) {}
-    } else if (网址.includes("game.37.com/play.php")) {
+    } else if (域名.includes("game.37.com") && 路径.includes("/play.php")) {
         if (开发者配置.启用调试) {
             debugger;
         }
 
         try {
-            log("[防沉迷减点料] 尝试37防沉迷减料");
+            log(["尝试37防沉迷减料"]);
             $.get(网址, (html) => {
-                // var url = html.substring(
-                //     html.indexOf('src="//gameapp.37.com/controller/enter_game.php') +
-                //         'src="'.length,
-                //     html.indexOf('" id="mainFrame"')
-                // );
                 let url = 获取中间(
                     'src="//gameapp.37.com/controller/enter_game.php',
                     '" id="mainFrame"',
@@ -730,13 +826,16 @@ function 减料() {
             });
             减料成功 = 1;
         } catch (err) {}
-    } else if (网址.includes("wvw.4366.com/game_login.php")) {
+    } else if (
+        域名.includes("wvw.4366.com") &&
+        路径.includes("/game_login.php")
+    ) {
         if (开发者配置.启用调试) {
             debugger;
         }
 
         try {
-            log("[防沉迷减点料] 尝试4366防沉迷减料");
+            log(["尝试4366防沉迷减料"]);
             $.get(网址, (html) => {
                 // var url = html.substring(
                 //     html.indexOf('align="left" id="iframe" src="') +
@@ -760,7 +859,7 @@ function 减料() {
             });
             减料成功 = 1;
         } catch (err) {}
-    } else if (网址.includes("www.17yy.com/f/play")) {
+    } else if (域名 === "www.17yy.com" && 路径.includes("/f/play")) {
         if (开发者配置.启用调试) {
             debugger;
         }
@@ -811,11 +910,7 @@ function 减料() {
     }
 
     if (开发者配置.输出减料时间) {
-        log(
-            "[防沉迷减点料] 减料结束, 用时" +
-                (new Date().getTime() - 开始) +
-                "ms"
-        );
+        log(["减料结束, 用时" + (new Date().getTime() - 开始) + "ms"]);
     }
 }
 
@@ -827,7 +922,7 @@ function 普通减料() {
             if (qsa(element)[0]) {
                 qsa(element).forEach((el) => {
                     el.remove();
-                    log("[防沉迷减点料] -减料成功- " + element);
+                    log(["-减料成功- " + element]);
                 });
             }
         }
@@ -836,14 +931,14 @@ function 普通减料() {
             if (qsa(element)[0]) {
                 qsa(element).forEach((el) => {
                     el.remove();
-                    log("[防沉迷减点料] -解除大人来了成功- " + element);
+                    log(["-解除大人来了成功- " + element]);
                 });
             }
         });
 
         try {
             一个弹窗的样式.remove();
-            log("[防沉迷减点料] 已去除样式");
+            log(["已去除样式"]);
         } catch (err) {}
     } catch (err) {
         console.error(err);
@@ -881,11 +976,50 @@ if (!开发者配置.禁用自动防沉迷减料) {
                 overflow: hidden !important;
             }`;
     GM_addStyle(css);
-    log("[防沉迷减点料] 加样式表成功");
+    log(["加样式表成功"]);
+}
+
+if (开发者配置.在控制台使用脚本变量函数和GM) {
+    unsafeWindow.更新在控制台使用的脚本变量函数和GM = () => {
+        // GM_*
+        unsafeWindow._GM_addStyle = GM_addStyle;
+        unsafeWindow._GM_getValue = GM_getValue;
+        unsafeWindow._GM_info = GM_info;
+        unsafeWindow._GM_notification = GM_notification;
+        unsafeWindow._GM_openInTab = GM_openInTab;
+        unsafeWindow._GM_registerMenuCommand = GM_registerMenuCommand;
+        unsafeWindow._GM_setValue = GM_setValue;
+        unsafeWindow._GM_unregisterMenuCommand = GM_unregisterMenuCommand;
+
+        // 普通变量
+        unsafeWindow._D = D;
+        unsafeWindow._最后一个菜单id = 最后一个菜单id;
+        // unsafeWindow._玩了几分钟 = 玩了几分钟;
+        unsafeWindow._用了多少天 = 用了多少天;
+        unsafeWindow._减料成功 = 减料成功;
+        unsafeWindow._脚本信息 = 脚本信息;
+        unsafeWindow._开发者配置 = 开发者配置;
+        unsafeWindow._一堆伞兵玩意 = 一堆伞兵玩意;
+
+        // 自定函数
+        unsafeWindow._改变值 = 改变值;
+        unsafeWindow._初始化值 = 初始化值;
+        unsafeWindow._检测状态 = 检测状态;
+        unsafeWindow._更新菜单 = 更新菜单;
+        unsafeWindow._大人来了 = 大人来了;
+        // unsafeWindow._检测网址是否包含指定字符串 =
+        //     检测网址是否包含指定字符串;
+        // unsafeWindow._游戏中 = 游戏中;
+        unsafeWindow._减料 = 减料;
+        unsafeWindow._普通减料 = 普通减料;
+        unsafeWindow._减点料 = 减点料;
+        unsafeWindow._一个弹窗的样式 = 一个弹窗的样式;
+    };
+    unsafeWindow.更新在控制台使用的脚本变量函数和GM();
 }
 
 // 一些无关紧要的代码
-(async () => {
+setTimeout(() => {
     GM_addValueChangeListener(
         "开始智障减料",
         (name, old_value, new_value, remote) => {
@@ -912,7 +1046,7 @@ if (!开发者配置.禁用自动防沉迷减料) {
         更新菜单();
 
         // 精美图片
-        log(
+        console.log(
             "%c    ",
             "font-size:512px;background-size:100% 100%;background-repeat:no-repeat;background-image:url(https://fcmsb250.github.io/fuck-anti.webp);"
         );
@@ -928,15 +1062,15 @@ if (!开发者配置.禁用自动防沉迷减料) {
                 }
                 if (e.button == 2 && e.shiftKey && e.altKey) {
                     let el = document.elementFromPoint(e.x, e.y);
-                    log(
-                        "[防沉迷减点料] -手动减料成功- ." +
+                    log([
+                        "-手动减料成功- ." +
                             el.className +
                             " #" +
                             el.id +
                             " <" +
                             el.tagName +
-                            ">"
-                    );
+                            ">",
+                    ]);
                     el.style.display = "none";
                 }
                 if (e.button == 1 && e.altKey && !e.shiftKey) {
@@ -955,7 +1089,7 @@ if (!开发者配置.禁用自动防沉迷减料) {
                 document
                     .querySelector(".ptlogin_btn")
                     .addEventListener("mouseup", () => {
-                        alert("请在稍后刷新网页");
+                        alert("请在稍后刷新网页, 以跳过实名认证");
                     });
             }
         }, 1000);
@@ -979,61 +1113,22 @@ if (!开发者配置.禁用自动防沉迷减料) {
         );
     }
 
-    if (开发者配置.在控制台使用脚本变量函数和GM) {
-        unsafeWindow.更新在控制台使用的脚本变量函数和GM = () => {
-            // GM_*
-            unsafeWindow._GM_addStyle = GM_addStyle;
-            unsafeWindow._GM_getValue = GM_getValue;
-            unsafeWindow._GM_info = GM_info;
-            unsafeWindow._GM_notification = GM_notification;
-            unsafeWindow._GM_openInTab = GM_openInTab;
-            unsafeWindow._GM_registerMenuCommand = GM_registerMenuCommand;
-            unsafeWindow._GM_setValue = GM_setValue;
-            unsafeWindow._GM_unregisterMenuCommand = GM_unregisterMenuCommand;
-
-            // 普通变量
-            unsafeWindow._D = D;
-            unsafeWindow._最后一个菜单id = 最后一个菜单id;
-            // unsafeWindow._玩了几分钟 = 玩了几分钟;
-            unsafeWindow._用了多少天 = 用了多少天;
-            unsafeWindow._减料成功 = 减料成功;
-            unsafeWindow._脚本信息 = 脚本信息;
-            unsafeWindow._开发者配置 = 开发者配置;
-            unsafeWindow._一堆伞兵玩意 = 一堆伞兵玩意;
-
-            // 自定函数
-            unsafeWindow._改变值 = 改变值;
-            unsafeWindow._初始化值 = 初始化值;
-            unsafeWindow._检测状态 = 检测状态;
-            unsafeWindow._更新菜单 = 更新菜单;
-            unsafeWindow._大人来了 = 大人来了;
-            // unsafeWindow._检测网址是否包含指定字符串 =
-            //     检测网址是否包含指定字符串;
-            // unsafeWindow._游戏中 = 游戏中;
-            unsafeWindow._减料 = 减料;
-            unsafeWindow._普通减料 = 普通减料;
-            unsafeWindow._减点料 = 减点料;
-            unsafeWindow._一个弹窗的样式 = 一个弹窗的样式;
-        };
-        unsafeWindow.更新在控制台使用的脚本变量函数和GM();
-    }
-
-    log(
-        "[防沉迷减点料] " + 网址 + "\n\n脚本信息: ",
+    log([
+        "" + 网址 + "\n\n脚本信息: ",
         脚本信息,
         "\n\n开发者配置: ",
-        开发者配置
-    );
+        开发者配置,
+    ]);
 
-    log(
-        "[防沉迷减点料] 脚本执行完毕, 用时" +
-            (new Date().getTime() - D.getTime()) +
-            "ms ",
-        网址
-    );
-})();
+    log([
+        "脚本执行完毕, 用时" + (new Date().getTime() - D.getTime()) + "ms ",
+        网址,
+    ]);
+});
 
 addEventListener("load", () => {
+    页面加载完毕 = true;
+
     减点料();
 
     setTimeout(() => {
@@ -1056,7 +1151,6 @@ addEventListener("load", () => {
             );
         });
     }, 5000);
-
 });
 
 减点料();

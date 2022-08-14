@@ -6,7 +6,7 @@
 >
 > # 👉 反馈前请[看这个](https://greasyfork.org/zh-CN/users/822325-dsy4567)
 >
-> # 👉 使用脚本时建议登陆网站, 以确保效果(不需要实名认证, 登陆网站也不是必须的)
+> # 👉 使用脚本时强烈建议登陆网站, 以确保效果(可以实名为未成年或不实名, 7k7k 可以在脚本菜单里强制登陆)
 >
 > # 👉 请先安装脚本管理器(推荐 Tampermonkey)再安装此脚本，Tampermonkey 扩展可在当前浏览器扩展商店获取(见传送门)
 
@@ -23,6 +23,16 @@
 <h1  align="center" style="text-align:center;">🎇🎇🎇防沉迷减点料🎇🎇🎇</h1>
 </p>
 </center>
+
+# 🕺 兼容性
+
+> 脚本在以下环境下测试通过(浏览器和脚本管理器为最新版本):
+>
+> firefox + tampermonkey  
+> chrome/360 安全浏览器 + tampermonkey  
+> edge + tampermonkey
+>
+> 脚本未在 safari 和 opera 浏览器下测试, 因此兼容性未知
 
 # ✨ 脚本特色
 
@@ -63,7 +73,7 @@
 > ## 4399 (页游到点可不被踢出):
 >
 > > -   4399.com/flash/
-> > -   www.zxwyouxi.com/g/
+> > -   www.zxwyouxi.com/g/ (部分 h5 页游可能会半天无法加载)
 > > -   h.4399.com/play/ 或 h.4399.com/zzy/ (移动端)
 >
 > ## 7k7k(玩 h5 页游需要强制登录):
@@ -106,11 +116,10 @@
 
 # 💊 温馨提示
 
-> -   _使用 Safari 浏览器时, 可能会遇到部分网站无法运行任何油猴脚本, 请见 [#110202](https://greasyfork.org/zh-CN/scripts/419081/discussions/110202)_
-> -   _在 ie/兼容 模式下, 也会遇到所有网站无法运行任何油猴脚本, 请见 [#130323](https://greasyfork.org/zh-CN/scripts/437233-%E9%98%B2%E6%B2%89%E8%BF%B7%E5%87%8F%E7%82%B9%E6%96%99/discussions/130323)_
+> -   在部分游戏下, 您可能会被脚本带到第三方网站开始游戏, 这个网站是脚本获取到的真实游戏页面, 并非广告或钓鱼网站
 > -   点击油猴脚本扩展图标可查看更多选项
 > -   如果没有减料请尝试按下 `alt + 鼠标中键`
-> -   如果脚本无法使用，请安装旧版本或进行[反馈](https://greasyfork.org/zh-CN/scripts/437233-%E9%98%B2%E6%B2%89%E8%BF%B7%E5%87%8F%E7%82%B9%E6%96%99/feedback)
+> -   如果脚本无法使用，请提出[反馈](https://greasyfork.org/zh-CN/scripts/437233-%E9%98%B2%E6%B2%89%E8%BF%B7%E5%87%8F%E7%82%B9%E6%96%99/feedback)或尝试安装旧版本
 > -   该脚本无法完全支持 QQ 空间游戏和其他游戏平台的页游
 
 ---
