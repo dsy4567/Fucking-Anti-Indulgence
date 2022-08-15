@@ -32,7 +32,9 @@
 > chrome/360 安全浏览器 + tampermonkey  
 > edge + tampermonkey
 >
-> 脚本未在 safari 和 opera 浏览器下测试, 因此兼容性未知
+> 脚本未在 safari 和 opera 浏览器下测试, 因此兼容性未知  
+> 兼容 chrome + 暴力猴/脚本猫, 但并非最佳体验  
+> 不支持 greasemonkey
 
 # ✨ 脚本特色
 
