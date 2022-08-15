@@ -134,6 +134,7 @@ function 检测状态(值) {
         return "⚠️配置错误 ";
     }
 }
+/** @returns {HTMLCanvasElement | HTMLScriptElement | HTMLIFrameElement} */
 function qs(选择器) {
     return document.querySelector(选择器);
 }
@@ -174,7 +175,7 @@ const 脚本信息 = JSON.stringify({
 
 if (GM_getValue("开发环境") == "1") {
     开发者配置.启用控制台输出 = 1;
-    // 开发者配置.启用调试 = 1;
+    开发者配置.启用调试 = 1;
     // 开发者配置.禁用自动防沉迷减料 = 1;
     开发者配置.在控制台使用脚本变量函数和GM = 1;
 } else {
@@ -608,13 +609,40 @@ function 减料() {
             减料成功 = 1;
         } catch (err) {
             console.error(err);
-        } //http://h.api.4399.com/g.php?gameId=100060323
+        }
+    } else if (域名 === "h.4399.com" && 路径.includes("/play/")) {
+        if (开发者配置.启用调试) {
+            debugger;
+        }
+
+        try {
+            log(["尝试4399 h5页游防沉迷减料"]);
+            if (开发者配置.启用调试) {
+                debugger;
+            }
+
+            let url = unsafeWindow.webServer + unsafeWindow.gameiframe;
+            if (url && unsafeWindow.webServer && unsafeWindow.gameiframe) {
+                减料成功 = 1;
+                location.href = url;
+            }
+        } catch (err) {
+            console.error(err);
+        }
     } else if (域名.includes("4399")) {
         // 搞破坏 4399
         if (开发者配置.启用调试) {
             debugger;
         }
 
+        // if (
+        //     qs(".url_container") &&
+        //     qs(".url_container").src &&
+        //     qs(".url_container").src != location.href
+        // ) {
+        //     location.href = qs(".url_container").src;
+        //     return;
+        // }
         try {
             Object.defineProperty(unsafeWindow, "smevent", {
                 value: null, // 原来是Function, 这样做可以使防沉迷报错
@@ -690,7 +718,7 @@ function 减料() {
             }
 
             $.get(
-                "http://h5.7k7k.com/api_redirect/game/start/?client=0&account=" +
+                "//h5.7k7k.com/api_redirect/game/start/?client=0&account=" +
                     获取中间("userid=", ";", document.cookie, "2") +
                     "&appkey=" +
                     获取中间("gid=", "&", 网址, "2") +
@@ -715,7 +743,7 @@ function 减料() {
 
             console.log("尝试7k7k h5页游(手机端)防沉迷破解");
             $.get(
-                "http://h5.7k7k.com/api_redirect/game/start/?client=0&account=" +
+                "//h5.7k7k.com/api_redirect/game/start/?client=0&account=" +
                     获取中间("userid=", ";", document.cookie, "2") +
                     "&appkey=" +
                     // eslint-disable-next-line no-undef
