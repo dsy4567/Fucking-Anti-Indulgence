@@ -28,7 +28,7 @@
 
 > 愿伟大的江泽民同志在天堂没有病痛
 
-<div style="background-color: black;">但游戏还是要玩的(</div>
+<div style="background-color: black;">但游戏还是要玩的 <img height="16" alt="狗头保命" src="https://lf3-cdn-tos.bytescm.com/obj/static/xitu_juejin_web/img/jj_emoji_97.39cdc9f.png"></div>
 
 # 🕺 兼容性
 
