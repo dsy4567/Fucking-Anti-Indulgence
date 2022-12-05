@@ -1,10 +1,10 @@
-﻿// ==UserScript==
+// ==UserScript==
 // @name         🎇🎇🎇防沉迷减点料🎇🎇🎇
 
 // @description  [❤️支持全面] 已支持4366,37,9377,游戏狗,u7u9,7724,17yy,qq空间部分游戏,07073,7k7k,4399 4399网页游戏还能到点不踢 [⚡️更加快速] 0.99秒急速减料 [😱别怕大人] 大人来了就按"大人键" [✔️高可用率] 持续更新更靠谱 [🕶 手动减料] 防沉迷减料不成功? 对着防沉迷弹窗按快捷键 [😵‍💫智障减料] 误杀率高, 没卵用的实验性功能 [⛔ 强制登录] 7k7k 未成年限制登录个锤子 👍👍👍 热烈庆祝 GreasyFork 总安装量破千 👏👏👏
 
 // @namespace    https://fcmsb250.github.io/
-// @version      4.9.1
+// @version      4.9.2
 // @icon         https://dsy4567.github.io/logo.svg
 // @author       dsy4567 https://greasyfork.org/zh-CN/users/822325 | https://github.com/dsy4567
 // @run-at       document-start
@@ -223,6 +223,7 @@ var 一堆伞兵玩意 = [
     ".webtipss",
 
     "body > div.show_box.popup_bg",
+    "div[style*='z-index: 99999']",
 ];
 
 /**
@@ -684,7 +685,7 @@ function 减料() {
         } catch (err) {
             console.error(err);
         }
-    } else if (域名 === "m.7k7k.com" && 路径.includes("/player/")) {
+    } else if (域名 === "m.7k7k.com" && 路径.includes("/flash/")) {
         if (开发者配置.启用调试) {
             debugger;
         }
@@ -695,9 +696,15 @@ function 减料() {
                 debugger;
             }
 
-            $.get(网址, (html) => {
-                location.href = 获取中间('gameUrl: "', '",', html, "1");
-            });
+            $(()=>{
+                unsafeWindow.open=null
+                $("div.gameInfo_begin.jsbegin").off("click")
+                $("div.gameInfo_begin.jsbegin").on("click",()=>
+                    $.get(unsafeWindow.gameInfo.gameUrl, (html) => {
+                        location.href = 获取中间('gameUrl: "', '",', html, "1");
+                    })
+                )
+            })
             减料成功 = 1;
         } catch (err) {
             console.error(err);
