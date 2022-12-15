@@ -21,7 +21,7 @@
 
 <center>
 <p align="center" style="text-align:center;">
-<img style="text-align:center;" alt="logo" title="logo" src="https://dsy4567.github.io/logo.svg" />
+<img style="text-align:center;" alt="logo" title="logo" src="https://dsy4567.cf/logo.svg" />
 <h1  align="center" style="text-align:center;">🎇🎇🎇防沉迷减点料🎇🎇🎇</h1>
 </p>
 </center>
