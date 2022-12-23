@@ -185,4 +185,4 @@
 
 > 防沉迷 煞笔 玩意 身份证 身混证 抗成瘾 防成瘾 fangcm fangchenmi fangchengmi 4399fangchenmi 4399fangchengmi 油猴 护苗 毁苗 成年人 实名 认证 人脸 识别 四三九九 石山 九九 九九四三 9943 肆叁玖玖 43 439 4399fcm u7u9 7k7k fcm cm c fcmi qq 空间防沉迷 07379
 
-![hits](https://hits.sh/greasyfork.org/scripts/437233)
+![hits](https://hits.sh/greasyfork.org/scripts/437233.svg)
