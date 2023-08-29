@@ -1,10 +1,10 @@
 // ==UserScript==
-// @name         防沉迷减点料 (智障版本)
+// @name         防沉迷终结者 (万能规则)
 // @description  使用万能规则通杀大部分游戏平台的防沉迷, 它无与伦比的误杀率将为您带来终身难忘的使用体验
 // @namespace    https://fcmsb250.github.io/
-// @version      0.1
+// @version      0.1.1
 // @icon         https://dsy4567.github.io/logo.svg
-// @author       mininb666 https://greasyfork.org/zh-CN/users/822325-mininb666 / dsy4567 https://github.com/dsy4567
+// @author       dsy4567 https://greasyfork.org/zh-CN/users/822325 / dsy4567 https://github.com/dsy4567
 // @license      GPL-3.0
 
 // @match        *://*/*
@@ -25,7 +25,7 @@ function 首字母大写(str) {
     return str;
 }
 
-function 智障减料() {
+function 万能规则() {
     let 游戏元素id或class = ["flash", "game", "play", "youxi", "swf", "flash"];
     let 防沉迷元素id或class = [
         "anti",
@@ -41,7 +41,7 @@ function 智障减料() {
     let 临时数组 = [];
     let 样式表 = "";
 
-    游戏元素id或class.forEach((str) => {
+    游戏元素id或class.forEach(str => {
         临时数组.push(
             "iframe[id*='" + str + "'],",
             "iframe[class*='" + str + "'],",
@@ -51,7 +51,7 @@ function 智障减料() {
             "iframe[class*='" + 首字母大写(str) + "'],"
         );
     });
-    临时数组.forEach((str) => {
+    临时数组.forEach(str => {
         样式表 += str;
     });
     样式表 += `#ctmdfcm
@@ -64,7 +64,7 @@ function 智障减料() {
             }`;
     临时数组 = [];
 
-    防沉迷元素id或class.forEach((str) => {
+    防沉迷元素id或class.forEach(str => {
         临时数组.push(
             "[id*='" + str + "'],",
             "[class*='" + str + "'],",
@@ -74,7 +74,7 @@ function 智障减料() {
             "[class*='" + 首字母大写(str) + "'],"
         );
     });
-    临时数组.forEach((str) => {
+    临时数组.forEach(str => {
         样式表 += str;
     });
     样式表 += `#ctmdfcm
@@ -95,10 +95,10 @@ function 智障减料() {
     GM_addStyle(样式表);
 }
 
-GM_addValueChangeListener("开始智障减料", (name, old_value, new_value, remote) => {
-    智障减料();
+GM_addValueChangeListener("使用万能规则", () => {
+    万能规则();
 });
 
-GM_registerMenuCommand("👉智障减料(不保证实用性)", () => {
-    GM_setValue("开始智障减料", Math.random());
+GM_registerMenuCommand("👉使用万能规则(不保证实用性)", () => {
+    GM_setValue("使用万能规则", Math.random());
 });

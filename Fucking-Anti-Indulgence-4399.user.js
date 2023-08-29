@@ -1,10 +1,10 @@
 // ==UserScript==
-// @name         防沉迷减点料(4399专用, 精简无比)
+// @name         防沉迷终结者(4399专用, 精简无比)
 // @description  代码量极少, 页游也能到点不被踢出
 // @namespace    https://fcmsb250.github.io/
-// @version      0.1
+// @version      0.1.1
 // @icon         https://dsy4567.github.io/Anti-addiction-terminator/extension/icon/logo.svg
-// @author       mininb666 https://greasyfork.org/zh-CN/users/822325-mininb666 / dsy4567 https://github.com/dsy4567
+// @author       dsy4567 https://greasyfork.org/zh-CN/users/822325 / dsy4567 https://github.com/dsy4567
 // @run-at       document-start
 // @license      GPL-3.0
 // @match        *://*.4399.com/*
