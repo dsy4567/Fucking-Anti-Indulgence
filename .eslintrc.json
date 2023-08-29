@@ -1,24 +1,20 @@
 {
-	"env": {
-		"browser": false,
-		"commonjs": true,
-		"es6": true,
-		"node": true,
-		"mocha": true
-	},
-	"parserOptions": {
-		"ecmaVersion": 2018,
-		"ecmaFeatures": {
-			"jsx": true
-		},
-		"sourceType": "module"
-	},
-	"rules": {
-		"no-const-assign": "error",
-		"no-this-before-super": "warn",
-		"no-unreachable": "warn",
-		"constructor-super": "warn",
-		"valid-typeof": "warn",
+    "env": {
+        "browser": false,
+        "commonjs": true,
+        "es6": true,
+        "node": false,
+        "mocha": false
+    },
+    "parserOptions": {
+        "ecmaVersion": 2020
+    },
+    "rules": {
+        "no-const-assign": "error",
+        "no-this-before-super": "warn",
+        "no-unreachable": "warn",
+        "constructor-super": "warn",
+        "valid-typeof": "warn",
         "no-throw-literal": "warn"
-	}
+    }
 }

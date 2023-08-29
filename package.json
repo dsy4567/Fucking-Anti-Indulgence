@@ -1,6 +1,8 @@
 {
-  "devDependencies": {
-    "@types/jquery": "^3.5.14",
-    "@types/tampermonkey": "^4.0.5"
-  }
+    "devDependencies": {
+        "@types/tampermonkey": "^4.0.5"
+    },
+    "dependencies": {
+        "eslint": "^8.48.0"
+    }
 }
