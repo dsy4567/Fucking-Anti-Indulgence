@@ -1,10 +1,10 @@
 ﻿// ==UserScript==
-// @name         防沉迷减点料 (精简版本)
+// @name         防沉迷终结者 (精简版本)
 // @description  不需要任何依赖, 只保留最基本的功能
 // @namespace    https://fcmsb250.github.io/
-// @version      1.0
+// @version      1.0.1
 // @icon         https://dsy4567.github.io/logo.svg
-// @author       mininb666 https://greasyfork.org/zh-CN/users/822325-mininb666 / dsy4567 https://github.com/dsy4567
+// @author       dsy4567 https://greasyfork.org/zh-CN/users/822325 / dsy4567 https://github.com/dsy4567
 // @run-at       document-start
 // @license      GPL-3.0
 
@@ -33,103 +33,431 @@
 // @downloadURL  https://github.com/dsy4567/Fucking-Anti-Indulgence/raw/main/Fucking-Anti-Indulgence-2.user.js
 // ==/UserScript==
 
-// @ts-nocheck
+"use strict";
+let D = new Date();
 
-function _qs(选择器) {
-    return document.querySelector(选择器);
+/** @returns {HTMLCanvasElement | HTMLScriptElement | HTMLIFrameElement} */
+function qs(selector) {
+    return document.querySelector(selector);
 }
-function _qsa(选择器) {
-    return document.querySelectorAll(选择器);
+/** @returns {(HTMLCanvasElement | HTMLScriptElement | HTMLIFrameElement)[]} */
+function qsa(selector) {
+    return document.querySelectorAll(selector);
 }
-function 对象转url参数() {
-    let obj = arguments[0];
-    let prefix = arguments[1];
-    if (typeof obj !== "object") return "";
-    const attrs = Object.keys(obj);
-    return attrs.reduce((query, attr, index) => {
-        // 判断是否是第一层第一个循环
-        if (index === 0 && !prefix) query += "";
-        if (typeof obj[attr] === "object") {
-            const subPrefix = prefix ? `${prefix}[${attr}]` : attr;
-            query += this.objectToQuery(obj[attr], subPrefix);
-        } else {
-            if (prefix) {
-                query += `${prefix}[${attr}]=${obj[attr]}`;
-            } else {
-                query += `${attr}=${obj[attr]}`;
-            }
-        }
-        // 判断是否是第一层最后一个循环
-        if (index !== attrs.length - 1) query += "&";
-        return query;
-    }, "");
-}
-/**
- * 通过参数名获取url中的参数值
- * @param  {string} queryName 参数名
- * @return {string}           参数值
- */
-function 获取url参数值(queryName) {
-    var query = decodeURI(window.location.search.substring(1));
-    var vars = query.split("&");
-    for (var i = 0; i < vars.length; i++) {
-        var pair = vars[i].split("=");
-        if (pair[0] == queryName) {
-            return pair[1];
+
+let pageLoaded = false;
+let realAddress_17yy = "";
+/** @type {Function} */
+let _playLoading;
+let succeeded = false;
+let gamePlatform = "";
+
+const locationHref = location.href;
+const host = location.host;
+const pathname = location.pathname;
+const U = new URL(location.href);
+
+(() => {
+    const a = host.split(".");
+    for (let i = 0; i < a.length; i++) {
+        const ss = a[i];
+        if (ss === "com" || ss === "cn") {
+            gamePlatform = a[i - 1];
+            break;
         }
     }
-    return null;
-}
-function 添加样式(css) {
-    let s = document.createElement("style");
-    s.innerHTML = css;
-    document.head.append(s);
-}
+})();
 
-var 减料成功 = 0;
-var 游戏真实地址_17yy = "";
-var _playLoading;
-var _$ = {
-    ajax: (op) => {
-        try {
-            // 使用网站提供的 jQuery
-            $.get;
-            $.ajax;
-            $("html");
-            $.ajax(op);
-        } catch (e) {
-            fetch(op.url, {
-                method: "POST",
-                cache: "no-cache",
-                headers: {
-                    "Content-Type": "application/x-www-form-urlencoded",
-                },
-                body: 对象转url参数(op.data),
-            })
-                .then((res) => res.json())
-                .then((j) => op.success(j));
-        }
-    },
-    get: (url, call) => {
-        try {
-            // 使用网站提供的 jQuery
-            $.get;
-            $.ajax;
-            $("html");
-            $.get(url, call);
-        } catch (e) {
-            fetch(url)
-                .then((res) => res.text())
-                .then((t) => call(t));
-        }
-    },
-};
+const /** @type {Record<string, (() => void)[]>} */ rules = {
+        4399: [
+            // 使防沉迷尝试读取某些全局变量时报错
+            // https://www.4399.com/flash/223745_2.htm
+            () => {
+                Object.defineProperty(unsafeWindow, "smevent", {
+                    value: null,
+                    writable: false,
+                });
+                Object.defineProperty(unsafeWindow, "PageWebApiSdk", {
+                    value: null,
+                    writable: false,
+                });
+                Object.defineProperty(unsafeWindow, "getBizid", {
+                    value: null,
+                    writable: false,
+                });
+            },
+            // https://h.4399.com/zzy/236117.htm
+            () => {
+                if (
+                    host !== "h.4399.com" ||
+                    (host === "h.4399.com" && !pathname.includes("/play/"))
+                )
+                    return;
 
-const 网址 = location.href;
-const 域名 = location.host;
-const 路径 = location.pathname;
+                log(["4399 手机端防沉迷"]);
 
-var 一堆伞兵玩意 = [
+                const url = unsafeWindow.webServer + unsafeWindow.gameiframe;
+                if (url && unsafeWindow.webServer && unsafeWindow.gameiframe) {
+                    succeeded = 1;
+                    location.href = url;
+                }
+            },
+            // https://www.4399.com/flash/209443.htm
+            () => {
+                if (
+                    host !== "h.api.4399.com" ||
+                    (host === "h.api.4399.com" && pathname !== "/g.php")
+                )
+                    return;
+
+                log(["4399 h5页游防沉迷(h.api.4399.com/g.php)"]);
+
+                const gameId = U.searchParams.get("gameId");
+                if (!gameId) return;
+                fetch("https://h.api.4399.com/intermodal/user/grant2", {
+                    method: "POST",
+                    body: `gameId=${gameId}&authType=cookie&cookieValue=${getMiddleString(
+                        "Pauth=",
+                        ";",
+                        document.cookie
+                    )}`,
+                    headers: {
+                        "Content-Type":
+                            "application/x-www-form-urlencoded; charset=UTF-8",
+                    },
+                })
+                    .then(res => res.json())
+                    .then(resp => {
+                        log([resp]);
+                        if (resp.data.game.gameUrl)
+                            location.href = resp.data.game.gameUrl;
+                        else throw new Error("[防沉迷终结者] gameUrl 为空");
+                    })
+                    .catch(err => console.error(err));
+                succeeded = 1;
+            },
+        ],
+
+        // 4399 在线玩
+        zxwyouxi: [
+            // https://www.zxwyouxi.com/g/100057159
+            () => {
+                if (
+                    host !== "www.zxwyouxi.com" ||
+                    (host === "www.zxwyouxi.com" && !pathname.startsWith("/g/"))
+                )
+                    return;
+
+                log(["4399 h5页游防沉迷(www.zxwyouxi.com/g/)"]);
+
+                fetch("https://h.api.4399.com/intermodal/user/grant2", {
+                    method: "POST",
+                    body: `gameId=${getMiddleString(
+                        "/g/",
+                        "",
+                        locationHref,
+                        "3"
+                    )}&authType=token&userId=${getMiddleString(
+                        "4399_HTML5_PREVIEW_USERID=",
+                        ";",
+                        document.cookie
+                    )}&accessToken=${getMiddleString(
+                        "HTML5_ACCESS_TOKEN=",
+                        ";",
+                        document.cookie
+                    )}`,
+                    headers: {
+                        "Content-Type":
+                            "application/x-www-form-urlencoded; charset=UTF-8",
+                    },
+                })
+                    .then(res => res.json())
+                    .then(resp => {
+                        log([resp]);
+                        if (resp.data.game.gameUrl)
+                            location.href = resp.data.game.gameUrl;
+                        else throw new Error("[防沉迷终结者] gameUrl 为空");
+                    })
+                    .catch(err => console.error(err));
+                succeeded = 1;
+            },
+        ],
+        "7k7k": [
+            // http://www.7k7k.com/swf/205652.htm
+            () => {
+                if (!unsafeWindow.play22) return;
+
+                log(["7k7k防沉迷"]);
+
+                unsafeWindow.play22.playLoading();
+                if (!_playLoading) {
+                    _playLoading = unsafeWindow.play22.playLoading;
+                }
+                unsafeWindow.play22.playLoading = () => {}; // 防止重复调用
+                succeeded = 1;
+            },
+            // http://m.7k7k.com/flash/205652.htm
+            () => {
+                if (
+                    host !== "m.7k7k.com" ||
+                    (host === "m.7k7k.com" &&
+                        !pathname.includes("/flash/") &&
+                        host === "m.7k7k.com" &&
+                        !pathname.includes("/swf/"))
+                )
+                    return;
+
+                log(["7k7k手机端防沉迷"]);
+
+                unsafeWindow.open = null;
+                const f = () => {
+                    removeListeners("div.gameInfo_begin.jsbegin");
+                    qs("div.gameInfo_begin.jsbegin").addEventListener(
+                        "click",
+                        () =>
+                            fetch(unsafeWindow.gameInfo.gameUrl)
+                                .then(res => res.text())
+                                .then(html => {
+                                    location.href = getMiddleString(
+                                        'gameUrl: "',
+                                        '",',
+                                        html,
+                                        "1"
+                                    );
+                                })
+                    );
+                };
+                pageLoaded ? f() : addEventListener("DOMContentLoaded", f);
+                succeeded = 1;
+            },
+            // http://h5.7k7k.com/mb/mb2/5b5dd7da8ad23b748f9ea32a7a3cedfa.html?gid=f5c4dbf7fb41d89d76a333332f33f853&tid=94606&qs=1
+            () => {
+                if (
+                    host !== "m.7k7k.com" ||
+                    (host === "m.7k7k.com" &&
+                        !pathname.includes("/web/H5GAMES.html"))
+                )
+                    return;
+
+                log(["7k7k h5页游防沉迷"]);
+
+                fetch(
+                    `//h5.7k7k.com/api_redirect/game/start/?client=0&account=${getMiddleString(
+                        "userid=",
+                        ";",
+                        document.cookie,
+                        "2"
+                    )}&appkey=${getMiddleString(
+                        "gid=",
+                        "&",
+                        locationHref,
+                        "2"
+                    )}&uid=${getMiddleString(
+                        "userid=",
+                        ";",
+                        document.cookie,
+                        "2"
+                    )}&tid=${getMiddleString("tid=", "&", locationHref, "2")}`
+                )
+                    .then(res => res.json())
+                    .then(json => {
+                        location.href = json.url;
+                    });
+                succeeded = 1;
+            },
+            () => {
+                if (
+                    !host.includes("h5.7k7k.com") ||
+                    (host.includes("h5.7k7k.com") &&
+                        !pathname.includes("/game/"))
+                )
+                    return;
+
+                log(["7k7k h5页游(手机端)防沉迷"]);
+
+                fetch(
+                    `//h5.7k7k.com/api_redirect/game/start/?client=0&account=${getMiddleString(
+                        "userid=",
+                        ";",
+                        document.cookie,
+                        "2"
+                    )}&appkey=${unsafeWindow.gid[0]}&uid=${getMiddleString(
+                        "userid=",
+                        ";",
+                        document.cookie,
+                        "2"
+                    )}&tid=${unsafeWindow.tid}`
+                )
+                    .then(res => res.json())
+                    .then(json => {
+                        location.href = json.url;
+                    });
+                succeeded = 1;
+            },
+        ],
+        "17yy": [
+            // https://www.17yy.com/f/play/246085.html
+            // https://www.17yy.com/f/play/246568.html
+            () => {
+                if (
+                    host !== "www.17yy.com" ||
+                    (host === "www.17yy.com" && !pathname.startsWith("/f/play"))
+                )
+                    return;
+
+                log(["17yy防沉迷"]);
+
+                try {
+                    if (qs("#flashgame").src === realAddress_17yy) return;
+                } catch (e) {}
+                try {
+                    if (qs("#flash_frame").src === realAddress_17yy) return;
+                } catch (e) {}
+
+                fetch("//www.17yy.com/e/payapi/vip_ajax.php", {
+                    method: "POST",
+                    body: `action=getStatus&id=${getMiddleString(
+                        "/f/play/",
+                        ".html",
+                        locationHref,
+                        "3"
+                    )}`,
+                    headers: {
+                        "Content-Type":
+                            "application/x-www-form-urlencoded; charset=UTF-8",
+                    },
+                })
+                    .then(res => res.json())
+                    .then(resp => {
+                        try {
+                            qs("#flashgame").src = realAddress_17yy =
+                                "//" +
+                                unsafeWindow.server +
+                                "/" +
+                                unsafeWindow.classes +
+                                "/" +
+                                unsafeWindow.date +
+                                "/" +
+                                resp.data.game_path;
+                        } catch (e) {}
+                        try {
+                            qs("#flash_frame").src = realAddress_17yy =
+                                "//" +
+                                unsafeWindow.server +
+                                "/" +
+                                unsafeWindow.classes +
+                                "/" +
+                                unsafeWindow.date +
+                                "/" +
+                                resp.data.game_path;
+                        } catch (e) {}
+                    });
+                succeeded = 1;
+            },
+        ],
+        7724: [
+            // https://www.7724.com/XuanCaiTuXing/
+            () => {
+                if (
+                    host !== "i.7724.com" ||
+                    (host === "i.7724.com" &&
+                        !locationHref.includes("/user/danjilogin?url="))
+                )
+                    return;
+
+                log(["7724防沉迷"]);
+
+                let url = getMiddleString(
+                    "danjilogin?url=",
+                    undefined,
+                    locationHref,
+                    "1"
+                );
+                location.href = url;
+                succeeded = 1;
+            },
+        ],
+        4366: [
+            // http://wvw.4366.com/game_login.php?game=bscq&server=new
+            () => {
+                if (
+                    !host.includes("wvw.4366.com") ||
+                    (host.includes("wvw.4366.com") &&
+                        !pathname.includes("/game_login.php"))
+                )
+                    return;
+
+                log(["4366防沉迷"]);
+
+                fetch(locationHref)
+                    .then(res => res.text())
+                    .then(html => {
+                        let url = getMiddleString(
+                            'align="left" id="iframe" src="',
+                            '" name="mainFrame" scrolling="auto"',
+                            html,
+                            "1"
+                        );
+                        location.href = url;
+                    });
+                succeeded = 1;
+            },
+        ],
+        37: [
+            // https://game.37.com/server_list_901.html
+            () => {
+                if (
+                    !host.includes("game.37.com") ||
+                    (host.includes("game.37.com") &&
+                        !pathname.includes("/play.php"))
+                )
+                    return;
+
+                log(["37防沉迷"]);
+
+                fetch(locationHref)
+                    .then(res => res.text())
+                    .then(html => {
+                        let url = getMiddleString(
+                            'src="//gameapp.37.com/controller/enter_game.php',
+                            '" id="mainFrame"',
+                            html,
+                            "1",
+                            "//gameapp.37.com/controller/enter_game.php"
+                        );
+                        location.href = url;
+                    });
+                succeeded = 1;
+            },
+        ],
+        9377: [
+            // http://www.9377.com/bscq/
+            () => {
+                if (
+                    !host.includes("wvw.9377.com") ||
+                    (host.includes("wvw.9377.com") &&
+                        !pathname.includes("/game_login.php"))
+                )
+                    return;
+
+                log(["9377防沉迷"]);
+
+                fetch(locationHref)
+                    .then(res => res.text())
+                    .then(html => {
+                        let url = getMiddleString(
+                            'id="iframe" src="',
+                            '" name="mainFrame" scrolling="auto"',
+                            html,
+                            "1"
+                        );
+                        location.href = url;
+                    });
+                succeeded = 1;
+            },
+        ],
+    };
+const blackList = [
     "#addiv",
     "#anti-indulge",
     "#anti-indulge-prompt",
@@ -167,429 +495,122 @@ var 一堆伞兵玩意 = [
     ".webtipss",
 
     "body > div.show_box.popup_bg",
+    "div[style*='z-index: 99999']",
 ];
-
-var __css = "";
-for (let 索引 = 0; 索引 < 一堆伞兵玩意.length; 索引++) {
-    const element = 一堆伞兵玩意[索引];
-    __css += element + ",";
-}
-__css += `\
-#ctmdfcm {
-    display: none !important;
-    min-width: 0 !important;
-    width: 0 !important;
-    max-width: 0 !important;
-    min-height: 0 !important;
-    height: 0 !important;
-    max-height: 0 !important;
-    z-index: -999 !important;
-    font-size: 0 !important;
-    overflow: hidden !important;
-}`;
-添加样式(__css);
-
-/** @param {any[]} 数据 */
-function log(数据) {
-    if (true) console.log("[防沉迷减点料]", ...数据);
-}
 
 /**
  * 为某个字符串获取两个字符串中间的字符串(不包括那两个字符串)
- * @param {String} 开始
- * @param {String} 结束 (可以是空字符串)
- * @param {String} 值
- * @param {String} 类型 "1": 网址, "2": 字母 + 数字, "3": 数字 (可留空)
- * @param {String} 前面追加 在匹配到字符串, 判断字符串类型之前, 给匹配到的字符串前面追加 (可留空)
+ * @param {String} begin
+ * @param {String} end (可以是空字符串)
+ * @param {String} target
+ * @param {String | undefined} type "1": 网址, "2": 字母 + 数字, "3": 数字 (可选)
+ * @param {String | undefined} append 在匹配到字符串, 判断字符串类型之前, 给匹配到的字符串前面追加指定的字符串 (可选)
  * @returns {String}
  */
-function 获取中间(开始, 结束, 值, 类型, 前面追加) {
-    值 = 值.substring(值.indexOf(开始) + 开始.length);
-    if (结束) {
-        值 = decodeURI(值.substring(0, 值.indexOf(结束)));
+function getMiddleString(begin, end, target, type, append) {
+    target = target.substring(target.indexOf(begin) + begin.length);
+    if (end) {
+        target = decodeURI(target.substring(0, target.indexOf(end)));
     }
-    if (前面追加) {
-        值 = 前面追加 + 值;
+    if (append) {
+        target = append + target;
     }
-    log(["获取中间匹配结果", 值]);
-    switch (类型) {
+    switch (type) {
         case "1":
-            if (
-                !(
-                    值.substring(0, 2) == "//" ||
-                    值.substring(0, 7) == "http://" ||
-                    值.substring(0, 8) == "https://"
-                )
-            ) {
-                throw new Error("[防沉迷减点料] 不正确的字符串类型");
+            if (!(/^https?:\/\//gi.test(target) || target.startsWith("//"))) {
+                throw new Error("[防沉迷终结者] 不正确的字符串类型");
             }
             break;
         case "2":
-            if (!/^[0-9a-zA-Z]*$/g.test(值)) {
-                throw new Error("[防沉迷减点料] 不正确的字符串类型");
+            if (!/^[0-9a-zA-Z]*$/g.test(target)) {
+                throw new Error("[防沉迷终结者] 不正确的字符串类型");
             }
             break;
         case "3":
-            if (isNaN(Number(值))) {
-                throw new Error("[防沉迷减点料] 不正确的字符串类型");
+            if (isNaN(Number(target))) {
+                throw new Error("[防沉迷终结者] 不正确的字符串类型");
             }
             break;
 
         default:
             break;
     }
-    return 值;
+    return target;
 }
 
-function 减料() {
-    if (减料成功) {
-        return log(["减料被取消"]);
-    }
-
-    let $full_screen_frame = _qs("#full_screen_frame");
-    let $app_canvas_frame = _qs("#app_canvas_frame");
-
-    if (
-        域名 === "www.zxwyouxi.com" &&
-        路径.includes("/g/") &&
-        document.cookie
-    ) {
-        _$.ajax({
-            url: "https://h.api.4399.com/intermodal/user/grant2",
-            data: {
-                gameId: 获取中间("/g/", "", 网址, "3"),
-                authType: "token",
-                userId: 获取中间(
-                    "4399_HTML5_PREVIEW_USERID=",
-                    ";",
-                    document.cookie
-                ),
-                accessToken: 获取中间(
-                    "HTML5_ACCESS_TOKEN=",
-                    ";",
-                    document.cookie
-                ),
-                pcwap: "",
-                all: "",
-            },
-            type: "POST",
-            dataType: "json",
-            success: (resp) => {
-                log([resp]);
-                try {
-                    if (resp.data.game.gameUrl)
-                        location.href = resp.data.game.gameUrl;
-                    else throw "";
-                } catch (err) {
-                    console.error(err);
-                }
-            },
-        });
-        减料成功 = 1;
-    } else if (
-        域名 === "h.api.4399.com" &&
-        路径 === "/g.php" &&
-        document.cookie
-    ) {
-        try {
-            log(["尝试4399 h5页游防沉迷减料"]);
-
-            _$.ajax({
-                url: "https://h.api.4399.com/intermodal/user/grant2",
-                data: {
-                    gameId: 获取url参数值("gameId"),
-                    authType: "cookie",
-                    cookieValue: 获取中间("Pauth=", ";", document.cookie),
-                },
-                type: "POST",
-                dataType: "json",
-                success: (resp) => {
-                    log([resp]);
-                    try {
-                        if (resp.data.game.gameUrl)
-                            location.href = resp.data.game.gameUrl;
-                        else throw "";
-                    } catch (err) {
-                        console.error(err);
-                    }
-                },
-            });
-            减料成功 = 1;
-        } catch (err) {
-            console.error(err);
-        }
-    } else if (域名 === "h.4399.com" && 路径.includes("/play/")) {
-        try {
-            log(["尝试4399 h5页游防沉迷减料"]);
-
-            let url = window.webServer + window.gameiframe;
-            if (url && window.webServer && window.gameiframe) {
-                减料成功 = 1;
-                location.href = url;
-            }
-        } catch (err) {
-            console.error(err);
-        }
-    } else if (域名.includes("4399")) {
-        // 搞破坏 4399
-
-        try {
-            Object.defineProperty(unsafeWindow, "smevent", {
-                value: null, // 原来是Function, 这样做可以使防沉迷报错
-                writable: false,
-            });
-            减料成功 = 1;
-        } catch (e) {}
-        try {
-            Object.defineProperty(unsafeWindow, "PageWebApiSdk", {
-                value: null,
-                writable: false,
-            });
-            减料成功 = 1;
-        } catch (e) {}
-        try {
-            Object.defineProperty(unsafeWindow, "getBizid", {
-                value: null,
-                writable: false,
-            });
-            减料成功 = 1;
-        } catch (e) {}
-    } else if (window.play22 && 域名.includes("7k7k.com")) {
-        // 7k7k获取游戏直链1
-
-        try {
-            log(["尝试7k7k防沉迷减料"]);
-
-            window.play22.playLoading();
-            if (!_playLoading) {
-                _playLoading = window.play22.playLoading;
-            }
-            window.play22.playLoading = () => {}; // 防止重复调用
-            减料成功 = 1;
-        } catch (err) {
-            console.error(err);
-        }
-    } else if (域名 === "m.7k7k.com" && 路径.includes("/player/")) {
-        try {
-            log(["尝试7k7k手机端防沉迷减料"]);
-
-            _$.get(网址, (html) => {
-                location.href = 获取中间('gameUrl: "', '",', html, "1");
-            });
-            减料成功 = 1;
-        } catch (err) {
-            console.error(err);
-        }
-    } else if (
-        域名.includes("m.7k7k.com") &&
-        路径.includes("/web/H5GAMES.html")
-    ) {
-        // 7k7k获取游戏直链3
-        try {
-            log(["尝试7k7k h5页游防沉迷减料"]);
-
-            _$.get(
-                "//h5.7k7k.com/api_redirect/game/start/?client=0&account=" +
-                    获取中间("userid=", ";", document.cookie, "2") +
-                    "&appkey=" +
-                    获取中间("gid=", "&", 网址, "2") +
-                    "&uid=" +
-                    获取中间("userid=", ";", document.cookie, "2") +
-                    "&tid=" +
-                    获取中间("tid=", "&", 网址, "2"),
-                (json) => {
-                    location.href = JSON.parse(json).url;
-                }
-            );
-            减料成功 = 1;
-        } catch (err) {
-            console.error(err);
-        }
-    } else if (域名.includes("h5.7k7k.com") && 路径.includes("/game/")) {
-        // 7k7k获取游戏直链3
-        try {
-            console.log("尝试7k7k h5页游(手机端)防沉迷破解");
-            _$.get(
-                "//h5.7k7k.com/api_redirect/game/start/?client=0&account=" +
-                    获取中间("userid=", ";", document.cookie, "2") +
-                    "&appkey=" +
-                    // eslint-disable-next-line no-undef
-                    window.gid[0] +
-                    "&uid=" +
-                    获取中间("userid=", ";", document.cookie, "2") +
-                    "&tid=" +
-                    // eslint-disable-next-line no-undef
-                    window.tid,
-                (json) => {
-                    let url = JSON.parse(json).url;
-                    if (url) location.href = url;
-                }
-            );
-            减料成功 = 1;
-        } catch (err) {
-            console.error(err);
-        }
-    } else if ($app_canvas_frame) {
-        try {
-            if ($app_canvas_frame.src && $app_canvas_frame.src != 网址) {
-                log(["尝试阻止QQ空间自动跳转1"]);
-                减料成功 = 1;
-                location.href = $app_canvas_frame.src;
-            }
-        } catch (err) {
-            console.error(err);
-        }
-    } else if ($full_screen_frame) {
-        try {
-            if ($full_screen_frame.src && $full_screen_frame.src != 网址) {
-                log(["尝试阻止QQ空间自动跳转2"]);
-                减料成功 = 1;
-                location.href = $full_screen_frame.src;
-            }
-        } catch (err) {
-            console.error(err);
-        }
-    } else if (
-        域名 === "i.7724.com" &&
-        网址.includes("/user/danjilogin?url=")
-    ) {
-        try {
-            log(["尝试7724防沉迷减料"]);
-            let url = 获取中间("danjilogin?url=", undefined, 网址, "1");
-            location.href = url;
-            减料成功 = 1;
-        } catch (err) {}
-    } else if (
-        域名.includes("wvw.9377.com") &&
-        路径.includes("/game_login.php")
-    ) {
-        try {
-            log(["尝试9377防沉迷减料"]);
-            _$.get(网址, (html) => {
-                let url = 获取中间(
-                    'id="iframe" src="',
-                    '" name="mainFrame" scrolling="auto"',
-                    html,
-                    "1"
-                );
-                location.href = url;
-            });
-            减料成功 = 1;
-        } catch (err) {}
-    } else if (域名.includes("game.37.com") && 路径.includes("/play.php")) {
-        try {
-            log(["尝试37防沉迷减料"]);
-            _$.get(网址, (html) => {
-                let url = 获取中间(
-                    'src="//gameapp.37.com/controller/enter_game.php',
-                    '" id="mainFrame"',
-                    html,
-                    "1",
-                    "//gameapp.37.com/controller/enter_game.php"
-                );
-                location.href = url;
-            });
-            减料成功 = 1;
-        } catch (err) {}
-    } else if (
-        域名.includes("wvw.4366.com") &&
-        路径.includes("/game_login.php")
-    ) {
-        try {
-            log(["尝试4366防沉迷减料"]);
-            _$.get(网址, (html) => {
-                let url = 获取中间(
-                    'align="left" id="iframe" src="',
-                    '" name="mainFrame" scrolling="auto"',
-                    html,
-                    "1"
-                );
-                location.href = url;
-            });
-            减料成功 = 1;
-        } catch (err) {}
-    } else if (域名 === "www.17yy.com" && 路径.includes("/f/play")) {
-        try {
-            try {
-                if (_qs("#flashgame").src == 游戏真实地址_17yy) return;
-            } catch (e) {}
-            try {
-                if (_qs("#flash_frame").src == 游戏真实地址_17yy) return;
-            } catch (e) {}
-            try {
-                if (!减料成功 && 游戏真实地址_17yy) {
-                    try {
-                        _qs("#flashgame").src = 游戏真实地址_17yy;
-                    } catch (e) {
-                        console.error(e);
-                        减料成功 = 0;
-                    }
-                    try {
-                        _qs("#flash_frame").src = 游戏真实地址_17yy;
-                    } catch (e) {
-                        console.error(e);
-                        减料成功 = 0;
-                    }
-                }
-            } catch (e) {}
-
-            _$.ajax({
-                url: "http://www.17yy.com/e/payapi/vip_ajax.php",
-                data: {
-                    action: "getStatus",
-                    id: 获取中间("/f/play/", ".html", 网址, "3"),
-                },
-                type: "POST",
-                dataType: "json",
-                success: function (resp) {
-                    游戏真实地址_17yy =
-                        "http://" +
-                        window.server +
-                        "/" +
-                        window.classes +
-                        "/" +
-                        window.date +
-                        "/" +
-                        resp.data.game_path;
-                    try {
-                        _qs("#flashgame").src = 游戏真实地址_17yy;
-                    } catch (e) {
-                        console.error(e);
-                        减料成功 = 0;
-                    }
-                    try {
-                        _qs("#flash_frame").src = 游戏真实地址_17yy;
-                    } catch (e) {
-                        console.error(e);
-                        减料成功 = 0;
-                    }
-                },
-            });
-            减料成功 = 1;
-        } catch (err) {}
-    }
+function removeListeners(selector) {
+    qsa(selector).forEach(oldElement => {
+        const newElement = oldElement.cloneNode(true);
+        oldElement.parentNode.replaceChild(newElement, oldElement);
+    });
 }
 
-function 减点料() {
-    减料();
-    for (let i = 1; i < 10; i++) {
-        setTimeout(减料, i * 500);
-    }
+function capitalizeFirstLetter(str) {
+    str = str[0].toUpperCase() + str.substring(1, str.length);
+    return str;
 }
-减点料();
+
+/** @param {any[]} data */
+function log(data) {
+    console.log("[防沉迷终结者]", ...data, locationHref);
+}
+
+function crackAnti() {
+    let /** @type {(() => void)[]} */ rule;
+    Object.keys(rules).forEach(ruleName => {
+        if (gamePlatform.includes(ruleName)) rule = rules[ruleName];
+    });
+    if (succeeded || !rule) {
+        return log(["破解被取消或未匹配规则"]);
+    }
+
+    const begin = new Date().getTime();
+
+    for (const func of rule) {
+        try {
+            func();
+            if (succeeded) break;
+        } catch (e) {
+            console.error(e);
+        }
+    }
+
+    log(["破解结束, 用时" + (new Date().getTime() - begin) + "ms"]);
+}
+
+// 添加加样式表
+let css = "";
+for (let i = 0; i < blackList.length; i++) {
+    const element = blackList[i];
+    css += element + ",";
+}
+css += `#qwqawaqaq
+            {
+                display: none !important;
+                min-width: 0 !important;
+                width: 0 !important;
+                max-width: 0 !important;
+                min-height: 0 !important;
+                height: 0 !important;
+                max-height: 0 !important;
+                z-index: -999 !important;
+                font-size: 0 !important;
+                overflow: hidden !important;
+            }`;
+(css => {
+    let s = document.createElement("style");
+    s.innerHTML = css;
+    document.head.append(s);
+})(css);
+log(["添加样式表成功"]);
+
+addEventListener("DOMContentLoaded", () => {
+    pageLoaded = true;
+});
 
 addEventListener("load", () => {
-    减点料();
-
-    if (网址.includes("ptlogin.4399.com")) {
-        setTimeout(() => {
-            if (document.querySelector(".ptlogin_btn")) {
-                document
-                    .querySelector(".ptlogin_btn")
-                    .addEventListener("mouseup", () => {
-                        alert("请在稍后刷新网页");
-                    });
-            }
-        }, 1000);
-    }
+    crackAnti();
 });
+crackAnti();
+
+log(["脚本执行完毕, 用时" + (new Date().getTime() - D.getTime()) + "ms "]);
