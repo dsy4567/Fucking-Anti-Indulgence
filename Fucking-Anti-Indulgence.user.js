@@ -1068,7 +1068,6 @@ addEventListener("DOMContentLoaded", () => {
 addEventListener("load", () => {
     !devConfig.DisableAutomaticCracking && crackAnti();
 });
-
 !devConfig.DisableAutomaticCracking && crackAnti();
 
 log(["脚本执行完毕, 用时" + (new Date().getTime() - D.getTime()) + "ms "]);
