@@ -81,11 +81,12 @@ function checkValue(value) {
     }
 }
 /** @returns {HTMLCanvasElement | HTMLScriptElement | HTMLIFrameElement} */
-function qs(选择器) {
-    return document.querySelector(选择器);
+function qs(selector) {
+    return document.querySelector(selector);
 }
-function qsa(选择器) {
-    return document.querySelectorAll(选择器);
+/** @returns {(HTMLCanvasElement | HTMLScriptElement | HTMLIFrameElement)[]} */
+function qsa(selector) {
+    return document.querySelectorAll(selector);
 }
 
 initStorage("安装日期", String(Math.floor(D.getTime() / 1000 / 60 / 60 / 24)));
@@ -164,9 +165,6 @@ const /** @type {Record<string, (() => void)[]>} */ rules = {
                 }
 
                 log(["4399 手机端防沉迷"]);
-                if (devConfig.EnableDebugging) {
-                    debugger;
-                }
 
                 const url = unsafeWindow.webServer + unsafeWindow.gameiframe;
                 if (url && unsafeWindow.webServer && unsafeWindow.gameiframe) {
